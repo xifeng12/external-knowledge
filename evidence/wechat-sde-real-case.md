@@ -21,11 +21,15 @@ Locate a specific WeChat article by title and publisher via external retrieval.
 
 ## Source semantic
 
-`WeChat article discovery` — locating a specific article owned by a specific WeChat Official Account.
+`wechat.article-discovery` — locating a specific article owned by a specific WeChat Official Account.
 
 ## Capability
 
-`complex-web.read` with source semantic `WeChat article discovery` (specialized discovery, not general web read).
+Current capability ID: `wechat.discovery`.
+
+Earlier discussion sometimes used the conceptual label `article-discovery.wechat`; that label refers to the same information need, but the v0.3-beta.1 adapter Source of Truth uses `wechat.discovery`.
+
+This capability is distinct from `complex-web.read`, which is the extraction/read capability modeled separately in the adapter.
 
 ## Provider
 
@@ -38,7 +42,7 @@ Locate a specific WeChat article by title and publisher via external retrieval.
 - Execution surface: local script `scripts/search_wechat.js`.
 - Runtime dependencies: Node, cheerio.
 - Network backend: `weixin.sogou.com`.
-- Adapter exposure contract at the time of the case: **did not declare** the local-script execution surface (`adapters/zcode-*.json` missing the provider entry) → provider status observed as `UNKNOWN` before direct probing.
+- Adapter state at the time of the case: the `wechat-article-search` provider binding already existed, but its `exposure_contract` had no declared independent legal execution class and its scope remained unresolved. The local-script execution surface therefore was not represented in the adapter, leaving provider status `UNKNOWN` before direct probing.
 
 ## Observed behavior
 
@@ -54,7 +58,7 @@ Locate a specific WeChat article by title and publisher via external retrieval.
 
 Two independent problems coexisted (causal correction — do not collapse into one):
 
-- **A. Exposure visibility defect**: provider was actually runnable, but the adapter had not declared its execution surface → provider remained `UNKNOWN` at inventory time. Once directly probed, provider resolved to `AVAILABLE`.
+- **A. Exposure visibility defect**: provider binding existed and the provider was actually runnable, but the adapter had not declared its independent local-script execution surface → provider remained `UNKNOWN` at inventory time. Once directly probed, provider resolved to `AVAILABLE`.
 - **B. Retrieval-quality limitation**: after direct specialist invocation, exact-title-like query still returned `total=0`. Root cause of the zero-hit specialist result: **UNRESOLVED**.
 
 ## Architecture implication
