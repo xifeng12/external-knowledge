@@ -1,0 +1,28 @@
+{
+  "adapter_id": "synthetic",
+  "capabilities": [
+    {
+      "id": "synthetic.cap",
+      "providers": [
+        {
+          "id": "synthetic.provider",
+          "provisioning": {
+            "install": {
+              "source": "synthetic-test-only",
+              "steps": [
+                {
+                  "kind": "run_command",
+                  "description": "synthetic no-op plan step",
+                  "argv": [
+                    "synthetic-installer",
+                    "--dry-example"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

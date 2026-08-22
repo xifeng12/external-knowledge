@@ -1,0 +1,104 @@
+{
+  "package": "external-knowledge",
+  "version": "0.3-beta.1",
+  "goal": "real-case refinement: WeChat local-script exposure + source-semantic discoverability + retrieval-quality STOP signals",
+  "evidence_basis": {
+    "case": "WECHAT-DISCOVERY-REAL-1",
+    "date": "2026-08-22",
+    "key_correction": "The case had both an exposure-contract visibility defect and an independent retrieval-quality limitation; the specialist exact-title-like probe also returned zero results."
+  },
+  "tests": {
+    "unittest_returncode": 0,
+    "py_compile_returncode": 0,
+    "doctor_smoke_returncode": 0,
+    "non_mutating_scan": {
+      "doctor_subprocess": false,
+      "doctor_network_lib": false,
+      "planner_subprocess": false,
+      "planner_os_system": false,
+      "planner_network_lib": false
+    }
+  },
+  "files": {
+    "README.md": {
+      "bytes": 2573,
+      "sha256": "81c8f29166788688a7c8db30453113f7dfaf0816a8618f1e514b75cee061857f"
+    },
+    "SKILL.md": {
+      "bytes": 8586,
+      "sha256": "64bf380557b390d20348b83d0cea3e0e28fcaf27c9fee71567c837ff055cb6c4"
+    },
+    "adapters/zcode-v0.3-beta.1.json": {
+      "bytes": 7782,
+      "sha256": "0b0dbef96b5ebcd0e8fe3cfa323eccd1e78af4343f4afc4cd36db4ea4594e9a0"
+    },
+    "references/capability-model.md": {
+      "bytes": 4907,
+      "sha256": "5be955e79f857e324ea53f3fcfd7b4fb585e1e56534d4727f59455bfe3d4bff5"
+    },
+    "references/provisioning-contract.md": {
+      "bytes": 2990,
+      "sha256": "c009310516673188179ce03511459fb81fa43958127733f2cc454dbd70d828e2"
+    },
+    "references/retrieval-quality.md": {
+      "bytes": 3695,
+      "sha256": "f34940f4dfdfe891ea62446a9259f87f022bb9234ff4f51ae9486074166e5c43"
+    },
+    "references/runtime-adapter-contract.md": {
+      "bytes": 4757,
+      "sha256": "afed4a35167b4bf1b6453ba705ace4d982dfa91b4f859d813e0aa469656d5066"
+    },
+    "references/runtime-notes-zcode.md": {
+      "bytes": 1918,
+      "sha256": "d42aa578eb84222dcf19663c75bca670fc50bff39adb83ee7b3c8f9a5087b4ac"
+    },
+    "references/setup-policy.md": {
+      "bytes": 1882,
+      "sha256": "7c4b5d3e23afc611169c8f25942397f0ea62aa189b010fbf4ef9446f01dbb71e"
+    },
+    "references/source-ownership.md": {
+      "bytes": 2608,
+      "sha256": "35be9a7770337d051538dfa189e3f060b439753f194628b7ac8146e2e910b5f1"
+    },
+    "scripts/doctor.py": {
+      "bytes": 23617,
+      "sha256": "6548272dbcefe951bdd78942748ae68df109acce8e9ee3c6667f4ddf322c1072"
+    },
+    "scripts/plan.py": {
+      "bytes": 14509,
+      "sha256": "3ab4b34e20f550e3cf3aea00c1bea13500b45b018c1e9538645d77d8dabc2800"
+    },
+    "tests/fixtures/agent-inventory.example.json": {
+      "bytes": 1653,
+      "sha256": "4d1aed98fa1a5f550d30cd66838f5342789c504ce6a1dd45f2524fab73e537dd"
+    },
+    "tests/fixtures/needs-engineering-research.json": {
+      "bytes": 1415,
+      "sha256": "c871de5457f28fd5403ee813ae8fbf9918b0ba4e65353f124f152bbb69263ba6"
+    },
+    "tests/fixtures/synthetic-adapter-provisioning.json": {
+      "bytes": 618,
+      "sha256": "9a9f2fc4b787677734d7a3f835b68b21b26ef632f6667df069f8b616fef6ce84"
+    },
+    "tests/fixtures/synthetic-doctor-install.json": {
+      "bytes": 314,
+      "sha256": "338b77c7710ca7e577c724c1f8ab88488316a80a5aef50895178cc6386440217"
+    },
+    "tests/test_beta1_contract.py": {
+      "bytes": 3505,
+      "sha256": "2859fa9b43d581dfd419263e20878a237b4d0e8ef55bb1258e1eaa8e74bfa822"
+    },
+    "tests/test_doctor.py": {
+      "bytes": 7799,
+      "sha256": "e2af6a2a18209ac5ce812c5967101a54fcc58f53da187f005ea41c8e11acf417"
+    },
+    "tests/test_plan.py": {
+      "bytes": 5119,
+      "sha256": "e01e38b450bbaa8cb7673553b021fb9164691ca8b2514d789f3aa09d1f9464f4"
+    },
+    "tests/zcode-v0.3-beta.1.md": {
+      "bytes": 1985,
+      "sha256": "67d0029d0005af67433c5aed0e1dc1ea54945c81e6d1d61d38e7cdc8c6216357"
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "needs_version": 3,
+  "needs": {
+    "general-web.search": {
+      "level": "REQUIRED",
+      "equivalent_fallback": "NO",
+      "note": "core current-web lookup"
+    },
+    "general-web.read": {
+      "level": "REQUIRED",
+      "equivalent_fallback": "NO",
+      "note": "core known-URL reading"
+    },
+    "docs.versioned": {
+      "level": "RECOMMENDED",
+      "equivalent_fallback": "NO",
+      "note": "general web is not equivalent to version-matched docs for contract questions"
+    },
+    "github.semantic": {
+      "level": "RECOMMENDED",
+      "equivalent_fallback": "NO",
+      "note": "general web is degraded for repository-native semantics"
+    },
+    "wechat.discovery": {
+      "level": "WANTED",
+      "equivalent_fallback": "NO",
+      "note": "general web is degraded for WeChat ecosystem coverage"
+    },
+    "wechat.reader": {
+      "level": "WANTED",
+      "equivalent_fallback": "UNKNOWN",
+      "note": "fallback depends on the concrete article/read path"
+    },
+    "precision.search": {
+      "level": "RECOMMENDED",
+      "equivalent_fallback": "UNKNOWN",
+      "note": "only matters after an observed precision gap"
+    },
+    "complex-web.read": {
+      "level": "NOT_NEEDED",
+      "equivalent_fallback": "UNKNOWN",
+      "note": "complex extraction challenger is not currently required; native reading may be degraded but sufficient absent an observed extraction gap"
+    }
+  }
+}

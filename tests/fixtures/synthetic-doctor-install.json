@@ -1,0 +1,16 @@
+{
+  "runtime": "zcode",
+  "capabilities": [
+    {
+      "id": "synthetic.cap",
+      "plan_action": "INSTALL_CANDIDATE",
+      "providers": [
+        {
+          "id": "synthetic.provider",
+          "operational_status": "MISSING_CONFIRMED",
+          "coverage_grade": "EQUIVALENT"
+        }
+      ]
+    }
+  ]
+}

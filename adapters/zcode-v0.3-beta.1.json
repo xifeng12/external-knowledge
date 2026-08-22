@@ -1,0 +1,233 @@
+{
+  "adapter_version": 5,
+  "adapter_id": "zcode-v0.3-beta.1",
+  "notes": [
+    "Provider bindings are separate from capability state.",
+    "Only independent execution surfaces are legal exposure classes.",
+    "Plugin/skill/config/package artifacts are carriers unless they independently execute the provider.",
+    "PATH command absence is authoritative only for the current process command-resolution scope.",
+    "This adapter does not claim Firecrawl provider AVAILABLE from firecrawl.CMD presence.",
+    "Beta provisioning recipes are intentionally absent until a provider has a reviewed target-runtime installation/configuration contract.",
+    "wechat-article-search exposure was re-verified in a real ZCode case: the Skill directory is a carrier, while scripts/search_wechat.js is the independent local_script execution surface.",
+    "weixin.sogou.com, Node.js, and bundled node_modules are runtime dependencies/backend, not independent Agent exposure classes.",
+    "Discoverability is modeled per Provider × Source Semantic and is not an Operational Status or Semantic Coverage value."
+  ],
+  "capabilities": [
+    {
+      "id": "general-web.search",
+      "providers": [
+        {
+          "id": "runtime-native.web-search",
+          "label": "ZCode native/current web search path",
+          "coverage_grade": "EQUIVALENT",
+          "exposure_contract": {
+            "legal_classes": [
+              "native_tool"
+            ],
+            "scope": "current ZCode native runtime tools"
+          },
+          "checks": []
+        }
+      ]
+    },
+    {
+      "id": "general-web.read",
+      "providers": [
+        {
+          "id": "runtime-native.webfetch",
+          "label": "ZCode native WebFetch/read path",
+          "coverage_grade": "EQUIVALENT",
+          "exposure_contract": {
+            "legal_classes": [
+              "native_tool"
+            ],
+            "scope": "current ZCode native runtime tools"
+          },
+          "checks": []
+        }
+      ]
+    },
+    {
+      "id": "docs.versioned",
+      "providers": [
+        {
+          "id": "context7",
+          "label": "Context7",
+          "coverage_grade": "EQUIVALENT",
+          "exposure_contract": {
+            "legal_classes": [
+              "mcp"
+            ],
+            "scope": "current ZCode MCP execution surface"
+          },
+          "checks": []
+        }
+      ]
+    },
+    {
+      "id": "github.semantic",
+      "providers": [
+        {
+          "id": "gh-cli",
+          "label": "GitHub CLI",
+          "coverage_grade": "EQUIVALENT",
+          "exposure_contract": {
+            "legal_classes": [
+              "path_cli"
+            ],
+            "scope": "current ZCode process PATH command resolution"
+          },
+          "checks": [
+            {
+              "type": "command",
+              "value": "gh",
+              "exposure_class": "path_cli",
+              "absence_authoritative": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wechat.discovery",
+      "providers": [
+        {
+          "id": "wechat-article-search",
+          "label": "WeChat article discovery local-script provider",
+          "coverage_grade": "EQUIVALENT",
+          "binding_scope": "the local provider package at ~/.codex/skills/wechat-article-search",
+          "exposure_contract": {
+            "legal_classes": [
+              "local_script"
+            ],
+            "scope": "direct Bash invocation of ~/.codex/skills/wechat-article-search/scripts/search_wechat.js"
+          },
+          "checks": [
+            {
+              "type": "path",
+              "value": "~/.codex/skills/wechat-article-search/scripts/search_wechat.js",
+              "exposure_class": "local_script",
+              "carrier_class": "skill_registry",
+              "absence_authoritative": true
+            }
+          ],
+          "runtime_dependencies": [
+            {
+              "kind": "runtime",
+              "name": "node",
+              "observed": "PRESENT",
+              "note": "Node runtime is required by the script but is not an independent provider exposure class."
+            },
+            {
+              "kind": "bundled_dependency",
+              "name": "cheerio",
+              "observed": "PRESENT",
+              "note": "Bundled node_modules dependency; not an exposure class."
+            },
+            {
+              "kind": "network_backend",
+              "name": "weixin.sogou.com",
+              "observed": "REACHABLE_IN_REPRESENTATIVE_PROBE",
+              "note": "Search backend; affects retrieval quality/availability but is not an Agent exposure class."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wechat.reader",
+      "providers": [
+        {
+          "id": "weixin-articles-reader",
+          "label": "WeChat article reader",
+          "coverage_grade": "EQUIVALENT",
+          "exposure_contract": {
+            "legal_classes": [
+              "mcp"
+            ],
+            "scope": "current ZCode MCP execution surface when exposed"
+          },
+          "checks": []
+        }
+      ]
+    },
+    {
+      "id": "precision.search",
+      "providers": [
+        {
+          "id": "exa",
+          "label": "Exa precision challenger",
+          "coverage_grade": "SPECIALIZED",
+          "exposure_contract": {
+            "legal_classes": [
+              "mcp"
+            ],
+            "scope": "current ZCode MCP execution surface when exposed"
+          },
+          "checks": []
+        }
+      ]
+    },
+    {
+      "id": "complex-web.read",
+      "providers": [
+        {
+          "id": "runtime-native.webfetch",
+          "label": "ZCode native WebFetch/read path",
+          "coverage_grade": "DEGRADED",
+          "exposure_contract": {
+            "legal_classes": [
+              "native_tool"
+            ],
+            "scope": "current ZCode native runtime tools"
+          },
+          "checks": []
+        },
+        {
+          "id": "firecrawl",
+          "label": "Firecrawl extraction provider",
+          "coverage_grade": "EQUIVALENT",
+          "exposure_contract": {
+            "legal_classes": [
+              "mcp",
+              "path_cli"
+            ],
+            "scope": "current ZCode Firecrawl execution surfaces: MCP and current-process PATH CLI"
+          },
+          "checks": [
+            {
+              "type": "command",
+              "value": "firecrawl",
+              "exposure_class": "path_cli",
+              "absence_authoritative": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source_semantic_profiles": [
+    {
+      "source_semantic": "wechat.article-discovery",
+      "capability": "wechat.discovery",
+      "providers": [
+        {
+          "provider_ref": "wechat.discovery/wechat-article-search",
+          "semantic_coverage": "EQUIVALENT",
+          "discoverability": "LIMITED_OBSERVED",
+          "evidence_strength": "OBSERVED_IN_RUNTIME",
+          "evidence_scope": "real SDE backup article case, 2026-08-22",
+          "note": "Representative exact-title-like probe completed successfully but returned total=0 for a known-existing WeChat article. This proves operational availability while also showing that source-specific discovery is not guaranteed."
+        },
+        {
+          "provider_ref": "general-web.search/runtime-native.web-search",
+          "semantic_coverage": "DEGRADED",
+          "discoverability": "VERY_LOW_OBSERVED",
+          "evidence_strength": "REPEATED_ACROSS_CASES",
+          "evidence_scope": "WeChat article discovery only",
+          "note": "Multiple real cases observed zero target hits and low query discrimination, including site:mp.weixin.qq.com queries. Do not generalize this to general web search quality."
+        }
+      ]
+    }
+  ]
+}

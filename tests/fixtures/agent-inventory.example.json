@@ -1,0 +1,50 @@
+{
+  "inventory_version": 4,
+  "runtime": "zcode",
+  "inventory_scope": "example only; provider-scoped runtime evidence",
+  "capabilities": {
+    "general-web.read": {
+      "providers": {
+        "runtime-native.webfetch": {
+          "status": "AVAILABLE",
+          "evidence_kind": "runtime_tool_exposure",
+          "scope": "current ZCode session",
+          "authoritative_for_absence": false,
+          "note": "example"
+        }
+      }
+    },
+    "complex-web.read": {
+      "providers": {
+        "runtime-native.webfetch": {
+          "status": "AVAILABLE",
+          "evidence_kind": "runtime_tool_exposure",
+          "scope": "current ZCode session",
+          "authoritative_for_absence": false,
+          "note": "example degraded provider"
+        },
+        "firecrawl": {
+          "status": "UNKNOWN",
+          "evidence_kind": "mcp_registry_inventory",
+          "scope": "current ZCode MCP execution surface",
+          "authoritative_for_absence": true,
+          "absence_covers_exposure_classes": [
+            "mcp"
+          ],
+          "note": "example: MCP absent; PATH is checked deterministically"
+        }
+      }
+    },
+    "wechat.discovery": {
+      "providers": {
+        "wechat-article-search": {
+          "status": "AVAILABLE",
+          "evidence_kind": "representative_probe",
+          "scope": "direct local-script execution in current ZCode runtime",
+          "authoritative_for_absence": false,
+          "note": "Provider executed end-to-end and returned structured JSON. Known target article was not discovered; keep retrieval quality separate from Operational Status."
+        }
+      }
+    }
+  }
+}
