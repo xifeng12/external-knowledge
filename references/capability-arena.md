@@ -1,8 +1,8 @@
-# Capability Arena — v0.2
+# Capability Arena — v0.3
 
 Domain-specific Challenger–Defender match contract for `external-knowledge`. Deliberately minimal: overlap detection, source-semantic rules, evidence adjudication, ownership decisions, and Arena lifecycle boundaries stay here; generic isolated-execution/rollback mechanics remain out of scope (skill-forge boundary).
 
-v0.2 generalizes the accepted v0.1 contract after the first `github.semantic` match. It removes GitHub-specific scenario/receipt wording while preserving the lifecycle, fairness, provenance, credential, teardown, and routing invariants already validated by TASK-20260912-003.
+v0.3 adds the Source-Semantic Ownership Gate after Human review of TASK-20260912-004. The second match used a canonical WeChat article to adjudicate generic `complex-web.read`; that scenario was misrouted because canonical WeChat reading already has a first-class specialist semantic (`wechat.reader`). The execution evidence remains valid as an observation, but the ownership adjudication is non-binding for `complex-web.read`.
 
 ## When a match is legal
 
@@ -20,6 +20,41 @@ result capable of changing routing or ownership
 
 Otherwise return `NO_BATTLE` with evidence. Presence alone never wins a match.
 
+## Source-Semantic Ownership Gate — BEFORE capability admission
+
+Resolve the target's source semantic before selecting the Arena capability.
+
+If repository authority already assigns the target to a first-class specialist semantic, that target MUST NOT be used as the representative exam case for a broader/general capability.
+
+Examples:
+
+```text
+canonical WeChat article -> wechat.reader Arena
+WeChat discovery -> wechat.discovery Arena
+GitHub PR/issue/commit/history -> github.semantic Arena
+versioned library/framework/API docs -> docs.versioned Arena
+ordinary known URL with no specialist owner -> general-web.read / complex-web.read Arena
+```
+
+A general/fallback provider may still compete on a specialist source, but only inside that specialist Arena and only for an explicit fallback/escalation ownership question.
+
+Therefore:
+
+```text
+specialist source semantic
+!= generic complex-web exam case
+```
+
+A provider failure on a specialist-owned source cannot by itself promote, reject, or otherwise adjudicate that provider for the broader generic capability.
+
+If a selected scenario is discovered to violate this gate after execution, preserve raw receipts and teardown evidence, but review the ownership result as:
+
+```text
+NO_BATTLE / INVALID_SCENARIO
+```
+
+and reselect a correctly routed real case before any new staging.
+
 ## Match modes
 
 ```text
@@ -31,6 +66,7 @@ Fairness rules: identical scenario, target/source scope, authorization, evidence
 
 ## Admission gate
 
+- Source-Semantic Ownership Gate must pass first.
 - Defender: verified operational for the selected scenario (retained runtime evidence or one bounded representative probe).
 - Challenger: operational execution surface; if absent, ephemeral staging only under an explicitly authorized lifecycle contract, with all four plans (Provision / Rollback / Promotion / Teardown) recorded before `STAGED`.
 - A real scenario must already exist or be directly reachable from accepted project evidence/workload. Do not invent a synthetic failure merely to exercise the Arena.
@@ -124,6 +160,8 @@ NO_BATTLE
 ```
 
 `REJECT_CHALLENGER` means evidence shows the candidate should not remain an active challenger for the tested ownership question. A capable loser may remain eligible for future scenario-specific re-challenge without being installed or routed in production.
+
+`NO_BATTLE / INVALID_SCENARIO` means the match cannot support an ownership decision because the scenario was not legally routed to the capability under test. It does not count as a loss for either contestant.
 
 ## Teardown
 
