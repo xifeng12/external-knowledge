@@ -40,7 +40,7 @@
   },
 
   "dimension_comparison": {
-    "semantic_correctness": "both correct on all 5 items after challenger retries; defender 4/4 first attempt, challenger 3/5 first attempt (call-signature error; default-branch scoping)",
+    "semantic_correctness": "defender: correct on 4/5 items at first attempt (Q1-Q4); Q5 (boundary sentence) resolved by one projection-completeness repeat of op1 within budget - not an error; final 5/5. challenger: correct on 2/5 items at first attempt (Q2, Q3); Q1 corrected on retry (tool-signature error), Q4 corrected on the final budgeted op (default-branch scoping); Q5 remained NOT EXTRACTED - the issue body was fetched but the fixed extraction pattern did not match the body's current boundary wording; final 4/5",
     "evidence_fidelity_traceability": "tie: both returned exact SHAs, refs, and file paths once corrected",
     "coverage": "defender broader overall (full GitHub API surface incl. actions/checks/gql); challenger read-only toolset (26 tools) fully covered this scenario",
     "precision_irrelevant_output": "slight edge defender (--jq projection minimized output; challenger needed raw-capture diagnosis)",
@@ -53,7 +53,7 @@
   },
 
   "verified_facts_vs_interpretation": {
-    "verified": "both contestants produced complete, correct scenario answers; defender in 5 ops first-attempt, challenger in 8 ops with 2 retries",
+    "verified": "defender produced complete correct answers for all 5 items in 5 ops (4 first-attempt + 1 projection-completeness repeat of op1); challenger produced complete correct answers for 4 of 5 items in 8 ops with 2 retries; its Q5 remained NOT EXTRACTED per its own receipt (data fetched, extraction pattern missed the body's current wording)",
     "interpretation": "the challenger's failures were driver/tool-signature issues, not capability ceilings; its agent-ergonomics advantage is genuine but scenario-invariant",
     "decision": "KEEP_INCUMBENT"
   },

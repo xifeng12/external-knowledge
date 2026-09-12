@@ -4,6 +4,8 @@
 
 `READY_FOR_ARENA_REVIEW` — Arena cleanup status: **CLEAN_VERIFIED**
 
+> Correction record (v0.1 review, 2026-09-12): first-attempt / final-answer statistics in §2 and §3 were reconciled against the contestant receipts as primary execution evidence — the challenger's Q5 is `NOT EXTRACTED` (4/5 final items), and the defender's Q5 came from the op1b projection-completeness repeat (4/5 first-attempt). Receipts unchanged; outcome, routing, and cleanup classification unchanged.
+
 - Contract: `tasks/TASK-20260912-003-CAPABILITY-ARENA-GITHUB.md` (authorized at remote head `453b7a1`)
 - Match id: `TASK-20260912-003-gh-semantic-001`
 - Receipts: `evidence/arena/TASK-20260912-003-gh-semantic-001/{defender,challenger,adjudication}.json`
@@ -25,9 +27,9 @@ Mode justification: both contestants answered the identical 5-question scenario 
 |---|---|---|
 | ops used | 5 / 8 | 8 / 8 |
 | measured time | ~4.0 s | ~6.8 s tool time (+ one-off 34 MB staging) |
-| first-attempt correctness | 5/5 | 3/5 |
-| retries within budget | 1 projection-completeness repeat | 2 (tool-signature error; default-branch scoping) |
-| final answer quality | complete, exact refs | complete, exact refs (after retries) |
+| first-attempt correctness | 4/5 items (Q1–Q4) | 2/5 items (Q2, Q3) |
+| retries within budget | 1 projection-completeness repeat (op1b re-fetched the body because op1's jq projection discarded the boundary sentence; not an error) | 2 (tool-signature error on Q1; default-branch scoping on Q4) |
+| final answer quality | complete, exact refs — 5/5 | 4/5 — complete, exact refs for Q1–Q4 after retries; **Q5 NOT EXTRACTED** (issue body was fetched; the fixed extraction pattern did not match the body's current boundary wording) |
 
 Notable evidence: the challenger's evidence-directory reads defaulted to the **default branch** (`ref=579d94a7…`, where the TASK receipts do not exist) until a ref-pinned final budgeted op returned all three files. Its Q5 extraction pattern missed the issue body's current boundary wording while the underlying data was fetched. Both are driver/extraction behaviors, not capability ceilings — recorded as such.
 
@@ -35,7 +37,7 @@ Notable evidence: the challenger's evidence-directory reads defaulted to the **d
 
 Full dimension-by-dimension comparison in `adjudication.json`. Summary:
 
-- `gh-cli` matches or beats the challenger on every decision-relevant dimension for this scenario (semantic correctness after retries, precision, determinism/replayability, execution cost, operational burden) **with zero staging cost**, because it is already operational in this runtime.
+- `gh-cli` matches or beats the challenger on every decision-relevant dimension for this scenario (semantic correctness, precision, determinism/replayability, execution cost, operational burden) **with zero staging cost**, because it is already operational in this runtime. The corrected receipts strengthen this: the challenger's final answer covered 4 of 5 items (Q5 never extracted), while the defender covered all 5.
 - The challenger's genuine strength is agent ergonomics (typed tools, structured responses, built-in read-only mode), but in this runtime the agent consumes `gh` JSON equally well through the shell, so the advantage is scenario-invariant here.
 - **No failure-domain independence**: same GitHub API backend, same reused auth identity, same network path. Shared dependencies are recorded and were not presented as resilience.
 - `SPLIT_BY_SCENARIO` was tested as the plausible hypothesis and rejected: no scenario emerged that the defender cannot serve equivalently; a split would add a second operational surface without a requiring scenario.
