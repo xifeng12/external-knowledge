@@ -1,6 +1,6 @@
 ---
 task_id: TASK-20260913-005
-status: ready_for_complex_web_case_decision
+status: completed
 parent_task: TASK-20260912-001
 reviewed_task: TASK-20260912-004
 target_repo: xifeng12/external-knowledge
@@ -8,6 +8,7 @@ implementation_branch: task/20260912-001-v04-capability-diagnostics
 arena_contract: references/capability-arena.md
 arena_version: v0.3
 review_outcome: NO_BATTLE_INVALID_SCENARIO
+next_task: TASK-20260913-006
 ---
 
 # TASK-20260913-005 — Arena Source-Semantic Routing Correction
@@ -50,12 +51,6 @@ A future generic `complex-web.read` match must use a real ordinary/complex URL t
 
 The Source-Semantic Ownership Gate in Arena v0.3 must pass before any Challenger staging.
 
-Until such a real case is identified, stop at:
-
-```text
-READY_FOR_COMPLEX_WEB_CASE_DECISION
-```
-
 ### WeChat Arena
 
 WeChat content must be evaluated separately under its own specialist semantics:
@@ -75,11 +70,22 @@ Do not delete or rewrite the original TASK-004 contestant receipts. They are pri
 
 The review correction is a higher-level adjudication record that supersedes only the ownership conclusion, not the raw execution facts or teardown receipt.
 
-## Next authorization boundary
+## First-match cross-check
 
-No provider staging/provisioning is authorized by this correction.
+The first `github.semantic` Arena has now been rechecked under v0.3 and remains valid because its target objects were GitHub-native and both contestants competed inside the correct specialist semantic.
 
-Next valid actions are one of:
+Durable review:
 
-1. identify and authorize a correctly routed real non-specialist complex-web case for a new `complex-web.read` Arena; or
-2. authorize a separate `wechat.reader` / `wechat.discovery` Arena with its own contestants and success criteria.
+```text
+reports/TASK-20260913-003-SOURCE-SEMANTIC-REVIEW.md
+```
+
+## Next task
+
+The Human authorized resetting the generic complex-web exam. The active follow-up is:
+
+```text
+tasks/TASK-20260913-006-CAPABILITY-ARENA-COMPLEX-WEB-RETAKE.md
+```
+
+TASK-006 performs case qualification only. No Challenger staging is authorized until a correctly routed real ordinary URL with an observed native extraction gap is frozen and reviewed.
