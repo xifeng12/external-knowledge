@@ -1,0 +1,79 @@
+{
+  "receipt_type": "adjudication",
+  "match_id": "TASK-20260912-004-complexweb-001",
+  "capability": "complex-web.read",
+  "defender": "runtime-native.webfetch",
+  "challenger": "unclecode/crawl4ai 0.9.3 (+ playwright 1.62.0, chromium-1234 / Chrome for Testing 151.0.7922.34)",
+  "match_mode": "HEAD_TO_HEAD",
+  "real_case": "TASK-20260912-002 P7 canonical WeChat article (identity re-derived from the recorded source chain and confirmed at the gate; URL durably recorded in these receipts)",
+  "overlap": "real: both operationally serve complex-page read; the case is a real anti-bot complex read where the accepted TASK-002 evidence records web_reader success",
+  "decision_relevance": "decides whether the degraded native path remains sole/default owner or Crawl4AI earns a scenario-specific escalation/ownership role",
+
+  "staging_provenance_ledger": [
+    {"artifact": "venv with crawl4ai 0.9.3 + dependencies (697MB)", "preexisting": false, "introduced_by_match": "TASK-20260912-004-complexweb-001", "installation_method": "python -m venv + venv pip install (PIP cache in-cell)", "scope": "cell/venv", "cleanup_policy": "delete with cell"},
+    {"artifact": "match-scoped Playwright browsers: chromium-1234, chromium_headless_shell-1234, ffmpeg-1011, winldd-1007 (703MB)", "preexisting": false, "introduced_by_match": "TASK-20260912-004-complexweb-001", "installation_method": "playwright install chromium with cell-scoped PLAYWRIGHT_BROWSERS_PATH; all downloads landed in cell (install log paths verified)", "scope": "cell/browser", "cleanup_policy": "delete with cell"},
+    {"artifact": "pip download cache (190MB)", "preexisting": false, "introduced_by_match": "TASK-20260912-004-complexweb-001", "installation_method": "PIP cache dir forced in-cell", "scope": "cell/cache", "cleanup_policy": "delete with cell"},
+    {"artifact": "driver/config/evidence files + browser profile dir", "preexisting": false, "introduced_by_match": "TASK-20260912-004-complexweb-001", "installation_method": "written into cell", "scope": "cell/{config,evidence,browser/profile}", "cleanup_policy": "delete with cell"},
+    {"artifact": "PATH / MCP registration / shell profile / system Python / persistent user browser cache", "preexisting": true, "introduced_by_match": false, "note": "never modified; pre-existing %LOCALAPPDATA%/ms-playwright entries (chromium-1208 era + mcp-chrome) left untouched"}
+  ],
+  "four_plans": {
+    "provision": "cell venv + pinned crawl4ai==0.9.3 + cell-scoped Playwright chromium; no LLM/API keys; no system mutation",
+    "rollback": "delete cell; re-verify host python cleanliness, PATH/MCP/profile unchanged, pre-existing ms-playwright cache untouched",
+    "promotion": "out of scope for this task: Arena runtime != production runtime; torn down regardless of outcome",
+    "teardown": "verify no processes; delete cell; verify host import absence, no persistent env/registration, pre-existing browser cache untouched, repository tree contains only intended durable outputs"
+  },
+
+  "execution_comparison": {
+    "defender": "2 attempts (primary + retry), both served the WeChat anti-bot verification page; 0/4 objective fields; fast-fail ~2-3s per attempt; zero staging",
+    "challenger": "2 attempts (primary evidence lost to an orchestrator driver serialization bug - disclosed; retry with fixed driver): tool-level success, fetch_ms=4163, but the headless chromium was served the same anti-bot verification page; 0/4 objective fields; ~1.59GB staged footprint + CDN stall requiring a per-command proxy retry"
+  },
+
+  "failure_domain_analysis": {
+    "shared": "same target anti-bot surface (WeChat mp.weixin.qq.com), same network/proxy path, same source identity; failures are correlated, not independent",
+    "different_engine": "plain HTTP client (defender chain) vs local chromium browser (challenger) - a genuinely different execution mechanism",
+    "demonstrated_independence": "none on this case: both were fingerprint-blocked identically; the orchestrator's pre-match baseline (curl + plain browser UA) DID receive the real article page (200, 3.2MB, author confirmed), proving the gate is automation-fingerprint-based - neither contestant's default read path presents an acceptable fingerprint",
+    "scope_note": "crawl4ai's documented anti-detection options (magic/simulate/override_navigator) were NOT used: the task bounds the match to provider-default configuration; a future re-challenge could authorize them explicitly"
+  },
+
+  "dimension_comparison": {
+    "semantic_content_correctness": "both failed the case: 0/4 objective fields each (verification page instead of article)",
+    "main_body_completeness": "tie at zero: no body extracted by either contestant",
+    "structure_preservation": "not reachable on this case (no content to structure)",
+    "metadata_fidelity": "defender none; challenger returned block-page metadata (title '微信公众平台') - misleading rather than useful",
+    "source_link_traceability": "tie: exact URL used by both; identity provenance recorded",
+    "precision_boilerplate_noise": "both returned pure block-page noise; tie",
+    "determinism_reproducibility": "both deterministic in failure (identical block page across attempts); challenger additionally depends on a heavyweight staged runtime",
+    "fetch_latency": "defender ~2-3s fast-fail; challenger 4.16s tool-level success then block - comparable, neither meaningful for content read",
+    "staging_runtime_footprint": "decisive edge defender: zero staging vs ~1.59GB (venv 697MB + browser 703MB + cache 190MB) and a CDN stall requiring a proxy retry",
+    "operational_burden": "decisive edge defender: challenger requires venv/browser lifecycle, cell-scoped env plumbing, version pinning; defender is pre-existing",
+    "failure_domain_independence": "no demonstrated independence (correlated fingerprint block on the same surface)",
+    "agent_ergonomics": "slight edge challenger in general (single-call markdown + metadata API), but the returned content was the block page, so no ergonomic gain materialized on this case",
+    "scenario_fit": "both fit the scenario definition; neither fit the target's anti-bot gate with default configuration"
+  },
+
+  "verified_facts_vs_interpretation": {
+    "verified": "both contestants, under their default read configurations and the bounded 1+1 budget, were served the same WeChat anti-bot verification page and extracted 0/4 objective fields; the challenger staged successfully (0.9.3) and its tool run succeeded mechanically; the pre-match baseline shows the page is fetchable with a plain browser-UA HTTP client",
+    "interpretation": "the block is automation-fingerprint-based; the challenger's default headless chromium presents a worse-or-equal fingerprint to the native fetcher on this surface; crawl4ai remains operationally validated as a tool (staged, ran, produced structured output) but demonstrated no extraction advantage on the tested ownership question at materially higher cost",
+    "decision": "REJECT_CHALLENGER"
+  },
+  "outcome": "REJECT_CHALLENGER",
+  "outcome_rationale": "On the tested ownership question (complex-web.read escalation), Crawl4AI is operational but showed no quality advantage over the incumbent on the real case - both were identically blocked by the same anti-bot surface - while adding a ~1.59GB ephemeral footprint, staging friction, and a heavyweight runtime lifecycle. Per Arena v0.2, REJECT_CHALLENGER means it should not remain an active challenger for THIS ownership question; as a capable loser it stays eligible for a future scenario-specific re-challenge (e.g., with explicitly authorized anti-detection configuration) without any production install.",
+  "scope_limits": "one real case, one runtime, default configurations, bounded 1+1 attempts; this decision makes no claim about Crawl4AI's general web-extraction superiority or JS-heavy non-anti-bot pages",
+  "routing_impact": "none: complex-web.read remains AVAILABLE_WITH_SCOPE under the native DEGRADED path; the observed extraction fallback remains web_reader (TASK-002 P7, which DID read this exact page). No adapter or source-ownership change.",
+  "invariant_tests_note": "no repository code introduced by TASK-004 (driver scripts were ephemeral match tooling, torn down); §11/§12 invariants enforced as process checks recorded in these receipts",
+  "teardown_status": {
+    "classification": "CLEAN_VERIFIED",
+    "verified": [
+      "no chrome.exe / python.exe processes remaining",
+      "1.6GB arena cell deleted and confirmed absent",
+      "crawl4ai not importable on host python (unchanged from baseline)",
+      "PLAYWRIGHT_BROWSERS_PATH was per-command only; nothing persistent set",
+      "no crawl4ai registration in any inspected config domain (claude/codex/opencode/zcode)",
+      "pre-existing %LOCALAPPDATA%/ms-playwright cache untouched (chromium-1208 era entries intact; no chromium-1234 leaked there - install logs prove all four Arena downloads landed in the cell)",
+      "repository tree contains only intended durable outputs"
+    ],
+    "residue": "none Arena-owned; caveat recorded: the pre-staging baseline listing truncated the ms-playwright directory to 3 entries (head -3), so the pre-existence of user-cache entries ffmpeg-1011/winldd-1007/mcp-chrome is not fully distinguishable - they are conservatively treated as not Arena-owned (install-log evidence shows the match wrote only into the cell) and were left untouched",
+    "orchestrator_temp_files": "gate artifacts (p7-url-candidates.txt, p7-page.html) removed"
+  },
+  "terminal_state": "READY_FOR_ARENA_REVIEW"
+}
