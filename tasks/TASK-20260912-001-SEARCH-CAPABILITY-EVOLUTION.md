@@ -1,6 +1,6 @@
 ---
 task_id: TASK-20260912-001
-status: arena_v02_second_match_authorized
+status: ready_for_second_arena_execution
 target_repo: xifeng12/external-knowledge
 target_ref: main
 implementation_branch: task/20260912-001-v04-capability-diagnostics
@@ -8,79 +8,104 @@ result_path: reports/TASK-20260912-001-IMPLEMENTATION.md
 diagnostic_result_path: reports/TASK-20260912-001-MACHINE-DIAGNOSTIC.md
 machine_receipt_path: evidence/TASK-20260912-001-machine-capability-receipt.json
 isolated_worker_authorized: true
+active_arena_task: tasks/TASK-20260912-004-CAPABILITY-ARENA-COMPLEX-WEB.md
 ---
 
 # Goal
 
-Restore `external-knowledge` as the durable source of truth and evolve it into a strong external-information capability layer that:
+`external-knowledge` is the durable source of truth for external-information capability routing, diagnosis, and evidence-driven Challenger–Defender ownership decisions.
 
-- routes concrete information needs/source semantics to the best available retrieval path;
-- can diagnose what external-knowledge Skills/providers/capabilities a target machine actually exposes without confusing carrier presence with runtime availability;
-- preserves operational status, semantic coverage, source discoverability, and failure-domain independence as separate evidence axes;
-- evaluates materially overlapping providers through evidence-based Challenger–Defender comparison so the outcome can be replace, retain, split by scenario, fuse validated strengths, or reject.
+The current program must:
 
-# Current verified state
+- route concrete information needs/source semantics to the best available retrieval path;
+- diagnose machine capability without confusing carrier/config presence with runtime availability;
+- preserve operational status, semantic coverage, discoverability, source-semantic fit, and failure-domain independence as separate evidence axes;
+- admit a Challenger only when there is real overlap and a real decision-relevant scenario;
+- keep Arena staging temporary, provenance-tracked, reversible, and independently adjudicated;
+- promote no routing/provider merely because it was installed or won one scoped match.
 
-- `main` remains the accepted `v0.3-beta.1` baseline.
-- Candidate work remains on `task/20260912-001-v04-capability-diagnostics` under Draft PR #3.
-- v0.4 diagnostic mechanisms, target-machine diagnosis, and TASK-002 evidence tightening are complete and durably recorded.
-- Capability Arena v0.1 completed its first real match (`github.semantic`: `gh-cli` vs official GitHub MCP Server), was review-corrected against primary contestant receipts, and is accepted.
-- First-match adjudication is `KEEP_INCUMBENT`; `github.semantic` remains owned by `gh-cli`.
-- First-match teardown is `CLEAN_VERIFIED`; the GitHub MCP Arena runtime was removed and no production installation/routing change was made.
-- `references/capability-arena.md` is now v0.2, generalized from the accepted first match so non-GitHub capability matches use the same admission, fairness, provenance, teardown, and routing invariants.
+# Current accepted baseline
 
-# Effective invariants retained
-
-1. GitHub repository state is durable project authority; machine-local carriers are deployment/runtime evidence, not authority.
-2. Runtime routing follows concrete information need/source semantics and uses the minimum retrieval needed for a reliable answer.
-3. `UNKNOWN` is not `MISSING_CONFIRMED`.
-4. Carrier/Skill presence or declaration is not provider `AVAILABLE`.
-5. Operational availability, semantic coverage, discoverability, source-semantic fit, and failure-domain independence remain separate axes.
-6. No broad benchmark or synthetic Challenger–Defender battle is needed merely to fill a matrix.
-7. A battle requires real overlap, real decision relevance, operational contestants, a real reachable scenario, isolated receipts, and a result capable of changing routing/ownership.
-8. Arena-owned provisioning must have baseline, provenance, Provision/Rollback/Promotion/Teardown plans, and verified teardown.
-9. Arena may remove only artifacts it can prove it introduced.
-10. `Arena runtime != Production runtime`; even a winning Challenger's temporary runtime is torn down before any later production promotion.
-11. Routing does not change merely because a Challenger runs or wins; production promotion is a separate Human authorization.
-12. Raw contestant receipts are primary execution evidence; reports/adjudication summaries must reconcile to them.
-
-# Accepted Capability Arena baseline
-
-The accepted reusable contract is:
+`main` remains the accepted `v0.3-beta.1` baseline. Candidate evolution remains on:
 
 ```text
-references/capability-arena.md  (v0.2)
+task/20260912-001-v04-capability-diagnostics
 ```
 
-The first accepted real-match evidence is:
+under Draft PR #3.
+
+Completed durable increments:
 
 ```text
-reports/TASK-20260912-003-GITHUB-ARENA.md
-evidence/arena/TASK-20260912-003-gh-semantic-001/
+TASK-001  machine-capability diagnostics and capability map
+TASK-002  evidence tightening for wechat.reader / Exa / Firecrawl
+TASK-003  Capability Arena v0.1 first real match
 ```
 
-Outcome:
+TASK-003 was accepted after review correction against raw contestant receipts:
 
 ```text
 capability: github.semantic
 defender: gh-cli
 challenger: github/github-mcp-server v1.12.1
-decision: KEEP_INCUMBENT
-routing impact: none
+outcome: KEEP_INCUMBENT
+routing: github.semantic -> gh-cli
 teardown: CLEAN_VERIFIED
 ```
 
-# Human authorization — second Capability Arena match
+No production GitHub MCP installation remains.
 
-The Human has authorized the next match after acceptance of Arena v0.1.
+# Capability Arena authority
 
-Current execution authority is:
+The reusable Arena authority is:
+
+```text
+references/capability-arena.md
+```
+
+Current version: `v0.2`.
+
+v0.2 generalizes the accepted v0.1 lifecycle beyond GitHub-specific objects while preserving:
+
+```text
+real overlap + real scenario admission
+SHADOW / HEAD_TO_HEAD isolation
+same-scenario fairness
+raw contestant receipts as primary execution evidence
+baseline + staging provenance
+Provision / Rollback / Promotion / Teardown plans
+Arena may delete only Arena-owned artifacts
+Arena runtime != Production runtime
+CLEAN_VERIFIED / CLEAN_WITH_RESIDUE teardown
+no routing mutation without later explicit authorization
+```
+
+# Effective invariants
+
+1. Repository authority outranks chat summaries and machine-local copies.
+2. `UNKNOWN != MISSING_CONFIRMED`.
+3. Skill/carrier/config/package presence does not establish provider `AVAILABLE`.
+4. Provider availability, semantic coverage, discoverability, source fit, and failure-domain independence stay separate.
+5. No synthetic battle merely to exercise a framework or fill a matrix.
+6. A battle requires real overlap, operational contestants, a reachable real case, independent receipts, and decision relevance.
+7. Arena-owned staging requires baseline/provenance and all four lifecycle plans before `STAGED`.
+8. Arena can remove only artifacts proven to be introduced by that match.
+9. A winning temporary Challenger runtime is still torn down; production deployment is a separate decision.
+10. Reports/adjudications must reconcile to raw contestant receipts.
+11. One real case supports only a scoped conclusion unless broader evidence exists.
+12. Do not broaden work after the first authorized terminal state.
+
+# Current Human authorization — TASK-004
+
+The Human accepted Arena v0.1 and authorized the next real match.
+
+The active execution contract is:
 
 ```text
 tasks/TASK-20260912-004-CAPABILITY-ARENA-COMPLEX-WEB.md
 ```
 
-Match target:
+Match:
 
 ```text
 capability: complex-web.read
@@ -89,48 +114,68 @@ Challenger: unclecode/crawl4ai
 Arena contract: references/capability-arena.md v0.2
 ```
 
-This authorization includes only the minimum ephemeral Challenger staging explicitly allowed by TASK-004 after its real-scenario Admission Gate passes.
+## Real-scenario gate
 
-It does not authorize persistent Crawl4AI installation, system/user Python mutation, global PATH/MCP changes, OS/system dependency installation, browser profile/cookie import, new credentials/API keys, proxy/TLS mutation, other Challengers, production routing changes, PR #3 merge, or `main` merge.
+Before any Crawl4AI staging, the Coordinator must identify one preserved, decision-relevant real complex-web read case from accepted repository evidence/current workload.
 
-# Second-match real-scenario rule
+Preferred candidate is the exact canonical WeChat article used by TASK-002 P7 only if its identity is durably recorded and it remains reachable. Otherwise use another preserved real case with accepted evidence of incomplete/degraded/dynamic/blocked native reading.
 
-TASK-004 must not create a synthetic/demo complex-web page just to force a contest.
+Do not invent a demo/synthetic page.
 
-Before any Crawl4AI staging, the Coordinator must identify a preserved decision-relevant real complex-web read case from current accepted evidence/workload. Preferred candidate is the exact canonical WeChat article used in TASK-002 P7 only if its identity is durably recorded and still reachable; otherwise use another preserved real complex-read case with accepted evidence of incomplete/degraded/dynamic/blocked reading.
-
-If no qualifying real case exists, stop without staging at:
+If no qualifying case exists, do not stage Crawl4AI; stop at:
 
 ```text
 READY_FOR_COMPLEX_WEB_CASE_DECISION
 ```
 
-# Second-match staging authorization
+## Authorized ephemeral staging
 
-If the real-scenario gate passes, TASK-004 may stage Crawl4AI only in a match-scoped ephemeral cell. Authorized artifacts include an isolated Python venv/package prefix, Crawl4AI package/dependencies, and a match-scoped Playwright/Chromium browser/cache when required.
+Only after the real-scenario gate passes, TASK-004 may stage Crawl4AI inside a match-scoped Arena cell, including only:
 
-All Arena-owned artifacts require provenance and teardown. No elevation/system dependency changes are allowed. If safe isolation cannot be maintained, teardown any partial staging and stop at:
+```text
+isolated Python venv/package prefix
+Crawl4AI + Python dependencies
+match-scoped Playwright/Chromium binary if required
+match-scoped package/browser caches
+match driver/config/evidence
+```
+
+Browser/package/cache paths must remain match-owned so teardown is provable.
+
+Persistent/global installation, system/user Python mutation, PATH/MCP changes, elevation/system dependency install, browser profile/cookie import, new credentials/API keys, proxy/TLS mutation, and other Challengers are not authorized.
+
+If safe isolated staging requires any such action, teardown partial staging and stop at:
 
 ```text
 READY_FOR_CRAWL4AI_STAGING_REDESIGN
 ```
 
-# Current stop / next action
+# Required TASK-004 execution behavior
 
-Current phase is ready for target-machine Agent/Coordinator execution of TASK-004 under the v0.2 Arena contract.
-
-The Agent must:
+The target-machine Coordinator/Agent must:
 
 ```text
-re-read current repository authority
-pass the real-scenario Admission Gate before staging
-stage Crawl4AI only ephemerally if eligible
-run the bounded real match
-produce independent contestant/adjudication receipts
-teardown all Arena-owned runtime artifacts
-push durable result/report
+re-read TASK-001 + TASK-004 + Arena v0.2 + current Issue/PR/head
+pass the real-case Admission Gate before staging
+capture pre-staging baseline and four lifecycle plans
+stage Crawl4AI ephemerally only if eligible
+run one bounded real match under TASK-004 fairness rules
+produce independent defender/challenger/adjudication receipts
+teardown all Arena-owned artifacts even if Crawl4AI wins
+verify CLEAN_VERIFIED or enumerate CLEAN_WITH_RESIDUE
+push durable report/receipts
 synchronize Issue #2
 stop at the first TASK-004 terminal state
 ```
 
-No third match or production promotion is authorized in the same run.
+No adapter/source-ownership change, persistent provider promotion, third match, PR #3 merge, or `main` merge is authorized in the same run.
+
+# Current stop / next action
+
+Current state:
+
+```text
+READY_FOR_SECOND_ARENA_EXECUTION
+```
+
+Next authorized action belongs to the target-machine Coordinator/Agent executing TASK-004 through its first terminal state.
