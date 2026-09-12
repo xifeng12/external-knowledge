@@ -1,6 +1,6 @@
 ---
 task_id: TASK-20260913-006
-status: ready_for_case_selection
+status: ready_for_complex_web_case_decision
 parent_task: TASK-20260912-001
 supersedes_exam: TASK-20260912-004
 target_repo: xifeng12/external-knowledge
