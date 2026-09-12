@@ -1,6 +1,6 @@
 ---
 task_id: TASK-20260912-001
-status: ready_for_target_machine_diagnosis
+status: ready_for_capability_gap_decision
 target_repo: xifeng12/external-knowledge
 target_ref: main
 implementation_branch: task/20260912-001-v04-capability-diagnostics
@@ -26,7 +26,7 @@ Restore `external-knowledge` as the durable source of truth and evolve it into a
 - `main` remains the accepted `v0.3-beta.1` baseline; `task/20260912-001-v04-capability-diagnostics` is the unmerged `v0.4-alpha.1` candidate reviewed through Draft PR #3.
 - The candidate implements a durable capability map, read-only Skill inventory, Machine Capability Receipt merger, diagnostic routing updates, and focused tests.
 - Focused validation for the new diagnostic code/contracts passed: `10 tests / 10 passed`, plus `py_compile`. The complete pre-existing suite was not rerun in the isolated build surface; that limitation is recorded in the implementation receipt.
-- Actual target-machine Skill/provider/runtime state is still `UNKNOWN`; no target-machine result has been fabricated.
+- First real target-machine diagnosis completed 2026-09-12 via the authorized ZCode session surface; see `reports/TASK-20260912-001-MACHINE-DIAGNOSTIC.md`. No target-machine result was fabricated.
 - Challenger–Defender lifecycle adjudication remains deferred until a real overlap decision is reached.
 
 # Agent-Reach reference assessment
@@ -319,6 +319,17 @@ This priority does not authorize installation. Real machine evidence and actual 
 
 # Current stop / next action
 
-The repository design/Agent-Reach assessment phase is complete. The next authorized action is the target-machine read-only diagnosis defined above.
+The target-machine read-only diagnosis was executed on 2026-09-12 through the authorized ZCode session surface. Results:
 
-No provisioning authorization is granted.
+- `reports/TASK-20260912-001-MACHINE-DIAGNOSTIC.md` — full diagnostic report;
+- `evidence/TASK-20260912-001-machine-capability-receipt.json` — machine capability receipt (`environment_mutation_attempted = false`).
+
+Headline machine evidence: `general-web.search`, `general-web.read`, `docs.versioned`, `github.semantic` are AVAILABLE (EQUIVALENT, live-session runtime evidence); `complex-web.read` is AVAILABLE_WITH_SCOPE (native DEGRADED path; Firecrawl challenger UNKNOWN in observed scope); `wechat.discovery` is MISSING_CONFIRMED (adapter-bound local provider package absent from its path — a real regression vs. the 2026-08-22 observation); `wechat.reader` and `precision.search` remain UNKNOWN; 187 Skill carriers discovered across 6 explicit roots with 0 explicit capability sidecar claims; Agent-Reach carrier artifacts are present but its CLI execution surface is absent from the inspected PATH scope, so its doctor was not runnable. No provisioning, configuration, login, or environment mutation was performed.
+
+Terminal state for this phase reached:
+
+```text
+READY_FOR_CAPABILITY_GAP_DECISION
+```
+
+The next action belongs to the Human/capability-gap decision: choose among the provisioning/re-bind options recorded in the diagnostic report §9. No provisioning authorization is granted by this state.
