@@ -1,0 +1,22 @@
+{
+  "receipt_type": "arena_review",
+  "match_id": "TASK-20260912-004-complexweb-001",
+  "review_task": "TASK-20260913-005",
+  "human_finding": "The representative target was a canonical WeChat article, which belongs to the first-class specialist semantic wechat.reader and therefore cannot legally adjudicate generic complex-web.read ownership.",
+  "raw_execution_receipts_preserved": true,
+  "raw_execution_facts_retained": [
+    "native WebFetch/default native path was fingerprint-blocked on the selected WeChat article",
+    "Crawl4AI 0.9.3 default configuration was also fingerprint-blocked",
+    "Crawl4AI staging and operational-cost observations remain factual",
+    "teardown remains CLEAN_VERIFIED"
+  ],
+  "superseded_ownership_outcome": "REJECT_CHALLENGER",
+  "review_outcome": "NO_BATTLE",
+  "review_reason": "INVALID_SCENARIO_SOURCE_SEMANTIC_MISROUTING",
+  "routing_impact": "none",
+  "crawl4ai_generic_complex_web_status": "NOT_ADJUDICATED_BY_THIS_MATCH",
+  "teardown_status": "CLEAN_VERIFIED",
+  "arena_contract_version_after_review": "v0.3",
+  "new_invariant": "Resolve source semantic before capability admission. A target already owned by a first-class specialist semantic must be tested in that specialist Arena; general/fallback providers may compete there only as explicit fallback/escalation candidates.",
+  "next_state": "READY_FOR_COMPLEX_WEB_CASE_DECISION"
+}
