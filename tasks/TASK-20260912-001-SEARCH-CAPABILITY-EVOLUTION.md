@@ -1,132 +1,324 @@
 ---
 task_id: TASK-20260912-001
-status: implementation_review
+status: ready_for_target_machine_diagnosis
 target_repo: xifeng12/external-knowledge
 target_ref: main
 implementation_branch: task/20260912-001-v04-capability-diagnostics
 result_path: reports/TASK-20260912-001-IMPLEMENTATION.md
+diagnostic_result_path: reports/TASK-20260912-001-MACHINE-DIAGNOSTIC.md
+machine_receipt_path: evidence/TASK-20260912-001-machine-capability-receipt.json
 isolated_worker_authorized: true
 ---
 
 # Goal
 
-Restore `external-knowledge` as the durable source of truth on the new device and evolve it toward the Human's actual product goal: give Agents a strong external-information capability that routes different information needs to the best available retrieval tools, can diagnose which Skill/provider capabilities exist on a target machine without confusing carrier presence with availability, and evaluates materially overlapping new Skills/providers against incumbents through evidence-based Challenger–Defender comparison so the result can be replace, retain by scenario, merge validated strengths, or reject.
+Restore `external-knowledge` as the durable source of truth and evolve it into a strong external-information capability layer that:
+
+- routes concrete information needs/source semantics to the best available retrieval path;
+- can diagnose what external-knowledge Skills/providers/capabilities a target machine actually exposes without confusing carrier presence with runtime availability;
+- preserves operational status, semantic coverage, source discoverability, and failure-domain independence as separate evidence axes;
+- later evaluates materially overlapping Skills/providers through evidence-based Challenger–Defender comparison so the outcome can be replace, retain by scenario, fuse validated strengths, or reject.
 
 # Current verified state
 
-- Repository exists and is authoritative: `xifeng12/external-knowledge`.
-- Authority/base commit for this increment: `579d94a7b9127307f7be066161341214990a7c93`.
-- Pre-handoff implementation baseline: `529a8b374af81a17397c506b5046b614b4e37170`.
-- Verified baseline package remains `external-knowledge v0.3-beta.1`; the implementation branch is a `v0.4-alpha.1 candidate`, not yet merged authority.
-- Existing routing distinguishes information need/source semantic, operational status, semantic coverage, discoverability, fallback, independent exposure, and STOP behavior.
-- A human-facing capability/channel map has now been implemented on the candidate branch.
-- A read-only machine diagnostics path has now been implemented on the candidate branch: explicit Skill-root scan + existing Doctor runtime evidence + a combined Machine Capability Receipt.
-- Actual target-machine Skill/runtime state is still `UNKNOWN` because this execution surface does not have direct access to the Human's Windows filesystem.
-- Challenger–Defender lifecycle adjudication is still unimplemented; existing runtime `challenger` wording remains fallback/escalation behavior rather than lifecycle replacement governance.
+- Repository authority exists at `xifeng12/external-knowledge`.
+- Authority/base commit for the v0.4 increment was `579d94a7b9127307f7be066161341214990a7c93`; the pre-handoff implementation baseline was `529a8b374af81a17397c506b5046b614b4e37170`.
+- `main` remains the accepted `v0.3-beta.1` baseline; `task/20260912-001-v04-capability-diagnostics` is the unmerged `v0.4-alpha.1` candidate reviewed through Draft PR #3.
+- The candidate implements a durable capability map, read-only Skill inventory, Machine Capability Receipt merger, diagnostic routing updates, and focused tests.
+- Focused validation for the new diagnostic code/contracts passed: `10 tests / 10 passed`, plus `py_compile`. The complete pre-existing suite was not rerun in the isolated build surface; that limitation is recorded in the implementation receipt.
+- Actual target-machine Skill/provider/runtime state is still `UNKNOWN`; no target-machine result has been fabricated.
+- Challenger–Defender lifecycle adjudication remains deferred until a real overlap decision is reached.
 
-# Human authorization receipt
+# Agent-Reach reference assessment
 
-After the original read-only alignment stop state, the Human explicitly authorized execution of the capability-map direction and requested an additional diagnostic stage to determine which Skills exist on a machine and what external-knowledge capabilities they already have.
+The Human identified `Panniantong/Agent-Reach` as an important source reference. The current upstream `main` was evaluated before target-machine diagnosis.
 
-This was interpreted as repository-only implementation authorization. It did not authorize provider installation/configuration, MCP/PATH/runtime mutation, login, proxy/TLS changes, or synthetic battles.
-
-# Effective decisions
-
-1. GitHub repository state is the durable source of truth. A machine-local installed Skill is a deployment copy/carrier, not repository authority.
-2. The product goal is stronger retrieval capability, not merely more routing rules or diagnostics.
-3. Runtime routing selects tools by concrete information need/source semantics and uses the minimum retrieval needed for a reliable answer.
-4. Repository capability declarations, Skill carrier presence, provider operational availability, semantic coverage, and source discoverability are distinct evidence layers.
-5. A discovered Skill proves only carrier presence under an inspected root. An explicit Skill capability declaration proves only a declared mapping. Neither state upgrades a provider/capability to `AVAILABLE`.
-6. Machine-wide claims require authority over the relevant machine exposure/Skill roots. One inspected root cannot silently stand for every possible Skill location.
-7. A newly added Skill/provider that materially overlaps an incumbent capability should not automatically coexist forever. Where a real replacement decision exists, compare challenger and defender on reachable, decision-relevant scenarios.
-8. Comparison outcomes are bounded to evidence and may be: challenger replaces incumbent for the tested scenario; incumbent remains; responsibilities split by scenario; validated strengths are fused; or challenger is not admitted to the active pool.
-9. Compare the actual execution solution at the layer where overlap exists. Shared underlying providers/failure domains must not be misrepresented as independent retrieval capability.
-10. A battle is not required for non-overlapping capabilities. Evaluation scope follows the actual decision/impact surface.
-11. Fusion is not automatic concatenation of two `SKILL.md` files; retain only validated useful behavior and re-verify the combined path.
-
-# Implemented increment
-
-The authorized capability-map + machine-diagnostics increment is implemented on:
+Current Agent-Reach channel registry contains 15 channels:
 
 ```text
-task/20260912-001-v04-capability-diagnostics
+GitHub
+Twitter/X
+YouTube
+Reddit
+Facebook
+Instagram
+Bilibili
+XiaoHongShu
+LinkedIn
+Xiaoyuzhou
+V2EX
+Xueqiu
+RSS
+Exa Search
+Web
 ```
 
-Durable implementation receipt:
+Do not use historical/translated documentation as current channel authority when it diverges from the current registry/root Skill.
+
+## Existing overlap / external-knowledge strengths
+
+Already modeled by `external-knowledge` at capability level:
+
+- general web search;
+- ordinary web reading;
+- GitHub-native retrieval;
+- Exa precision search.
+
+Current `external-knowledge` also has first-class capabilities/semantics not equivalently represented by the Agent-Reach registry:
+
+- `docs.versioned/context7`;
+- `wechat.discovery`;
+- `wechat.reader`;
+- `complex-web.read` with Firecrawl as an extraction challenger;
+- explicit capability/provider/exposure/operational-status/coverage/discoverability separation.
+
+Agent-Reach Jina Reader is therefore a candidate provider for an existing web-read capability, not automatically a new capability. Agent-Reach's use of Exa as general search versus `external-knowledge` using Exa as a precision challenger is a routing-policy difference, not a missing provider.
+
+## Source-semantic gaps to observe during diagnosis
+
+The current map does not yet model these Agent-Reach source semantics as first-class capabilities:
+
+1. Twitter/X discovery/read;
+2. Reddit community search/post/comment read;
+3. YouTube search/metadata/subtitle/comment/transcript paths;
+4. RSS/Atom feed read;
+5. XiaoHongShu search/read/comments;
+6. Bilibili search/metadata/subtitle/transcription paths;
+7. V2EX topic/reply/user/community access;
+8. LinkedIn profile/company/job discovery;
+9. Xueqiu quote/search/hot-content access;
+10. Xiaoyuzhou podcast transcription;
+11. Facebook and Instagram read/search surfaces.
+
+This is 11 gap groups covering 12 Agent-Reach channels because Facebook and Instagram are grouped. It is not an independent-provider count.
+
+Several paths share OpenCLI/Chrome or other common control planes. Shared underlying execution/failure domains must not be counted as independent retrieval capability merely because platform names differ.
+
+## Agent-Reach normalization
+
+Treat `agent-reach` as a router/installer/doctor/carrier, not as an independent retrieval provider by itself.
+
+Actual execution may be owned by upstream paths such as:
 
 ```text
-reports/TASK-20260912-001-IMPLEMENTATION.md
+OpenCLI
+twitter-cli
+rdt-cli
+bili-cli
+yt-dlp
+gh
+Jina Reader
+Exa via mcporter
+public platform APIs
 ```
 
-Implemented components include:
+Normalize carrier → independent execution surface before judging capability overlap or redundancy.
 
-- `references/capability-map.md`;
-- `references/machine-diagnostics.md`;
-- `scripts/scan_skills.py`;
-- `scripts/machine_report.py`;
-- focused diagnostic/contract tests;
-- root `SKILL.md` diagnostic routing updates;
-- README candidate documentation.
+# Effective decisions and invariants
 
-No adapter, `doctor.py`, `plan.py`, provider configuration, provisioning recipe, or runtime environment was changed.
+1. GitHub repository state is durable project authority; a machine-local Skill is a deployment carrier/copy, not repository authority.
+2. Runtime routing follows concrete information need/source semantics and uses the minimum retrieval needed for a reliable answer.
+3. `UNKNOWN` is not `MISSING_CONFIRMED`.
+4. Skill/carrier `DISCOVERED` is not provider `AVAILABLE`.
+5. Capability `DECLARED_ONLY` is not provider `AVAILABLE`.
+6. `UNCLASSIFIED` means attribution is unknown, not that the Skill has no external-knowledge capability.
+7. Provider operational availability, semantic coverage, source discoverability, and source-semantic fit remain separate axes.
+8. Carrier/registration/config/package evidence must not be double-counted as an independent execution surface.
+9. One inspected Skill root does not prove machine-wide absence when other supported roots remain outside the inspected authority.
+10. Retrieval/diagnosis and environment mutation are separate phases.
+11. A safe command artifact/probe may show executable health, but substantive capability `AVAILABLE` requires runtime exposure or representative evidence appropriate to the capability claim.
+12. No broad benchmark or synthetic battle is needed merely to fill the matrix.
 
-# Validation state
+# Implemented diagnostic mechanism
 
-Focused isolated validation for the new diagnostic code/contracts:
+Candidate branch includes:
 
 ```text
-10 tests run
-10 passed
-0 failed
-0 errors
+references/capability-map.md
+references/machine-diagnostics.md
+scripts/scan_skills.py
+scripts/machine_report.py
 ```
 
-The new Python files also passed `py_compile`.
+The diagnostic model is intentionally layered:
 
-The complete pre-existing repository test suite was not rerun because the isolated execution container could not resolve `github.com` for a full repository clone. This limitation is recorded in the implementation receipt; no full-suite-pass claim is made.
+```text
+PASSIVE_INVENTORY
+  -> Skill/path/command/registration presence
 
-# Superseded / withdrawn assumptions
+SAFE_EXEC_PROBE
+  -> only bounded read-only probes whose result can change operational classification
+  -> do not infer AVAILABLE from static presence
 
-- Superseded: "the Skill was never put in a repository and was completely lost after the device change." The GitHub repository preserves the v0.3-beta.1 baseline.
-- Superseded: treating the current fallback `precision challenger` concept as already satisfying the desired Challenger–Defender capability-evolution mechanism.
-- Not accepted: inferring operational capability from Skill presence or a declaration sidecar.
-- Not accepted: adding broad benchmark matrices, generic defense layers, exhaustive tool competitions, or speculative Skill roots solely for completeness.
+REPRESENTATIVE_READ_PROBE
+  -> only when the capability is decision-relevant and a safe representative read/search can distinguish availability/quality
 
-# Unresolved items
+PROVISIONING
+  -> separate future phase requiring explicit authorization
+```
 
-1. Whether the old device contained post-`529a8b3` local-only changes that were never pushed. No such changes are claimed recovered.
-2. The real new-device Skill inventory and runtime/provider availability. The mechanism now exists, but no target-machine receipt has been fabricated.
-3. The minimum Challenger–Defender lifecycle implementation for overlap detection, scoped comparison evidence, adjudication, and routing updates without duplicating `skill-forge` or `skill-architect`.
-4. The first real overlapping battle. `complex-web.read` (`runtime-native.webfetch` vs `firecrawl`) remains the natural candidate, but only after a reachable real extraction decision exists and both relevant paths have decision-changing evidence.
+Agent-Reach's ordered-backend and `active_backend` diagnostics are useful evidence, but their status values must not be copied mechanically into `external-knowledge` operational status when the underlying probe scope differs.
 
-# Known invariants
+# Human authorization — target-machine read-only diagnosis
 
-- `UNKNOWN` is not `MISSING_CONFIRMED`.
-- Skill/carrier `DISCOVERED` is not provider `AVAILABLE`.
-- Capability `DECLARED_ONLY` is not provider `AVAILABLE`.
-- `UNCLASSIFIED` does not mean "no capability"; it means attribution is unknown.
-- Provider availability, semantic coverage, and source discoverability remain separate axes.
-- Retrieval/diagnosis and environment mutation remain separate phases.
-- Existing evidence-based STOP rules remain valid unless real new evidence falsifies/refines them.
-- Repository task authority wins over chat summaries if they diverge.
+The Human has now authorized the next phase: perform the first real target-machine diagnosis **through the authorized Agent/Coordinator execution surface and GitHub handoff**.
 
-# Current stop state
+This authorization includes read-only local/runtime inspection and bounded read-only probes needed to establish the current machine capability map. It does not authorize provisioning or credential/session mutation.
 
-Stop this implementation phase after the candidate branch is durably reported and presented for review.
+The Human is not the default repository or machine operator for this phase. Routine repository mechanics and diagnostic execution belong to the authorized Coordinator/Agent when reachable.
+
+# Target-machine diagnostic execution contract
+
+## 1. Authority and branch freshness
+
+Before consequential repository writes, re-read:
+
+- this task contract;
+- current remote head of `task/20260912-001-v04-capability-diagnostics`;
+- Issue #2 as the derived routing/status pointer;
+- PR #3 only where review state is relevant.
+
+Respect current writer/head ownership. If the branch has advanced unexpectedly, inspect the decision-relevant delta before writing; do not force-update or overwrite.
+
+## 2. Inspect only real supported execution surfaces
+
+Identify the actual Skill roots/runtime exposure surfaces available to the current target-machine Agent from current supported configuration/documentation/runtime state.
+
+Do not scan arbitrary drives or invent speculative Skill roots for completeness.
+
+Use `scripts/scan_skills.py` on the actual supported roots that are decision-relevant.
+
+Record:
+
+- roots actually inspected;
+- roots unavailable/outside current authority;
+- discovered Skill carriers;
+- explicit capability sidecar claims when present;
+- `UNCLASSIFIED` Skills without invented attribution.
+
+## 3. Provider/runtime evidence
+
+Use the existing `external-knowledge` Doctor/runtime evidence model for currently modeled providers.
+
+Where a provider has only static presence, preserve `UNKNOWN` unless existing scoped absence evidence proves `MISSING_CONFIRMED` or bounded runtime evidence establishes a stronger state.
+
+A command that exists but fails a safe executable probe may be reported as broken/unusable evidence, but do not invent a new global status taxonomy unless it is necessary to represent an observed reachable state. Map the evidence into the existing operational state with the concrete failure note where possible.
+
+## 4. Agent-Reach evidence when actually installed
+
+If Agent-Reach is present on the target machine, the Coordinator may run its existing read-only `agent-reach doctor --json` and record:
+
+- Agent-Reach version/identity when directly observable;
+- each channel status;
+- ordered backend list when reported;
+- `active_backend` when reported;
+- channels left unverified by Agent-Reach Doctor;
+- shared backend/failure-domain relationships that affect independence.
+
+Do not install/update Agent-Reach, configure channels, import cookies, log in, or read/export browser cookies/session secrets during this phase.
+
+Do not treat an Agent-Reach channel as an independent provider when its execution is actually delegated to a shared upstream backend.
+
+If Agent-Reach is absent, record scoped absence only for the execution surface actually checked; do not install it.
+
+## 5. Bounded representative probes
+
+A representative read/search probe is allowed only when all are true:
+
+- the relevant provider is already configured/exposed without mutation;
+- the probe is read-only and safe under the current runtime;
+- a concrete operational/quality unknown remains;
+- the result can change capability status, routing judgment, or the next authorization.
+
+Do not log in, solve CAPTCHA, import credentials, change proxy/TLS, start provisioning, or fan out probes merely for reassurance.
+
+## 6. Machine Capability Receipt
+
+Generate the candidate machine receipt with `scripts/machine_report.py` where its inputs are valid.
+
+Do not let Skill carrier/claim evidence upgrade Doctor operational status.
+
+For Agent-Reach channels not yet represented in the current adapter, retain them in the diagnostic report as observed/unmodeled source-semantic evidence rather than forcing them into an unrelated existing capability.
+
+# Required durable outputs
+
+Write and push:
+
+```text
+reports/TASK-20260912-001-MACHINE-DIAGNOSTIC.md
+evidence/TASK-20260912-001-machine-capability-receipt.json
+```
+
+The JSON receipt may contain only non-secret, sanitized machine capability evidence. If a raw tool output contains sensitive material or unnecessary machine-identifying detail, do not commit it; summarize the minimum evidence in the report instead.
+
+The diagnostic report must include:
+
+- exact target-machine/runtime scope actually inspected;
+- Skill roots actually inspected;
+- discovered external-knowledge-relevant Skills/carriers;
+- Agent-Reach presence and scoped doctor evidence if present;
+- provider/exposure evidence for currently modeled capabilities;
+- capability operational status under existing semantics;
+- observed/unmodeled source-semantic channels;
+- shared provider/control-plane/failure-domain notes where decision-relevant;
+- remaining true capability gaps after real machine evidence;
+- which gaps are only `UNKNOWN`, not confirmed missing;
+- exact next authorization needed if any capability requires provisioning/configuration;
+- explicit confirmation that no environment mutation/provisioning was performed.
+
+Do not commit cookies, tokens, secret environment-variable values, browser session data, or raw authentication material.
+
+# Explicitly unauthorized in this phase
 
 Do not:
 
-- merge to `main` without Human review/authorization;
-- install/repair/configure providers;
-- mutate MCP/PATH/runtime settings;
-- invent target-machine results;
-- begin a synthetic Challenger–Defender battle.
+- install, update, repair, or remove providers/Skills;
+- modify MCP configuration, PATH, shell profiles, proxies, TLS, browser configuration, or runtime settings;
+- log in to services or import/export cookies/credentials;
+- enable new browser extensions/services/background daemons;
+- merge PR #3 or `main` merely because diagnosis completes;
+- add all Agent-Reach channels to the adapter before machine evidence shows the required evolution decision;
+- run broad benchmark matrices;
+- begin Challenger–Defender competition without a real overlapping decision;
+- infer machine-wide absence from one partial root/inventory.
 
-# Next authorization
+# Diagnostic stop state
 
-The next decision is intentionally narrow:
+Stop when the first real target-machine capability receipt is durably pushed and the report distinguishes:
 
-1. **review/merge authorization** for the implementation branch; and/or
-2. **target-machine read-only diagnostic execution** on real supported Skill roots/runtime evidence.
+```text
+what is actually available
+what is available with scope/degradation
+what remains unknown
+what is blocked/unusable in the observed scope
+what is confirmed missing only where absence authority is complete
+what source-semantic channels are present but not yet modeled
+what provisioning/configuration decision, if any, is now justified
+```
 
-No provisioning authorization is requested at this state.
+Successful terminal state for this phase:
+
+```text
+READY_FOR_CAPABILITY_GAP_DECISION
+```
+
+Do not continue into provisioning or Challenger–Defender implementation in the same run.
+
+# Later capability-evolution priority
+
+Only after the real diagnostic shows genuine gaps should later capability evolution consider the current priority order:
+
+```text
+P1: Twitter/X, Reddit, YouTube/transcript, RSS
+P2: XiaoHongShu, Bilibili, V2EX
+P3: LinkedIn, Xueqiu, Xiaoyuzhou
+P4: Facebook, Instagram (task-driven only)
+```
+
+This priority does not authorize installation. Real machine evidence and actual workload need decide which candidate, if any, proceeds.
+
+# Current stop / next action
+
+The repository design/Agent-Reach assessment phase is complete. The next authorized action is the target-machine read-only diagnosis defined above.
+
+No provisioning authorization is granted.
