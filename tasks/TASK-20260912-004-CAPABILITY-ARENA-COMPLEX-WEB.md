@@ -49,16 +49,16 @@ NO_BATTLE
 
 Before consequential local/runtime or repository actions, re-read:
 
-- `tasks/TASK-20260912-001-SEARCH-CAPABILITY-EVOLUTION.md`;
+- `tasks/TASK-20260912-001-SEARCH-CAPABILITY-EVOLUTION.md` as historical parent authority;
 - `reports/TASK-20260912-002-EVIDENCE-TIGHTENING.md`;
 - `tasks/TASK-20260912-003-CAPABILITY-ARENA-GITHUB.md` and its accepted result;
 - `references/capability-arena.md` v0.2;
-- this task;
+- this task as the active execution authority;
 - current remote head of `task/20260912-001-v04-capability-diagnostics`;
 - Issue #2 as the derived status pointer;
 - PR #3 only where review/merge state is relevant.
 
-Repository authority wins over chat summaries. Never force-update over an unexpected remote writer.
+TASK-001 remains preserved as historical parent authority; TASK-004 is the current execution contract for this match. Repository authority wins over chat summaries. Never force-update over an unexpected remote writer.
 
 ## Human authorization receipt
 
