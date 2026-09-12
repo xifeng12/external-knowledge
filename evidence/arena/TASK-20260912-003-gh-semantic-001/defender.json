@@ -1,0 +1,35 @@
+{
+  "receipt_type": "contestant/defender",
+  "match_id": "TASK-20260912-003-gh-semantic-001",
+  "provider": "gh-cli",
+  "observed_version": "gh 2.87.3 (TASK-20260912-001 evidence; unchanged)",
+  "execution_surface": "path_cli, current ZCode session (pre-existing, no staging)",
+  "capability": "github.semantic",
+  "scenario": "TASK-003 first real GitHub-semantic scenario: tracking-issue state, draft-PR metadata/head, latest implementation-branch commit + changed files, evidence receipt path, current authorization boundary",
+  "match_mode": "HEAD_TO_HEAD",
+  "budget": {"max_ops": 8, "time_budget": "3 minutes", "ops_used": 5},
+  "operations": [
+    {"op": 1, "cmd": "gh issue view 2 --json number,title,body (projected to state line)", "ms": 804, "ok": true},
+    {"op": "1b", "cmd": "gh issue view 2 --json body (boundary sentence extraction)", "ms": null, "ok": true, "note": "not separately timed; <2s; projection in op1 discarded the boundary sentence, so the body fetch was repeated within budget"},
+    {"op": 2, "cmd": "gh pr view 3 --json number,title,state,isDraft,headRefName,headRefOid", "ms": 1242, "ok": true},
+    {"op": 3, "cmd": "gh api repos/xifeng12/external-knowledge/commits/task%2F... (sha, message, files)", "ms": 801, "ok": true},
+    {"op": 4, "cmd": "gh api repos/xifeng12/external-knowledge/contents/evidence?ref=<branch>", "ms": 1192, "ok": true}
+  ],
+  "github_objects_inspected": [
+    "Issue #2 (xifeng12/external-knowledge)",
+    "Pull request #3 (draft, OPEN)",
+    "Commit 453b7a1093382a312b7db2228039cf0b0065abd8 on task/20260912-001-v04-capability-diagnostics",
+    "evidence/ directory listing at the implementation-branch ref"
+  ],
+  "result_summary": {
+    "q1_tracking_state": "READY_FOR_ARENA_EXECUTION (issue #2 body)",
+    "q2_pr": {"number": 3, "title": "TASK-20260912-001: add capability map and machine diagnostics", "state": "OPEN", "draft": true, "headRefName": "task/20260912-001-v04-capability-diagnostics", "headRefOid": "453b7a1093382a312b7db2228039cf0b0065abd8"},
+    "q3_head_commit": {"sha": "453b7a1093382a312b7db2228039cf0b0065abd8", "subject": "Authorize Capability Arena v0.1 first GitHub semantic match", "changed_files": ["tasks/TASK-20260912-003-CAPABILITY-ARENA-GITHUB.md"]},
+    "q4_receipt_path": "evidence/TASK-20260912-001-machine-capability-receipt.json (branch-scoped; evidence/ also contains evidence/TASK-20260912-002-evidence-tightening.json and evidence/wechat-sde-real-case.md)",
+    "q5_boundary": "Execute TASK-003 and stop at its first terminal state; no other-Challenger install, no global PATH/proxy/TLS/browser modification, no credential create/rotate/revoke, no PR #3 or main merge, no routing promotion in this run."
+  },
+  "errors_retries": "none on data operations; op1b is a projection-completeness repeat within budget",
+  "elapsed_ms_measured": 4039,
+  "authorization_boundary": "TASK-003 read-only contestant actions; no GitHub object modification",
+  "environment_mutation": "none (pre-existing tool, zero staging)"
+}

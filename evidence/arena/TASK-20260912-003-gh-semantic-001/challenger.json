@@ -1,0 +1,38 @@
+{
+  "receipt_type": "contestant/challenger",
+  "match_id": "TASK-20260912-003-gh-semantic-001",
+  "provider": "github/github-mcp-server",
+  "observed_version": "v1.12.1 (official release binary, Windows x86_64)",
+  "execution_surface": "ephemeral stdio MCP server in the match-scoped arena cell, invoked as `github-mcp-server.exe stdio --read-only`; authenticated by reusing the existing gh identity through a process-scope environment variable (value never printed, logged, or persisted)",
+  "capability": "github.semantic",
+  "scenario": "identical to defender receipt",
+  "match_mode": "HEAD_TO_HEAD",
+  "budget": {"max_ops": 8, "time_budget": "3 minutes", "ops_used": 8, "process_spawns": 3},
+  "operations": [
+    {"attempt": 1, "op": "issue_read(issue_number=2)", "ms": 0, "ok": false, "error": "missing required parameter: method (tool-signature error; recorded from tool output)"},
+    {"attempt": 1, "op": "pull_request_read(method=get, pullNumber=3)", "ms": 996, "ok": true},
+    {"attempt": 1, "op": "list_commits(sha=<branch>, perPage=1)", "ms": 504, "ok": true},
+    {"attempt": 1, "op": "get_commit(sha=453b7a1)", "ms": 476, "ok": true},
+    {"attempt": 1, "op": "get_file_contents(path=evidence)", "ms": 1323, "ok": true, "note": "answered against default branch main (ref=579d94a7b912...): returned only evidence/wechat-sde-real-case.md"},
+    {"attempt": 2, "op": "issue_read(method=get, issue_number=2)", "ms": 1239, "ok": true},
+    {"attempt": 2, "op": "get_file_contents(path=evidence/)", "ms": 1254, "ok": true, "note": "same default-branch scoping; raw response proved ref=main"},
+    {"attempt": 3, "op": "get_file_contents(path=evidence, ref=<implementation branch>)", "ms": 992, "ok": true}
+  ],
+  "github_objects_inspected": [
+    "Issue #2 (after retry)",
+    "Pull request #3 incl. headRefOid 453b7a1093382a312b7db2228039cf0b0065abd8",
+    "Commit 453b7a1093382a312b7db2228039cf0b0065abd8 + changed-file list",
+    "evidence/ listing at default-branch ref (incomplete for the question) and at implementation-branch ref (complete)"
+  ],
+  "result_summary": {
+    "q1_tracking_state": "READY_FOR_ARENA_EXECUTION (issue #2 body; correct after 1 retry)",
+    "q2_pr": {"number": 3, "title": "TASK-20260912-001: add capability map and machine diagnostics", "state": "open", "draft": true, "headRefName": "task/20260912-001-v04-capability-diagnostics", "headRefOid": "453b7a1093382a312b7db2228039cf0b0065abd8"},
+    "q3_head_commit": {"sha": "453b7a1093382a312b7db2228039cf0b0065abd8", "subject": "Authorize Capability Arena v0.1 first GitHub semantic match", "changed_files": ["tasks/TASK-20260912-003-CAPABILITY-ARENA-GITHUB.md"]},
+    "q4_receipt_path": "first two attempts default-branch-scoped (missed both TASK receipt files); final budgeted op returned all three: evidence/TASK-20260912-001-machine-capability-receipt.json, evidence/TASK-20260912-002-evidence-tightening.json, evidence/wechat-sde-real-case.md",
+    "q5_boundary": "NOT EXTRACTED: the fixed extraction pattern ('authorized by this state') did not match the issue body's current wording; the body itself was fetched successfully. Recorded as an extraction miss, not a data miss."
+  },
+  "errors_retries": "2 retries within budget: (1) issue_read call-signature error; (2) evidence listing initially default-branch-scoped because the driver did not pin a ref, corrected on the final budgeted op",
+  "elapsed_ms_tool_time": 6784,
+  "authorization_boundary": "TASK-003 read-only contestant actions; --read-only server flag; no GitHub object modification; credential reuse via ephemeral env only",
+  "environment_mutation": "Arena-owned staging only (see adjudication receipt provenance ledger); no persistent installation or registration"
+}

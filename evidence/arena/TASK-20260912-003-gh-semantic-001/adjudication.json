@@ -1,0 +1,77 @@
+{
+  "receipt_type": "adjudication",
+  "match_id": "TASK-20260912-003-gh-semantic-001",
+  "capability": "github.semantic",
+  "defender": "gh-cli",
+  "challenger": "github/github-mcp-server v1.12.1",
+  "match_mode": "HEAD_TO_HEAD (justification: both contestants read-only on identical repo objects, identical auth identity, identical scenario text, isolated execution, bounded 8-op/3-minute budget)",
+  "overlap": "real: both operationally serve github.semantic discovery/inspection semantics",
+  "decision_relevance": "decides whether source-semantic ownership for github.semantic should remain, change, split, or fuse",
+
+  "staging_provenance_ledger": [
+    {
+      "artifact": "github-mcp-server.exe v1.12.1 (+LICENSE, README.md) extracted to arena cell runtime/",
+      "preexisting": false,
+      "introduced_by_match": "TASK-20260912-003-gh-semantic-001",
+      "installation_method": "official release asset download via gh api (release 551115183 asset github-mcp-server_Windows_x86_64.zip; one transient TLS-handshake-timeout retry on the release CDN)",
+      "scope": "%TEMP%/external-knowledge-arena/TASK-20260912-003-gh-semantic-001/{runtime,config,evidence,config-cache}",
+      "cleanup_policy": "delete cell after match"
+    },
+    {
+      "artifact": "match driver scripts (admission probe, contestant run, retry, final op)",
+      "preexisting": false,
+      "introduced_by_match": "TASK-20260912-003-gh-semantic-001",
+      "installation_method": "written into cell config/",
+      "scope": "cell only",
+      "cleanup_policy": "delete with cell"
+    },
+    {
+      "artifact": "MCP registration / PATH / global config",
+      "preexisting": false,
+      "introduced_by_match": false,
+      "note": "never created; --read-only stdio server spawned per attempt with match-scoped env; no persistent configuration touched"
+    }
+  ],
+  "four_plans": {
+    "provision": "download official v1.12.1 release asset into cell runtime/ (gh api, authenticated); no PATH/persistent config change",
+    "rollback": "delete cell; baseline re-verification (PATH absence, no registration, no processes)",
+    "promotion": "out of scope for this task: Arena runtime != production runtime; promotion requires adjudication + later explicit authorization",
+    "teardown": "verify no stray process; delete cell; re-verify PATH absence, no MCP registration in inspected config domains, no docker artifacts, repository tree contains only intended durable outputs"
+  },
+
+  "dimension_comparison": {
+    "semantic_correctness": "both correct on all 5 items after challenger retries; defender 4/4 first attempt, challenger 3/5 first attempt (call-signature error; default-branch scoping)",
+    "evidence_fidelity_traceability": "tie: both returned exact SHAs, refs, and file paths once corrected",
+    "coverage": "defender broader overall (full GitHub API surface incl. actions/checks/gql); challenger read-only toolset (26 tools) fully covered this scenario",
+    "precision_irrelevant_output": "slight edge defender (--jq projection minimized output; challenger needed raw-capture diagnosis)",
+    "determinism_reproducibility": "edge defender: single static CLI invocation, trivially replayable in shell/CI; challenger requires staging lifecycle + process supervision + JSON-RPC driver",
+    "execution_cost": "defender ~4.0s over 5 ops, zero staging; challenger ~6.8s tool time over 8 ops plus one-off 34MB staging (with one CDN retry)",
+    "operational_burden": "decisive edge defender: challenger requires staging/teardown lifecycle, token-passing hygiene, version pinning; defender requires nothing new in this runtime",
+    "failure_domain_independence": "NO gain: same GitHub API backend, same auth identity (reused gh token), same network path - shared dependencies recorded, not presented as resilience",
+    "agent_ergonomics": "real challenger strength: typed tool parameters, structured responses, built-in --read-only mode; in this runtime the agent consumes gh JSON equally well through Bash, so the edge does not change routing here",
+    "scenario_fit": "both fit; scenario Q4 was branch-ambiguous by design and both resolved it (defender directly, challenger after retry)"
+  },
+
+  "verified_facts_vs_interpretation": {
+    "verified": "both contestants produced complete, correct scenario answers; defender in 5 ops first-attempt, challenger in 8 ops with 2 retries",
+    "interpretation": "the challenger's failures were driver/tool-signature issues, not capability ceilings; its agent-ergonomics advantage is genuine but scenario-invariant",
+    "decision": "KEEP_INCUMBENT"
+  },
+  "outcome": "KEEP_INCUMBENT",
+  "outcome_rationale": "gh-cli matches or beats the challenger on every decision-relevant dimension for this scenario with materially lower operational burden and zero staging cost; the challenger adds no failure-domain independence (same backend/auth); a SPLIT_BY_SCENARIO would add a second operational surface without any scenario that requires it. REJECT_CHALLENGER is deliberately not chosen: the challenger is validated as operationally capable and remains a viable future candidate (e.g., runtimes without a gh CLI, or OAuth-scoped delegation needs).",
+  "routing_impact": "none: source-ownership for github.semantic remains gh-cli; no adapter or routing change proposed",
+  "invariant_tests_note": "no repository code was introduced by TASK-003 (Arena contract is documentation; driver scripts were ephemeral match tooling, torn down); therefore no new test files were required; the §11 invariants were enforced as process checks recorded in these receipts",
+  "teardown_status": {
+    "classification": "CLEAN_VERIFIED",
+    "verified": [
+      "no github-mcp-server.exe process running",
+      "arena cell (34MB) deleted and confirmed absent",
+      "github-mcp-server still ABSENT from PATH (unchanged from baseline)",
+      "no github-mcp-server registration in any inspected MCP config domain (unchanged)",
+      "no docker artifacts (docker absent at baseline)",
+      "persistent user state unchanged; repository tree contains only intended durable outputs"
+    ],
+    "residue": "none"
+  },
+  "terminal_state": "READY_FOR_ARENA_REVIEW"
+}

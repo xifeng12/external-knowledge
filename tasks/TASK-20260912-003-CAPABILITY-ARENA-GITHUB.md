@@ -1,6 +1,6 @@
 ---
 task_id: TASK-20260912-003
-status: ready_for_arena_execution
+status: ready_for_arena_review
 parent_task: TASK-20260912-001
 target_repo: xifeng12/external-knowledge
 target_ref: main
