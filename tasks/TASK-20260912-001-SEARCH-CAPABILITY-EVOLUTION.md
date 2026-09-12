@@ -1,6 +1,6 @@
 ---
 task_id: TASK-20260912-001
-status: ready_for_capability_gap_decision
+status: ready_for_bind_and_provision_decision
 target_repo: xifeng12/external-knowledge
 target_ref: main
 implementation_branch: task/20260912-001-v04-capability-diagnostics
@@ -333,3 +333,54 @@ READY_FOR_CAPABILITY_GAP_DECISION
 ```
 
 The next action belongs to the Human/capability-gap decision: choose among the provisioning/re-bind options recorded in the diagnostic report §9. No provisioning authorization is granted by this state.
+
+# Evidence-tightening run TASK-20260912-002 (2026-09-12)
+
+Authorized as a read-only / limited-execution continuation of this task: evaluate the existing
+`wechat-to-md` carrier (`~/.agent-reach/tools/wechat-article-for-ai`) and tighten the three
+UNKNOWNs (`wechat.reader`, `precision.search`/Exa, Firecrawl). No provider was installed,
+configured, re-bound, logged into, or credential-checked beyond existence flags.
+
+Results (full detail in `reports/TASK-20260912-002-EVIDENCE-TIGHTENING.md`; machine evidence in
+`evidence/TASK-20260912-002-evidence-tightening.json`; doctor v0.3-beta.1 re-aggregation executed
+with a tightened session inventory, intermediates kept outside the repository):
+
+- `wechat.reader` → `MISSING_CONFIRMED` (was `UNKNOWN`; scoped to the live session MCP manifest
+  plus the inspected static config domains: `~/.claude.json`, `~/.claude/settings.json`,
+  `~/.codex/config.toml`, `E:/cs1/opencode.json`, `~/.zcode/cli/config.json`).
+- `precision.search` → `MISSING_CONFIRMED` (was `UNKNOWN`; same scope; `EXA_API_KEY` UNSET,
+  existence-only).
+- `complex-web.read` → unchanged (`AVAILABLE_WITH_SCOPE`, native DEGRADED path); provider
+  `firecrawl` → `MISSING_CONFIRMED` (was `UNKNOWN`; `path_cli` absence re-verified; mcp class
+  unregistered; `FIRECRAWL_API_KEY` UNSET, existence-only).
+- `wechat.discovery` → unchanged (`MISSING_CONFIRMED`); new corroboration: the
+  `weixin.sogou.com` search endpoint remained reachable and served real results to an automated
+  HTTP client, while `/link` redirect resolution is CAPTCHA-gated (second anti-bot layer).
+- `wechat-to-md` carrier: dependency-complete (all five Python requirements importable), CLI
+  executable-health OK, end-to-end BLOCKED solely by the absent Camoufox browser binary
+  (`scraper.py` has no non-browser fetch path). Strong `wechat.reader` re-bind candidate; not a
+  `wechat.discovery` candidate (no search function).
+- Observed/unmodeled: the already-exposed `web_reader` MCP read a canonical WeChat article
+  end-to-end (title, author, full body, markdown-converted; images degraded). Kept out of the
+  adapter per contract; recorded as extraction-fallback evidence for `complex-web.read`.
+
+One inadvertent environment mutation was attempted and immediately terminated: a
+`camoufox.pkgman` binary-presence call triggered the library's first-run auto-download
+(~493 MB). The process was killed at ~0.26 MB transferred; no artifact persisted; the machine
+was restored to its pre-check state. Lesson recorded: pkgman path/verify calls are provisioning
+actions, never diagnostics.
+
+Terminal state for this evidence-tightening phase:
+
+```text
+READY_FOR_BIND_AND_PROVISION_DECISION
+```
+
+The next action belongs to the Human bind/provision decision — options A–D in the report §6:
+(A) authorize `python -m camoufox fetch` → representative probe → re-bind `wechat.reader` to
+`wechat-to-md` as a `local_script` provider; (B) adapter documentation update recording
+`web_reader` as the observed extraction fallback for `complex-web.read`; (C) deferred Exa
+provisioning (API key + MCP registration) only upon an observed precision/recall gap;
+(D) deferred Firecrawl provisioning only upon an observed extraction gap that `web_reader`
+fails. No provisioning, installation, configuration, re-bind, login/cookie import, MCP/PATH/
+runtime mutation, or PR merge is granted by this state.

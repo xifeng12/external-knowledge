@@ -1,0 +1,109 @@
+{
+  "evidence_id": "TASK-20260912-002-evidence-tightening",
+  "generated_at_utc": "2026-09-12",
+  "runtime": "ZCode CLI agent session, Windows 10.0.26200 x64, Git Bash, python 3.12.7",
+  "predecessor": "evidence/TASK-20260912-001-machine-capability-receipt.json",
+  "authorization": "read-only / limited-execution evaluation; no provider installation or configuration",
+  "environment_mutation_attempted": "inadvertent-only (see camoufox_download_incident); immediately terminated; no persisted state",
+  "probes": [
+    {
+      "id": "P1-wechat-to-md-deps",
+      "question": "Are wechat-to-md Python dependencies importable without installation?",
+      "method": "importlib.util.find_spec on host python 3.12.7 (read-only)",
+      "result": "camoufox PRESENT, markdownify PRESENT, bs4 PRESENT, httpx PRESENT, mcp PRESENT",
+      "status": "PASS",
+      "note": "wechat_to_md/__pycache__ cpython-312.pyc files prove the package was previously imported under this interpreter."
+    },
+    {
+      "id": "P2-wechat-to-md-executable-health",
+      "question": "Does the CLI entry surface execute safely (no browser)?",
+      "method": "python main.py --help; module imports of wechat_to_md.{cli,mcp_server,scraper,converter,parser}",
+      "result": "argparse help renders; all modules import OK",
+      "status": "PASS"
+    },
+    {
+      "id": "P3-wechat-to-md-end-to-end",
+      "question": "Can wechat-to-md convert a real WeChat article on this machine today?",
+      "method": "prerequisite check for camoufox browser binary (pkgman cache)",
+      "result": "BLOCKED: camoufox browser binary ABSENT from %LOCALAPPDATA%\\camoufox; scraper.py has no non-browser fetch path (AsyncCamoufox only); first run auto-downloads ~493MB from github.com/daijro/camoufox releases",
+      "status": "BLOCKED_WITHOUT_PROVISIONING",
+      "note": "Auto-download is a provisioning action and was not authorized; not performed (see camoufox_download_incident)."
+    },
+    {
+      "id": "P4-mcp-config-sweep",
+      "question": "Is weixin-articles-reader / exa / firecrawl exposed or registered in any MCP config domain?",
+      "method": "live session MCP manifest enumeration (complete) + read-only parse of ~/.claude.json (incl. projects), ~/.claude/settings.json, ~/.codex/config.toml, E:/cs1/opencode.json, ~/.zcode/cli/config.json; server names only, secret values never read",
+      "result": {
+        "session_manifest_servers": ["context-mode", "context7", "mimosa", "playwright", "web_reader", "node_repl", "computer-use"],
+        "claude_json": ["MCP_DOCKER"],
+        "codex_toml": ["codegraph", "node_repl", "cua_repl", "arcgis"],
+        "opencode_json": ["context-mode", "arcgis-mcp-bridge"],
+        "zcode_config": "no mcpServers key (plugins only)",
+        "target_servers_found": "none"
+      },
+      "status": "NO_EXPOSURE_FOUND"
+    },
+    {
+      "id": "P5-path-and-credential-existence",
+      "question": "PATH resolution and credential existence (values never read)?",
+      "method": "command -v probes; env-var existence-only checks",
+      "result": {
+        "firecrawl": "ABSENT (path_cli scope, re-verified 2026-09-12)",
+        "agent-reach": "ABSENT",
+        "opencli": "ABSENT",
+        "mcporter": "ABSENT",
+        "npm_global_prefix_scope": "E:/anaconda3/Lib/site-packages/nodejs_wheel; only xreach-cli present (scope-limited to this npm prefix)",
+        "EXA_API_KEY": "UNSET",
+        "FIRECRAWL_API_KEY": "UNSET",
+        "JINA_API_KEY": "UNSET"
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "P6-sogou-backend-health",
+      "question": "Is the wechat-article-search network backend (weixin.sogou.com) still serving automated clients?",
+      "method": "HTTP GET search endpoint (read-only); one /link redirect follow attempt",
+      "result": "search endpoint: REACHABLE, server-rendered real results, no CAPTCHA on first fetch; /link redirect resolution: CAPTCHA-gated anti-bot page for automated clients",
+      "status": "REACHABLE_WITH_SECOND_LAYER_ANTI_BOT",
+      "note": "Improves feasibility of future wechat.discovery re-provisioning; also confirms the WeChat anti-bot failure domain."
+    },
+    {
+      "id": "P7-wechat-canonical-read-via-web_reader",
+      "question": "Can the already-exposed web_reader MCP read a canonical WeChat article body?",
+      "method": "single representative read probe (provider already exposed; no mutation); article URL harvested via github.semantic (doocs/md USERS.md), not via WeChat discovery",
+      "result": "SUCCESS: title, author (og:article:author), og:url canonical confirmation, and full body text extracted and markdown-converted; code block preserved; some images surfaced as blob: URLs (JS lazy-load) - degraded image handling",
+      "status": "SUCCESS_SCOPED",
+      "note": "Single observation, 2019-era article layout, SCOPE_LIMITED; does not establish robustness against WeChat rate-limiting. web_reader static registration domain not located (ZCode-managed exposure); identity consistent with a Jina-Reader-class service (unconfirmed)."
+    },
+    {
+      "id": "P8-doctor-aggregation",
+      "question": "Formal capability aggregation under doctor v0.3-beta.1 semantics with the tightened evidence",
+      "method": "scripts/doctor.py with adapter zcode-v0.3-beta.1.json + session inventory (intermediate kept outside repo)",
+      "result": {
+        "wechat.reader": "MISSING_CONFIRMED (was UNKNOWN)",
+        "precision.search": "MISSING_CONFIRMED (was UNKNOWN)",
+        "complex-web.read": "AVAILABLE_WITH_SCOPE (unchanged); provider firecrawl MISSING_CONFIRMED (was UNKNOWN)",
+        "wechat.discovery": "MISSING_CONFIRMED (unchanged)"
+      },
+      "status": "PASS",
+      "note": "Capabilities not in the tightened inventory inherit TASK-20260912-001 evidence and were not re-adjudicated."
+    }
+  ],
+  "camoufox_download_incident": {
+    "what": "a binary-presence check via camoufox.pkgman.camoufox_path() triggered the library's first-run auto-download (~493MB browser package)",
+    "action": "background process terminated immediately (~0.26MB of 493MB transferred)",
+    "residual_state": "no download artifact persisted; %LOCALAPPDATA%/camoufox contains only an empty Cache directory (outer directory pre-existed since 2026-05); machine restored to pre-check state",
+    "lesson": "never call camoufox pkgman path/verify functions during read-only phases; the browser binary is absent and its fetch is a provisioning action"
+  },
+  "wechat_to_md_carrier_assessment": {
+    "path": "~/.agent-reach/tools/wechat-article-for-ai",
+    "carrier": "PRESENT (git-versioned bundle; SKILL.md/README complete; main.py + mcp_server.py shims over wechat_to_md package)",
+    "semantic_fit": "wechat.reader (canonical WeChat article body reading): URL-to-markdown, YAML frontmatter, locally downloaded images, code-block preservation; MCP server mode exists (convert_article/batch_convert) but is registered nowhere",
+    "not_a_fit": "wechat.discovery (no search/discovery function; read-only conversion of supplied URLs)",
+    "runtime_gap": "camoufox browser binary ABSENT; end-to-end BLOCKED without one provisioning action (python -m camoufox fetch, ~493MB)",
+    "failure_domain": "shares network egress + WeChat anti-bot domain with other WeChat read paths; not an independent redundancy source"
+  },
+  "unmodeled_observed_channels": [
+    "web_reader MCP (session-exposed): demonstrated canonical WeChat article read; candidate provider for general-web.read fallback and observed extraction-fallback channel for complex-web.read; kept unmodeled per contract (no forcing into unrelated bindings)"
+  ]
+}
