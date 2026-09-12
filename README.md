@@ -7,7 +7,7 @@ Capability-map and machine-diagnostics increment on top of the verified v0.3-bet
 `external-knowledge` coordinates external-information capabilities by information need and source semantics. It does not replace specialist tools/providers. The v0.4 direction adds two missing pieces without weakening the existing evidence model:
 
 1. a durable capability/channel map;
-2. a read-only diagnostic stage that can inventory Skill carriers on a target machine and keep those carrier observations separate from actual provider/capability availability.
+2. a read-only diagnostic stage that can inventory Skill carriers on a target machine and combine those carrier observations with Doctor runtime evidence.
 
 ## Capability map
 
@@ -39,6 +39,8 @@ Provider status
     ↓
 Capability aggregation
     ↓
+Machine Capability Receipt
+    ↓
 Capability map / need-aware next action
     ↓
 STOP
@@ -55,6 +57,16 @@ python scripts/scan_skills.py \
   --output skill-inventory.json
 ```
 
+After a normal Doctor report is available, `scripts/machine_report.py` combines the two reports:
+
+```bash
+python scripts/machine_report.py \
+  --skill-inventory skill-inventory.json \
+  --doctor-report doctor-report.json \
+  --pretty \
+  --output machine-capability-receipt.json
+```
+
 Important interpretation:
 
 ```text
@@ -62,6 +74,7 @@ Skill discovered != provider AVAILABLE
 capability claim != provider AVAILABLE
 one root absent != no Skills exist on the machine
 UNCLASSIFIED != no external-knowledge capability
+Machine Capability Receipt operational status = Doctor status only
 ```
 
 Operational availability still requires runtime exposure or a representative probe and is merged by Doctor under the existing provider/exposure contract.
@@ -112,6 +125,7 @@ external-knowledge/
 │   └── provisioning-contract.md
 ├── scripts/
 │   ├── scan_skills.py
+│   ├── machine_report.py
 │   ├── doctor.py
 │   └── plan.py
 ├── evidence/
