@@ -8,7 +8,7 @@ Machine diagnostics answers three different questions without collapsing them:
 2. **Which external-knowledge capabilities do those Skills explicitly claim?**
 3. **Which providers/capabilities are actually operational in the current runtime?**
 
-The first two are handled by `scripts/scan_skills.py`. The third remains Doctor + runtime inventory / representative-probe territory.
+The first two are handled by `scripts/scan_skills.py`. The third remains Doctor + runtime inventory / representative-probe territory. `scripts/machine_report.py` combines both outputs into one receipt without allowing Skill claims to upgrade Doctor operational status.
 
 ## Diagnostic flow
 
@@ -25,6 +25,8 @@ Runtime adapter + Agent runtime inventory
 Doctor provider evidence merge
     ↓
 Capability operational status
+    ↓
+Machine Capability Receipt
     ↓
 Capability map / need-aware next action
     ↓
@@ -110,6 +112,47 @@ Operational availability still requires provider-scoped runtime evidence, for ex
 
 Static Skill presence is carrier evidence only.
 
+Produce the existing Doctor report as normal, for example:
+
+```bash
+python scripts/doctor.py \
+  --adapter adapters/zcode-v0.3-beta.1.json \
+  --agent-inventory agent-inventory.json \
+  --pretty \
+  --output doctor-report.json
+```
+
+The exact runtime inventory input remains runtime-specific; do not fabricate it when that execution surface is unavailable.
+
+## Machine Capability Receipt
+
+After both reports exist, merge them without changing either source:
+
+```bash
+python scripts/machine_report.py \
+  --skill-inventory skill-inventory.json \
+  --doctor-report doctor-report.json \
+  --pretty \
+  --output machine-capability-receipt.json
+```
+
+The merged receipt answers:
+
+- which Skills were discovered under inspected roots;
+- which capabilities those Skills explicitly claim;
+- which capabilities Doctor found `AVAILABLE`, `AVAILABLE_WITH_SCOPE`, `UNKNOWN`, `UNAVAILABLE`, `BLOCKED`, or `MISSING_CONFIRMED`;
+- which Skill claims match a capability evaluated by Doctor;
+- which Skills remain unclassified;
+- which declared claims were not evaluated by the supplied Doctor report.
+
+Its invariant is:
+
+```text
+operational_status_source = Doctor report only
+```
+
+A Skill carrier or declaration may be attached to a capability in the receipt, but it cannot upgrade `UNKNOWN` to `AVAILABLE`.
+
 ## Absence boundary
 
 If an explicit root does not exist, the scanner may report that root absent. It must not conclude:
@@ -122,17 +165,18 @@ Likewise, an unclassified Skill is not evidence that it has no external-knowledg
 
 ## Security and mutation boundary
 
-The scanner:
+The diagnostic scripts:
 
-- reads `SKILL.md` frontmatter only for simple inventory fields;
-- reads `external-knowledge.json` when present;
-- does not execute Skill code;
-- does not perform network access;
-- does not read environment-variable values or secrets;
-- does not install packages;
-- does not edit registries, MCP configuration, PATH, proxies, or Skill files.
+- read `SKILL.md` frontmatter only for simple inventory fields;
+- read `external-knowledge.json` when present;
+- read supplied JSON reports;
+- do not execute Skill code;
+- do not perform network access;
+- do not read environment-variable values or secrets;
+- do not install packages;
+- do not edit registries, MCP configuration, PATH, proxies, or Skill files.
 
-Output must contain:
+Outputs must contain:
 
 ```text
 environment_mutation_attempted = false
@@ -140,12 +184,13 @@ environment_mutation_attempted = false
 
 ## STOP
 
-Stop the inventory phase when all explicitly authorized roots have been inspected and the report distinguishes:
+Stop the inventory/receipt phase when all explicitly authorized roots have been inspected and the report distinguishes:
 
 - discovered carriers;
 - explicit capability claims;
 - unclassified Skills;
 - roots not inspected or unavailable;
-- operational status still requiring Doctor/runtime evidence.
+- Doctor operational status;
+- claims not evaluated by the supplied Doctor report.
 
 Do not add more roots merely to claim completeness. Add a root only when it is a real supported/used location whose inspection could change the machine capability conclusion.
