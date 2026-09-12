@@ -177,6 +177,158 @@ The agent execution container could not resolve `github.com`, so a network `git 
 
 This limitation is bounded because the implementation did not modify `doctor.py`, `plan.py`, the adapter, or existing tests. The new executable code was syntax-checked and exercised by its focused tests. A full-suite run remains desirable before merge if an execution surface with the complete checkout is available.
 
+## Agent-Reach channel assessment
+
+The Human identified `Panniantong/Agent-Reach` as an important source reference and requested a full channel-gap assessment before the first real machine diagnostic.
+
+### Compared authority
+
+Observed upstream baseline:
+
+```text
+Panniantong/Agent-Reach
+main = da5044d26fc6adddb6554d5679c94ac22e76e428
+latest release = v1.5.0 (2026-06-11)
+```
+
+The current Agent-Reach channel registry contains 15 channels:
+
+```text
+GitHub
+Twitter/X
+YouTube
+Reddit
+Facebook
+Instagram
+Bilibili
+XiaoHongShu
+LinkedIn
+Xiaoyuzhou
+V2EX
+Xueqiu
+RSS
+Exa Search
+Web
+```
+
+Current authoritative `main` / root Skill does not include WeChat Articles among these 15. Historical/translated documentation that still mentions WeChat is not treated as current channel authority.
+
+### Overlap and external-knowledge-only strengths
+
+Already covered at capability level:
+
+- general web search;
+- ordinary web reading;
+- GitHub;
+- Exa precision search.
+
+`external-knowledge` additionally has first-class capabilities not represented equivalently in the current Agent-Reach channel registry:
+
+- `docs.versioned/context7`;
+- `wechat.discovery`;
+- `wechat.reader`;
+- `complex-web.read` with Firecrawl as an extraction challenger;
+- formal separation of capability/provider/exposure/operational status/coverage/discoverability.
+
+Agent-Reach's Jina Reader is therefore a provider candidate for an existing web-read capability, not automatically a new capability gap. Likewise, Agent-Reach uses Exa as its web-search channel while external-knowledge uses Exa as a precision challenger; that is a routing-policy difference, not a missing provider.
+
+### Real source-semantic gaps relative to Agent-Reach
+
+The current external-knowledge map does not yet model these Agent-Reach source semantics as first-class capabilities:
+
+1. Twitter/X discovery and reading.
+2. Reddit community search, post and comment reading.
+3. YouTube search, metadata, subtitles/comments and transcript fallback.
+4. RSS/Atom feed reading.
+5. XiaoHongShu search/read/comments.
+6. Bilibili search/metadata/subtitles/audio-to-transcript path.
+7. V2EX topics/replies/user/community access.
+8. LinkedIn profile/company/job discovery.
+9. Xueqiu quote/search/hot-content access.
+10. Xiaoyuzhou podcast transcription.
+11. Facebook and Instagram read/search surfaces.
+
+This is a source-semantic gap count, not an independent-provider count. Several of these channels share OpenCLI/Chrome and therefore share a control-plane/failure domain.
+
+### Do not double-count Agent-Reach
+
+`agent-reach` is a router/installer/doctor carrier. Retrieval is normally executed by upstream paths such as:
+
+```text
+opencli
+twitter-cli
+rdt-cli
+bili-cli
+yt-dlp
+gh
+Jina Reader
+Exa via mcporter
+direct public APIs
+```
+
+Therefore:
+
+```text
+Agent-Reach carrier + upstream execution surface
+!= two independent providers
+```
+
+The current external-knowledge carrier/exposure model remains authoritative for this normalization.
+
+### Diagnostic-method gap exposed by Agent-Reach
+
+Agent-Reach v1.5 adds a useful behavior missing from the current external-knowledge Doctor: bounded executable health probes that can distinguish a command artifact from a runnable command and expose the currently selected ordered backend via `active_backend`.
+
+External-knowledge is stronger at evidence semantics but currently more passive. Its Doctor relies on deterministic local presence plus supplied runtime inventory/representative evidence, so a stale or broken command may remain `UNKNOWN`.
+
+Minimum diagnostic evolution before broad provisioning:
+
+```text
+PASSIVE_INVENTORY
+  -> Skill/path/command/config presence only
+
+SAFE_EXEC_PROBE
+  -> adapter-declared read-only bounded commands only
+  -> e.g. version/help probe with telemetry/update checks suppressed where supported
+  -> may distinguish PRESENT_BUT_BROKEN from executable presence
+
+REPRESENTATIVE_READ_PROBE
+  -> only when a capability is decision-relevant
+  -> require substantive read/search output before AVAILABLE
+
+PROVISIONING
+  -> separate phase, explicit authorization still required
+```
+
+Do not copy all Agent-Reach Doctor statuses directly into external-knowledge operational status. Agent-Reach itself sometimes deliberately avoids remote validation; external-knowledge must preserve scoped authority and `UNKNOWN` semantics.
+
+### Skill-attribution gap before target-machine diagnosis
+
+The v0.4 Skill scanner intentionally leaves third-party Skills `UNCLASSIFIED` unless an explicit `external-knowledge.json` sidecar exists. Agent-Reach does not ship that sidecar.
+
+For Agent-Reach, the preferred future evidence path is therefore:
+
+```text
+Skill carrier discovered
+  + agent-reach doctor --json actually executed
+  -> translate scoped channel/backend evidence
+```
+
+rather than inferring capability from package name or prose.
+
+### Priority after diagnosis
+
+Do not install channels to fill a matrix. If the target machine proves the capability genuinely missing, current priority is:
+
+```text
+P1: Twitter/X, Reddit, YouTube/transcript, RSS
+P2: XiaoHongShu, Bilibili, V2EX
+P3: LinkedIn, Xueqiu, Xiaoyuzhou
+P4: Facebook, Instagram (login-heavy; task-driven only)
+```
+
+Priority is for later capability evolution, not current provisioning authorization.
+
 ## Actual target-machine state
 
 Still unknown.
@@ -189,7 +341,13 @@ The first real target-machine run should use only actual supported Skill roots. 
 python scripts/scan_skills.py --root ~/.codex/skills --pretty --output skill-inventory.json
 ```
 
-Then produce/obtain a real Doctor report for the same runtime scope and merge:
+If Agent-Reach is discovered and its CLI is installed, collect its own scoped channel receipt without installing or configuring anything:
+
+```bash
+agent-reach doctor --json
+```
+
+Then obtain provider/runtime evidence for the external-knowledge adapter and merge:
 
 ```bash
 python scripts/machine_report.py \
@@ -207,6 +365,8 @@ Not implemented in this increment:
 
 - provider provisioning or repair;
 - automatic inference of capability from Skill prose/name;
+- Agent-Reach doctor JSON ingestion/translation;
+- bounded SAFE_EXEC_PROBE support in external-knowledge Doctor;
 - broad benchmark matrices;
 - generic Skill evaluation framework duplicated from `skill-forge`;
 - Challenger–Defender lifecycle adjudication;
@@ -216,11 +376,6 @@ The first real overlap remains `complex-web.read` (`runtime-native.webfetch` vs 
 
 ## Stop state
 
-Repository implementation is complete for the authorized capability-map + machine-diagnostics increment and is ready for review.
+Repository implementation plus Agent-Reach channel assessment is complete for this phase and remains ready for review.
 
-Next authorization required:
-
-1. review/merge this implementation branch; and/or
-2. run the read-only diagnostic on a real target-machine Skill root/runtime execution surface.
-
-No provisioning authorization is currently requested.
+Next decision-relevant action is the first real target-machine diagnostic. No provisioning authorization is currently requested.
