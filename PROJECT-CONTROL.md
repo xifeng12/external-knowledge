@@ -2,7 +2,7 @@
 
 ```yaml
 project_control_ref: PROJECT-CONTROL.md
-project_control_version: p0-practice-remediation-ready-2026-09-13
+project_control_version: p0-practice-remediation-accepted-2026-09-13
 final_outcome: >-
   Evolve external-knowledge into a durable external-information capability layer
   that routes concrete information needs/source semantics to the best available
@@ -11,14 +11,14 @@ final_outcome: >-
 scope_baseline_version: tasks/TASK-20260912-001-SEARCH-CAPABILITY-EVOLUTION.md
 schedule_baseline_version: SCHEDULE_UNBASELINED
 channel_roadmap_state: FROZEN_CURRENT_BASELINE
-agent_operationalization_state: READY_FOR_P0_REMEDIATION_ACCEPTANCE
-current_outcome: three_confirmed_practice_p0_items_implemented_in_repository_source
-current_actual_state: READY_FOR_P0_REMEDIATION_ACCEPTANCE
+agent_operationalization_state: P0_REMEDIATION_ACCEPTED
+current_outcome: task019_p0_remediation_accepted_with_full_suite_executed_at_acceptance
+current_actual_state: P0_REMEDIATION_ACCEPTED
 current_work_class: RUNTIME_INTEGRATION_REMEDIATION
 current_blocker: none
 forecast_state: unbaselined
-next_authorized_action: Human/Coordinator reviews TASK-019 implementation/report; no ZCode re-bind, PR merge, or further remediation is authorized yet
-resume_point: TASK-019 latest implementation report amendment is 22a1c1a0b73475e262355a0c4d5b83722343b7a6 on task/20260913-019-p0-practice-remediation; this file is the current status authority and Issue #6 records the current branch head; ZCode installed copy remains pinned to 450fc67 until a later deployment decision
+next_authorized_action: Human decides whether to deploy/re-bind the accepted TASK-019 source into ~/.zcode/skills/external-knowledge; deployment, behavioral pilot, P1 findings, and channel expansion each remain separate explicit decisions
+resume_point: TASK-019 accepted on task/20260913-019-p0-practice-remediation; the acceptance record lives in the TASK-019 acceptance section of this file and the final branch head is recorded on Issue #6; ZCode installed copy remains pinned to 450fc67 until an explicit deployment action
 ```
 
 ## Freeze decision — 2026-09-13
@@ -124,6 +124,21 @@ Focused validation recorded in the report: 8/8 new focused tests passed in the a
 The confirmed `web_reader` representation gap, Doctor CLI ergonomics, Doctor UNKNOWN hint, semantic-profile growth, SKILL.md restructuring, provider repair, and channel expansion remain outside TASK-019.
 
 No deployment/re-binding of the installed ZCode copy occurred in TASK-019. Repository source and installed Skill therefore intentionally differ until a later deployment decision.
+
+## TASK-019 acceptance — 2026-09-13
+
+Classification: ACCEPTED (strict scope compliance PASS).
+
+Independent acceptance executed against the actual repository diff `be59731..5995121` in a full GitHub checkout:
+
+- Diff surface contains only the three authorized P0 remediations plus task/report/project-control bookkeeping. `scripts/doctor.py` core, `source_semantic_profiles`, `SKILL.md`, `references/capability-map.md`, Draft PR #3, and `main` are untouched; no new provider/channel work is present.
+- P0-1 regression tests import the real `scripts/doctor.py` and exercise `diagnose()` with the updated adapter: ZCode-root PRESENT + Codex-root ABSENT -> UNKNOWN (presence blocks missing confirmation without promoting AVAILABLE); both candidate paths ABSENT -> MISSING_CONFIRMED with the `local_script` class authoritatively covered.
+- P0-2 `references/agent-inventory.md` documents version 4, top-level and provider-scoped structure, the status vocabulary, all provider fields, the non-authoritative MISSING downgrade rule, carrier-vs-exposure separation, a minimal valid example, and the scaffold workflow; `machine-diagnostics.md` links it.
+- P0-3 `scripts/inventory_scaffold.py` is deterministic, probe-free, and non-evidentiary; declared legal classes appear only as operator guidance.
+- Validation re-executed at acceptance (full checkout, Windows, `python -m pytest`): full suite 57 collected / 56 passed / 1 failed. The single failure (`test_v04_diagnostic_contract.py` machine-diagnostics wording drift) was reproduced at baseline `be59731` and is the pre-existing debt recorded during TASK-012; it is not introduced by TASK-019 and remains open non-blocking debt. All 8 new focused tests pass in the full checkout, upgrading the implementation report's isolated-harness result.
+- Guardrails confirmed at acceptance: installed ZCode copy unchanged (adapter content-identical to pinned baseline 450fc67 modulo line endings; the new candidate-path string is absent from the installed copy), `origin/main` still `579d94a`, Draft PR #3 still open/draft, no TASK-019 PR exists.
+
+No repair pass required. The three deferred P1 findings (web_reader representation, Doctor adapter-id/UX, Doctor UNKNOWN hint) remain deferred.
 
 ## Accepted state to preserve
 

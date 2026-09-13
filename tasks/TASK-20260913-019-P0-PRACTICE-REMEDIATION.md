@@ -1,6 +1,6 @@
 ---
 task_id: TASK-20260913-019
-status: ready
+status: accepted
 target_repo: xifeng12/external-knowledge
 target_ref: task/20260913-019-p0-practice-remediation
 project_control_ref: PROJECT-CONTROL.md
