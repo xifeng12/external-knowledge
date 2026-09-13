@@ -1,6 +1,6 @@
 ---
 task_id: TASK-20260913-012
-status: ready_for_wechat_vertical_execution
+status: wechat_minimum_vertical_available
 parent_task: TASK-20260912-001
 target_repo: xifeng12/external-knowledge
 implementation_branch: task/20260912-001-v04-capability-diagnostics
