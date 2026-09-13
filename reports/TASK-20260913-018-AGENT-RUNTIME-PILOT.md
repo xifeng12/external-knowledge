@@ -3,7 +3,7 @@ task_id: TASK-20260913-018
 date: 2026-09-13
 inspected_head: 2c184a1a3e97bc41464a458477b44899a37a5065 (origin/task/20260913-018-agent-runtime-pilot at inspection time)
 pinned_frozen_capability_baseline: 450fc67351bad8d38e99234a1b3276b127d663c2
-current_external_knowledge_discoverability: NO at inspection; binding executed mid-run under direct Human instruction
+current_external_knowledge_discoverability: NO at inspection; bound mid-run under direct Human instruction; re-bound same day to the official ZCode user root after the first target failed discovery
 terminal_state: READY_FOR_AGENT_BEHAVIOR_PILOT
 runtime_environment_mutation_performed: true (documented deviation, see "Mid-run Human authorization")
 channel_roadmap_reopened: false
@@ -85,6 +85,24 @@ verified    101 files extracted = 101 tracked files at the pinned commit;
 not done    no .skill-lock.json edit, no symlink, no AGENTS.md/MCP/config edit, no Codex change
 ```
 
+### Correction — 2026-09-13, later the same day (Human-reported non-discovery)
+
+In a fresh desktop session the bound Skill did not surface. ZCode's official skill guidance
+(zcode-guide `diagnosing-skills`) defines the discovery order: explicitly configured roots →
+user `~/.zcode/skills` → user `~/.agents/skills` → workspace roots → plugin roots, naming
+`~/.zcode/skills/<name>/SKILL.md` as the canonical user-root fix. Diagnosis found
+`~/.zcode/skills/` absent, no skills-disabled or root overrides in `~/.zcode/cli/config.json`,
+and the `.agents` copy structurally valid (frontmatter `name` + 426-char `description`, under
+the 1024 limit). Per the Human's instruction the `.agents` copy was removed and the same pinned
+baseline re-extracted into the official root:
+
+```text
+removed     C:\Users\fengxi\.agents\skills\external-knowledge\ (the first binding, same day)
+target      C:\Users\fengxi\.zcode\skills\external-knowledge\
+source      same pinned baseline 450fc67 (same archive sha256 9ba78eac…, re-verified on re-extract)
+verified    101/101 files; SKILL.md frontmatter intact
+```
+
 ## Acceptance block
 
 ```text
@@ -93,8 +111,9 @@ supported binding/discovery surface evidenced:   C:\Users\fengxi\.agents\skills\
                                                  + plugin cache (plugin-install path, not minimal)
 current external-knowledge discoverability:      NO at inspection -> bound mid-run per Human instruction
 pinned source baseline:                          450fc67351bad8d38e99234a1b3276b127d663c2
-minimal binding action and exact target:         copy pinned baseline to
-                                                 C:\Users\fengxi\.agents\skills\external-knowledge\ (DONE)
+minimal binding action and exact target:         copy pinned baseline to the official ZCode user root
+                                                 C:\Users\fengxi\.zcode\skills\external-knowledge\ (DONE;
+                                                 first-day target .agents\skills superseded same day)
 runtime/environment mutation attempted:          true — one binding copy, under direct Human
                                                  instruction (deviation from the Issue's read-only
                                                  default, documented above); template value "false"
@@ -115,10 +134,11 @@ direct Human instruction. The next step is a separate, neutral real-task behavio
 
 Skills are enumerated by the runtime at session start; this session cannot re-enumerate its own
 manifest. Therefore the first post-binding session must confirm `external-knowledge` appears in
-the Skill manifest before the behavioral pilot begins. If it does not appear, the unresolved
-question is the root's scan-vs-lock semantics (`~/.agents/.skill-lock.json` v3) — the identified
-fallback is registering through that lock's installer semantics. Do not re-copy or duplicate the
-Skill folder while troubleshooting.
+the Skill manifest — checked in **Settings → Skills** or the `/` menu's Skills group, not the
+`@` mention box — before the behavioral pilot begins. The binding now sits at the officially
+canonical user root `~/.zcode/skills/external-knowledge/`; if it still does not appear, the
+unresolved question is client-level discovery configuration, not the package. Do not re-copy or
+duplicate the Skill folder while troubleshooting.
 
 The behavioral pilot, when separately authorized, must follow the `codex-control`
 observable-agent-behavior method defined in the task contract: ordinary real task, no hint of the

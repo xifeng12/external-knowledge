@@ -18,7 +18,7 @@ current_work_class: RUNTIME_INTEGRATION_PILOT
 current_blocker: none
 forecast_state: unbaselined
 next_authorized_action: confirm external-knowledge appears in the next ZCode session skill manifest; then one neutral real-task behavioral pilot (codex-control method), separately authorized
-resume_point: binding executed 2026-09-13 into C:\Users\fengxi\.agents\skills\external-knowledge\ under direct Human mid-run instruction during TASK-018; see reports/TASK-20260913-018-AGENT-RUNTIME-PILOT.md
+resume_point: binding installed 2026-09-13 at the official ZCode user root C:\Users\fengxi\.zcode\skills\external-knowledge\ under direct Human instruction during TASK-018 (first-day .agents target superseded after non-discovery); see reports/TASK-20260913-018-AGENT-RUNTIME-PILOT.md
 ```
 
 ## Freeze decision — 2026-09-13
@@ -52,7 +52,7 @@ pinned frozen capability baseline: 450fc67351bad8d38e99234a1b3276b127d663c2
 
 TASK-018 is intentionally read-only with respect to the Agent runtime. It may identify the actual supported Skill loading/binding surface and whether `external-knowledge` is already discoverable, but it may not perform the binding/configuration change.
 
-Binding execution — 2026-09-13, mid-run: after the inspection identified the supported surface and confirmed `external-knowledge` was NOT discoverable, the Human issued a direct instruction ("停止，我什么说要给codex安装，我要的是给zcode安装") authorizing the binding for the ZCode surface. One minimal mutation was executed: the pinned baseline `450fc67` was copied verbatim into `C:\Users\fengxi\.agents\skills\external-knowledge\` (101 files, archive sha256 `9ba78eac…`). No installer/lock/config edit, no Codex mutation, and no other runtime change occurred. Full evidence: `reports/TASK-20260913-018-AGENT-RUNTIME-PILOT.md`. Next-session discovery confirmation is required before the behavioral pilot.
+Binding execution — 2026-09-13, mid-run: after the inspection identified the supported surface and confirmed `external-knowledge` was NOT discoverable, the Human issued a direct instruction ("停止，我什么说要给codex安装，我要的是给zcode安装") authorizing the binding for the ZCode surface. One minimal mutation was executed: the pinned baseline `450fc67` was copied verbatim into `C:\Users\fengxi\.agents\skills\external-knowledge\` (101 files, archive sha256 `9ba78eac…`). No installer/lock/config edit, no Codex mutation, and no other runtime change occurred. Same-day correction: the first target did not surface in a fresh desktop session, so per ZCode's official skill guidance the `.agents` copy was removed and the identical baseline re-installed at the official user root `C:\Users\fengxi\.zcode\skills\external-knowledge\`. Full evidence: `reports/TASK-20260913-018-AGENT-RUNTIME-PILOT.md`. Next-session discovery confirmation (Settings → Skills or the `/` menu Skills group, not the `@` box) is required before the behavioral pilot.
 
 Allowed terminal states for TASK-018:
 
