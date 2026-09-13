@@ -1,6 +1,6 @@
 ---
 task_id: TASK-20260913-016
-status: ready_for_x_session_verifier_discrimination
+status: X_PROVIDER_ALTERNATIVE_REQUIRED
 parent_task: TASK-20260912-001
 predecessor: TASK-20260913-015
 review_correction: TASK-20260913-015-REVIEW-CORRECTION
