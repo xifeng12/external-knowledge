@@ -2,7 +2,7 @@
 
 ```yaml
 project_control_ref: PROJECT-CONTROL.md
-project_control_version: session-handoff-2026-09-13
+project_control_version: frozen-baseline-2026-09-13
 final_outcome: >-
   Evolve external-knowledge into a durable external-information capability layer
   that routes concrete information needs/source semantics to the best available
@@ -10,14 +10,29 @@ final_outcome: >-
   with capability, and evolves overlapping providers only from evidence.
 scope_baseline_version: tasks/TASK-20260912-001-SEARCH-CAPABILITY-EVOLUTION.md
 schedule_baseline_version: SCHEDULE_UNBASELINED
-current_outcome: expand_first_class_source_specialists_after_x_stop
-current_actual_state: READY_FOR_NEXT_VERTICAL_SELECTION
+current_outcome: preserve_current_capability_baseline_and_defer_expansion
+current_actual_state: FROZEN_CURRENT_BASELINE
 current_work_class: GOVERNANCE
 current_blocker: none
 forecast_state: unbaselined
-next_authorized_action: Human selects the next domestic P1 vertical; default Bilibili, lowest-risk alternative V2EX
-resume_point: after TASK-20260913-017 closed the X workstream; before creating/authorizing the next vertical task
+next_authorized_action: none while frozen; future expansion requires an explicit Human reopen/selection
+resume_point: from this frozen baseline; do not replay the X workstream or start a new vertical unless explicitly reopened
 ```
+
+## Freeze decision — 2026-09-13
+
+The Human explicitly stopped further channel expansion for the current roadmap slice.
+
+Freeze semantics:
+
+- preserve all accepted evidence and decisions already recorded in this repository;
+- do not start Bilibili, V2EX, Weibo, Zhihu, Xiaohongshu, Xueqiu, Xiaoyuzhou, Douyin, RSS/Atom, or other new channel implementation merely because it appears in an assessment;
+- do not reopen X search work;
+- do not provision, bind, install, configure, promote, or merge merely to increase nominal channel coverage;
+- keep the remaining channel assessments as future expansion options, not an active backlog;
+- a future expansion begins only from a new explicit Human decision and one bounded source-semantic task.
+
+This freeze changes roadmap activity, not the validity of accepted evidence.
 
 ## Accepted state to preserve
 
@@ -49,42 +64,66 @@ x.search           -> unresolved; deferred by Goal Integrity
 
 Do not reopen XActions search/session/query-ID work or begin another X provider comparison unless a future decision-critical Human need explicitly reopens X.
 
-## Current vertical-selection authority
+## Frozen expansion surface
 
-Reference: `reports/CHINA-DOMESTIC-CHANNELS-ASSESSMENT-20260913.md`.
+Reference assessment: `reports/CHINA-DOMESTIC-CHANNELS-ASSESSMENT-20260913.md`.
 
-Recommended order already accepted for decision-making:
+The previously evaluated candidates are retained only as future expansion options.
+
+### Domestic candidates
 
 ```text
-Default next vertical: Bilibili
-Lowest-risk / fastest alternative: V2EX
-Then: Weibo
-Later session-heavy: Zhihu, Xiaohongshu
+Bilibili   -> search / metadata / comments-danmaku / subtitle-transcript semantics
+V2EX       -> topic / reply / user / node-community semantics
+Weibo      -> discovery / read / trends
+Zhihu      -> question / answer / article / comment semantics
+Xiaohongshu -> discovery / read / comments
+Xueqiu     -> market / community semantics
+Xiaoyuzhou -> discovery / podcast transcript semantics
+Douyin     -> future read-only discovery/read path only after such a path is directly verified
 ```
 
-No Bilibili or V2EX execution task is authorized merely by this checkpoint. The next conversation should first read this file, Issue #2, the domestic-channel assessment, and the current branch/head, then return the current goal/state/gaps and wait for or apply the Human's vertical selection.
+The assessment's former decision order is preserved as context, not active authorization:
 
-## Remaining known gaps
+```text
+Bilibili
+V2EX
+Weibo
+Zhihu
+Xiaohongshu
+Xueqiu
+Xiaoyuzhou
+Douyin
+```
 
-Decision-relevant gaps still visible from TASK-001 and the domestic-channel assessment include:
+### Cross-cutting / later candidates
 
-- Bilibili search/metadata/subtitle-transcript semantics;
-- V2EX topic/reply/user/community semantics;
-- Weibo discovery/read/trends;
-- Zhihu Q&A/answer/article/comment semantics;
-- Xiaohongshu discovery/read/comments;
-- later/niche: RSS/Atom, Xueqiu, Xiaoyuzhou, selected video/social channels when justified.
+```text
+RSS / Atom
+Reddit
+YouTube
+LinkedIn
+Facebook
+Instagram
+selected additional video/social/domain specialists when justified by a real workload
+```
 
-Do not convert this list into a backlog that must all be implemented. Expand vertically only when the source semantic adds decision-relevant information not equivalently covered by general web routes.
+These entries are not a backlog and create no obligation to implement every channel. A future specialist is justified only when its source semantics add decision-relevant information that general routes cannot represent equivalently.
 
 ## Resume rule
 
-The next capable executor should not replay TASK-013 through TASK-017 or re-derive why X was stopped. Resume from the current product path:
+While frozen, the correct action is STOP.
+
+A future capable executor should first read this file, Issue #2, the relevant retained assessment/evidence, and the then-current branch/head. It must preserve settled evidence and must not replay prior investigations solely to regain confidence.
+
+Only an explicit future Human decision may advance the roadmap:
 
 ```text
-X workstream closed
--> choose next high-value source specialist
--> create one bounded minimum vertical
+FROZEN_CURRENT_BASELINE
+-> Human identifies a real information/source-semantic need
+-> select one candidate only if general routes are not equivalent
+-> create/authorize one bounded minimum vertical task
 -> validate end-to-end evidence
--> only then decide whether deeper platform semantics are worth adding
+-> decide whether deeper platform semantics are worth adding
+-> return to a controlled stop state
 ```
