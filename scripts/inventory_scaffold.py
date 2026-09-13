@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 from typing import Any, Dict, Iterable, Optional
 
@@ -94,7 +95,7 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         scaffold = build_scaffold(load_adapter(args.adapter))
         payload = render(scaffold, args.pretty)
     except Exception as exc:
-        print(f"inventory scaffold error: {type(exc).__name__}: {exc}", file=__import__("sys").stderr)
+        print(f"inventory scaffold error: {type(exc).__name__}: {exc}", file=sys.stderr)
         return 2
 
     print(payload)
