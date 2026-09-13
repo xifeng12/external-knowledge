@@ -1,0 +1,202 @@
+{
+  "task_id": "TASK-20260913-012",
+  "generated_at": "2026-09-13",
+  "parent_task": "TASK-20260912-001",
+  "branch": "task/20260912-001-v04-capability-diagnostics",
+  "goal": "WeChat minimum end-to-end vertical: query/title/account -> discovery -> canonical mp.weixin.qq.com URL -> reader",
+  "terminal_state": "WECHAT_MINIMUM_VERTICAL_AVAILABLE",
+  "authorization_boundary": {
+    "login_or_account": false,
+    "cookie_or_profile_import": false,
+    "captcha_bypass": false,
+    "camoufox_or_browser_download": false,
+    "persistent_provider_install_or_registration": false,
+    "wechat_write_actions": false,
+    "x_twitter_provisioning": false,
+    "pr3_or_main_merge": false
+  },
+  "fixtures": [
+    {
+      "fixture_id": "F1",
+      "class": "discovery_required",
+      "input": {
+        "title": "ArcPy使用之一：SDE数据定时备份",
+        "account_hint": "图说新语",
+        "source": "TASK-20260913-011-era retained fixture list (no canonical URL retained)"
+      },
+      "discovery_attempts": [
+        {
+          "path": "sogou_weixin_type2",
+          "query": "ArcPy使用之一 SDE数据定时备份",
+          "http": 200,
+          "captcha": false,
+          "candidates": 0
+        },
+        {
+          "path": "sogou_weixin_type2",
+          "query": "SDE数据定时备份",
+          "http": 200,
+          "captcha": false,
+          "candidates": 20,
+          "relevant_candidates": 0,
+          "note": "all returned candidates unrelated to the target article"
+        },
+        {
+          "path": "sogou_weixin_type2",
+          "query": "ArcPy SDE 定时备份",
+          "http": 200,
+          "candidates_visible": 0,
+          "note": "empty result page; Sogou left as-is per no-hammer rule after prior attempts"
+        },
+        {
+          "path": "native_web_search",
+          "query": "\"ArcPy使用之一\" \"SDE数据定时备份\" (and quoted-substring variants)",
+          "mp_weixin_candidates": 0,
+          "note": "only off-WeChat results (cnblogs/CSDN/Esri/GitHub)"
+        },
+        {
+          "path": "native_web_search",
+          "query": "site:mp.weixin.qq.com/s ArcPy SDE数据定时备份 图说新语 (backend-rewritten multi-round)",
+          "mp_weixin_candidates": 2,
+          "phase_b_result": "both rejected as wrong articles"
+        }
+      ],
+      "candidate_urls": [
+        {
+          "url": "https://mp.weixin.qq.com/s/XO8Jqu0vEmbikIdrPD598A",
+          "canonical_form": "public_slug",
+          "verification": "REJECTED",
+          "actual_article": {
+            "title": "明确AI使用边界，国内期刊AIGC审查跟踪解读来了！",
+            "author": "常湘萍",
+            "account_field": "og:article:author=常湘萍",
+            "material_relation": "none (journal AIGC policy article)"
+          }
+        },
+        {
+          "url": "https://mp.weixin.qq.com/s/S1YnQI5tAE1441O3ZNAvVg",
+          "canonical_form": "public_slug",
+          "verification": "REJECTED",
+          "actual_article": {
+            "title": "【践行改造宗旨】高墙履职践忠诚 匠心育人启新生——记我的师父于多",
+            "material_relation": "none"
+          }
+        }
+      ],
+      "canonical_url_obtained": false,
+      "reader_result": "not_reached",
+      "failure_stage": "discovery",
+      "note": "Faithfully reproduces the historical LIMITED_OBSERVED discoverability of this exact article; Phase B correctly rejected both native-search candidates (search results are candidates, not truth)."
+    },
+    {
+      "fixture_id": "F2",
+      "class": "discovery_required",
+      "input": {
+        "title": "不可不知的 ArcGIS Python 开发 PPT",
+        "source": "TASK-002 retained evidence"
+      },
+      "discovery_attempts": [
+        {
+          "path": "sogou_weixin_type2",
+          "query": "不可不知的 ArcGIS Python 开发 PPT",
+          "http": 200,
+          "captcha": false,
+          "candidates": 5,
+          "top_candidate": {
+            "title": "不可不知的ArcGIS Python开发(PPT可下载)",
+            "account": "GIS前沿",
+            "wrapped_url": "/link?url=... (recorded for evidence only, never treated as canonical)"
+          }
+        }
+      ],
+      "canonical_url_obtained": true,
+      "canonical_url": "https://mp.weixin.qq.com/s?src=11&timestamp=1789264699&ver=6963&signature=H%2AxP2-3GBaEiv4ziv6UxCmuntpUPm3H6TE34lUSw%2AoI4B1bbiZNuzWTY3MccmMwb9rTTY4O-ywVExjmza0mxnaD6-4k3xzX6ip9k-evQuvKzahosvsh5ivpzJm3mSjXw&new=1",
+      "canonical_form": "signed_query",
+      "canonicalization_mechanism": "same-session /link GET with Referer returns JS-assembly body; url += fragments concatenated",
+      "phase_b_verification": {
+        "http": 200,
+        "final_host": "mp.weixin.qq.com",
+        "form_ok": true,
+        "account_ok": "GIS前沿 (matches discovery candidate)",
+        "title_match": "verified via reader title 不可不知的ArcGIS Python开发（PPT可下载）"
+      },
+      "reader_result": {
+        "tool": "web_reader (already-exposed fallback)",
+        "success": true,
+        "title": "不可不知的ArcGIS Python开发（PPT可下载）",
+        "author": "李远祥 (og:article:author)",
+        "account": "GIS前沿",
+        "body": "material body recovered: intro paragraphs, PPT page images (lazy-loaded), closing with 资料下载 instruction (发送 0718 获取下载链接)",
+        "stable_source_url": true,
+        "body_not_stored_per_contract": true
+      },
+      "failure_stage": null
+    },
+    {
+      "fixture_id": "F3",
+      "class": "supplied_canonical_url",
+      "input": {
+        "canonical_url": "https://mp.weixin.qq.com/s/RNKDCK2KoyeuMeEs6GUrow",
+        "source": "TASK-002 retained article (reused fixture per contract)"
+      },
+      "discovery_attempts": [],
+      "canonical_url_obtained": true,
+      "canonical_form": "public_slug",
+      "phase_b_verification": {
+        "final_host": "mp.weixin.qq.com",
+        "form_ok": true
+      },
+      "reader_result": {
+        "tool": "web_reader (already-exposed fallback)",
+        "success": true,
+        "title": "阿里又一个 20k+ stars 开源项目诞生，恭喜 fastjson！",
+        "author": "杨立滨",
+        "body": "material body recovered: intro narrative, project history sections, embedded links and images",
+        "stable_source_url": true,
+        "body_not_stored_per_contract": true
+      },
+      "failure_stage": null
+    }
+  ],
+  "verification_set_summary": {
+    "fixtures_total": 3,
+    "discovery_required": 2,
+    "discovery_required_successes": 1,
+    "discovery_required_failures": 1,
+    "supplied_url_successes": 1,
+    "end_to_end_vertical_proven": "F2: title -> discovery -> canonical URL -> verification -> reader; F3: canonical URL -> reader",
+    "honest_failure_retained": "F1 discovery failure with two Phase B candidate rejections"
+  },
+  "test_stage_route": {
+    "wechat.discovery": "Sogou weixin public result page (session-scoped anonymous cookies) -> candidates (title/account/wrapped /link) -> same-session /link resolution -> JS-assembly canonical URL -> Phase B verification; helper scripts/wechat_discovery.py",
+    "wechat.reader": "web_reader fallback on verified canonical URL",
+    "binding_explanation": "Repository-owned no-login helper, NOT a provider binding change: source ownership stays under wechat.discovery; the runtime adapter and declared provider (wechat-article-search) are untouched. The helper uses public result pages only, standard library only, session-scoped anonymous cookies set by Sogou itself during the flow (no imported/login cookies), classifies CAPTCHA without bypassing it, and enforces pacing between resolutions.",
+    "tests": {
+      "file": "tests/test_wechat_discovery.py",
+      "count": 14,
+      "result": "14 passed",
+      "scope": "URL classification/canonical-form rules (wrapped /link never canonical), candidate extraction, link-body classification (captcha / js_assembled / js_replace / unknown), article field extraction, Phase B title material match incl. wrong-article rejection"
+    }
+  },
+  "repository_changes": [
+    "scripts/wechat_discovery.py (new; wechat.discovery ownership)",
+    "tests/test_wechat_discovery.py (new; 14 offline tests)",
+    "references/capability-map.md (test-stage route subsection)",
+    "reports/TASK-20260913-012-WECHAT-MINIMUM-END-TO-END.md (new)",
+    "evidence/TASK-20260913-012-wechat-minimum-receipt.json (new)"
+  ],
+  "validation_environment": {
+    "baseline_test_run_at_head_2c8e88c": "35 tests: 34 passed, 1 failed",
+    "preexisting_failure": {
+      "test": "tests/test_v04_diagnostic_contract.py::V04DiagnosticContractTests::test_machine_diagnostics_requires_explicit_roots_and_explicit_claims",
+      "cause": "wording drift between references/machine-diagnostics.md (now 'do not execute Skill code') and the test assertion ('does not execute Skill code')",
+      "disposition": "pre-existing on HEAD before any TASK-012 change; out of TASK-012 authorization scope; recorded as baseline debt, not fixed here"
+    },
+    "post_change_run": "tests/test_wechat_discovery.py: 14 passed; other suites unchanged by TASK-012"
+  },
+  "notes": [
+    "Signed-query canonical URLs (s?src=11&timestamp=...&signature=...) are session-scoped and may expire; the public_slug form (s/<id>) is the durable public form when obtainable.",
+    "No full article bodies stored, per contract; field summaries only.",
+    "Sogou /link resolution was CAPTCHA-free for F2 in this run, unlike the TASK-002 observation; classification treats CAPTCHA as a stop condition either way."
+  ]
+}

@@ -76,6 +76,29 @@ general web for WeChat discovery
 
 These observations are scoped to the recorded cases. They are not global quality rankings.
 
+## Test-stage route (TASK-20260913-012)
+
+A no-login WeChat discovery/canonicalization bridge was verified end-to-end on one discovery-required fixture and recorded as a **test-stage route**, not a production binding change. Declared provider ownership is unchanged; the adapter is unchanged.
+
+```text
+wechat.discovery (test-stage route)
+  Sogou weixin public result page (session-scoped anonymous cookies)
+    -> candidate title/account + wrapped /link?url= (evidence only, never canonical)
+    -> same-session /link resolution (Referer-bound)
+    -> JS-assembly canonical mp.weixin.qq.com URL
+    -> Phase B verification (host, canonical form, title material match, account)
+  helper: scripts/wechat_discovery.py (standard library only; CAPTCHA classified, never bypassed)
+  tests: tests/test_wechat_discovery.py (offline, no network)
+
+wechat.reader (test-stage route)
+  web_reader fallback on a verified canonical URL
+  (native web search restricted to site:mp.weixin.qq.com is an admissible discovery
+   fallback, but its results are candidates and were observed to require Phase B
+   rejection of wrong-article hits)
+```
+
+Observed boundary within the same run: the Sogou route succeeded for one fixture and failed at discovery for another (exact-title article absent from public indexes), reconfirming `LIMITED_OBSERVED` discoverability for WeChat article discovery as a class.
+
 ## Machine map versus repository map
 
 Keep two artifacts conceptually separate:
