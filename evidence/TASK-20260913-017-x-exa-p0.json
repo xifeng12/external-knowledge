@@ -1,0 +1,110 @@
+{
+  "task_id": "TASK-20260913-017",
+  "generated_at": "2026-09-13",
+  "parent_task": "TASK-20260912-001",
+  "predecessor": "TASK-20260913-016",
+  "assessment_input": "reports/X-PROVIDER-ALTERNATIVES-ASSESSMENT-20260913.md",
+  "branch": "task/20260912-001-v04-capability-diagnostics",
+  "terminal_state": "X_SEARCH_DEFERRED_BY_GOAL_INTEGRITY",
+  "execution_environment": {
+    "host": "existing mainland host used in TASK-013/016",
+    "no_proxy": true,
+    "anonymous_exa_hosted_mcp_only": true,
+    "no_api_key_or_signup": true,
+    "network_or_system_changes": "none",
+    "production_untouched": "mihomo active; gate-d-poller.timer active; /opt/xactions-poc/x-session.json sha256 prefix 598f3b16b0bfd700 unchanged"
+  },
+  "control_read": {
+    "method": "existing XActions getTweets('zcode_ai', 5) through the production surface, read-only, production session consumed in-process only",
+    "posts_returned": 5,
+    "post_ids": ["2098396306750517317", "2095526557670596868", "2095174167788441768", "2092635718766215590", "2090787985721856437"],
+    "note": "control source only, not the search provider"
+  },
+  "frozen_fixtures": [
+    {
+      "fixture": "F1_exact_account_and_phrase",
+      "expected_post_id": "2098396306750517317",
+      "expected_username": "zcode_ai",
+      "expected_canonical_url": "https://x.com/zcode_ai/status/2098396306750517317",
+      "query": "zcode_ai \"WEEKEND BUILD V\" \"300M tokens\" x.com",
+      "distinctive_control_phrases": ["weekend build v", "300m tokens"]
+    },
+    {
+      "fixture": "F2_broader_keyword",
+      "expected_post_id": "2092635718766215590",
+      "expected_username": "zcode_ai",
+      "expected_canonical_url": "https://x.com/zcode_ai/status/2092635718766215590",
+      "query": "ZCode GLM-5.3-Flash multimodal GLM-5 launch x.com",
+      "distinctive_control_phrases": ["natively multimodal", "glm-5.2"]
+    }
+  ],
+  "exa_probe": {
+    "server": "exa-search-server (anonymous hosted MCP, initialize 200)",
+    "search_tool_schema_keys": ["query", "numResults", "objective"],
+    "domain_restriction": "tool schema exposes no includeDomains/domain field; site constraint encoded in the query text",
+    "budget_compliance": "2 fixtures; 10 and 10 results requested, 8 and 10 result blocks inspected; one provider-side fetch per expected target"
+  },
+  "fixture_results": [
+    {
+      "fixture": "F1",
+      "results_inspected": 8,
+      "status_urls_found": 0,
+      "expected_post_id_in_first_10_results": false,
+      "returned_username": null,
+      "material_text_available": false,
+      "provider_fetch": {
+        "attempted": true,
+        "target": "https://x.com/zcode_ai/status/2098396306750517317",
+        "success": false,
+        "error": "SOURCE_NOT_AVAILABLE (Exa-side, 94-char error body)"
+      },
+      "date_metadata_observed": "2026-09-11T14:35:37.000Z (provided by Exa; not invented)",
+      "pass": false,
+      "failure_class": "coverage/indexing: no x.com or twitter.com status URLs among inspected results; canonical status URL not fetchable provider-side"
+    },
+    {
+      "fixture": "F2",
+      "results_inspected": 10,
+      "status_urls_found": 0,
+      "expected_post_id_in_first_10_results": false,
+      "returned_username": null,
+      "material_text_available": false,
+      "provider_fetch": {
+        "attempted": true,
+        "target": "https://x.com/zcode_ai/status/2092635718766215590",
+        "success": false,
+        "error": "SOURCE_NOT_AVAILABLE (Exa-side, 94-char error body)"
+      },
+      "date_metadata_observed": "2026-08-26T00:00:00.000Z (provided by Exa; not invented)",
+      "pass": false,
+      "failure_class": "coverage/indexing: no x.com or twitter.com status URLs among inspected results; canonical status URL not fetchable provider-side"
+    }
+  ],
+  "receipt_evidence_note": "Per the receipt checklist 'Exa result ranks and returned URLs': the decision-relevant fact is that NONE of the 18 inspected result blocks across both fixtures contained a canonical or canonicalizable x.com/twitter.com status URL (status_urls_found = 0 for both). The non-status result URLs (mirrors/aggregators) were not retained because they cannot satisfy any PASS criterion and retaining unrelated result bodies is excluded by the contract.",
+  "probe_correction_disclosure": "The first probe execution sent JSON-RPC tools/call with id:null (treated as a notification, empty responses) - a probe runtime error, not a coverage signal. Corrected to numeric request ids and re-run once; that single corrected run is the qualification evidence.",
+  "overall_outcome": {
+    "f1_pass": false,
+    "f2_pass": false,
+    "two_of_two": false,
+    "selected": "B",
+    "conclusion": "Exa hosted MCP (anonymous, web-indexed) does not surface canonical X status URLs for these fixtures and cannot provider-side fetch the canonical status URLs; x.search remains unresolved",
+    "goal_integrity": "X work is STOPPED here: no SocialData, official X API, TwitterAPI.io, OpenCLI, Android GraphQL, another CLI, or another search provider was evaluated or staged, and no successor X task is created automatically. The Human may reopen X search later if it becomes decision-critical.",
+    "xactions_preserved": "x.account.timeline and x.post.read via the existing vpsmanage/XActions surface remain untouched and preserved (TASK-016 final state)"
+  },
+  "authorization_boundary": {
+    "xactions_repair_reopened": false,
+    "paid_or_keyed_provider_staged": false,
+    "new_credentials": false,
+    "browser_automation": false,
+    "network_changes": false,
+    "production_binding": false,
+    "vpsmanage_or_monitor_changes": false,
+    "pr_merge": false
+  },
+  "cleanup_status": {
+    "host": "probe scripts removed; residue grep = 0",
+    "local": "temp SSH key copy removed; task scratch outside repositories",
+    "production": "unchanged (hashes and services verified after probes)",
+    "classification": "CLEAN_VERIFIED"
+  }
+}
