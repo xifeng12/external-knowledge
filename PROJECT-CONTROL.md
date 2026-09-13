@@ -2,7 +2,7 @@
 
 ```yaml
 project_control_ref: PROJECT-CONTROL.md
-project_control_version: p0-practice-remediation-2026-09-13
+project_control_version: p0-practice-remediation-ready-2026-09-13
 final_outcome: >-
   Evolve external-knowledge into a durable external-information capability layer
   that routes concrete information needs/source semantics to the best available
@@ -11,14 +11,14 @@ final_outcome: >-
 scope_baseline_version: tasks/TASK-20260912-001-SEARCH-CAPABILITY-EVOLUTION.md
 schedule_baseline_version: SCHEDULE_UNBASELINED
 channel_roadmap_state: FROZEN_CURRENT_BASELINE
-agent_operationalization_state: P0_REMEDIATION_IN_PROGRESS
-current_outcome: remediate_three_confirmed_practice_findings_without_expanding_scope
-current_actual_state: P0_REMEDIATION_IN_PROGRESS
+agent_operationalization_state: READY_FOR_P0_REMEDIATION_ACCEPTANCE
+current_outcome: three_confirmed_practice_p0_items_implemented_in_repository_source
+current_actual_state: READY_FOR_P0_REMEDIATION_ACCEPTANCE
 current_work_class: RUNTIME_INTEGRATION_REMEDIATION
 current_blocker: none
 forecast_state: unbaselined
-next_authorized_action: execute TASK-20260913-019 only; stop at READY_FOR_P0_REMEDIATION_ACCEPTANCE
-resume_point: ZCode binding retained at C:\Users\fengxi\.zcode\skills\external-knowledge\ from pinned baseline 450fc67; TASK-019 repository remediation is active and must not re-bind the installed copy
+next_authorized_action: Human/Coordinator reviews TASK-019 implementation/report; no ZCode re-bind, PR merge, or further remediation is authorized yet
+resume_point: TASK-019 implementation report pushed at 7321c5605886a8ff61e2f3ef2f169bffe445d5a9 on task/20260913-019-p0-practice-remediation; ZCode installed copy remains pinned to 450fc67 until a later deployment decision
 ```
 
 ## Freeze decision — 2026-09-13
@@ -88,7 +88,7 @@ Not promoted from this single practice observation:
 - restructuring/shortening `SKILL.md` solely because of its size when no routing failure has been attributed to that density;
 - installing/fixing missing providers merely to improve diagnostic completeness.
 
-## Active remediation authority — TASK-019
+## TASK-019 — P0 remediation result
 
 The Human selected remediation path A on 2026-09-13.
 
@@ -96,21 +96,34 @@ The Human selected remediation path A on 2026-09-13.
 task: tasks/TASK-20260913-019-P0-PRACTICE-REMEDIATION.md
 branch: task/20260913-019-p0-practice-remediation
 baseline: be597313bc35eedb6b0be37f5b5d11f0535586e1
-required report: reports/TASK-20260913-019-P0-PRACTICE-REMEDIATION.md
+implementation report: reports/TASK-20260913-019-P0-PRACTICE-REMEDIATION.md
+report commit: 7321c5605886a8ff61e2f3ef2f169bffe445d5a9
 terminal state: READY_FOR_P0_REMEDIATION_ACCEPTANCE
 ```
 
-TASK-019 is limited to:
+Implemented scope:
 
 ```text
 P0-1 ZCode WeChat local-script exposure/path modeling
+  -> official ZCode + previously observed shared Codex candidate paths
+  -> same independent local_script exposure class
+  -> static presence still does not establish AVAILABLE
+
 P0-2 normative references/agent-inventory.md
-P0-3 deterministic read-only scripts/inventory_scaffold.py + focused tests
+  -> provider-scoped schema/status/absence-authority semantics
+  -> linked from machine diagnostics
+
+P0-3 deterministic read-only scripts/inventory_scaffold.py
+  -> UNKNOWN/non-authoritative defaults
+  -> declared legal classes exposed only as guidance
+  -> focused tests added
 ```
 
-The confirmed `web_reader` representation gap, Doctor CLI ergonomics, Doctor UNKNOWN hint, semantic-profile growth, SKILL.md restructuring, provider repair, and channel expansion remain outside this task.
+Focused validation recorded in the report: 8/8 new focused tests passed in the available isolated validation harness; new Python files compile and adapter JSON parses. The execution sandbox could not obtain a full GitHub checkout and the repository has no CI workflow, so the full pre-existing suite was not represented as executed.
 
-No deployment/re-binding of the installed ZCode copy is authorized in TASK-019. Repository source is remediated first; acceptance and any later deployment decision remain separate.
+The confirmed `web_reader` representation gap, Doctor CLI ergonomics, Doctor UNKNOWN hint, semantic-profile growth, SKILL.md restructuring, provider repair, and channel expansion remain outside TASK-019.
+
+No deployment/re-binding of the installed ZCode copy occurred in TASK-019. Repository source and installed Skill therefore intentionally differ until a later deployment decision.
 
 ## Accepted state to preserve
 
@@ -160,26 +173,14 @@ These entries are not a backlog and create no obligation to implement every chan
 
 The channel roadmap remains frozen.
 
-While TASK-019 is active:
+Current stop state:
 
 ```text
-confirmed practice defect/usability evidence
--> implement only the three authorized P0 items
--> run the affected diagnostic/scaffold tests
--> write durable implementation report
--> synchronize project/Issue status
--> STOP at READY_FOR_P0_REMEDIATION_ACCEPTANCE
+READY_FOR_P0_REMEDIATION_ACCEPTANCE
 ```
 
-After TASK-019 acceptance, any ZCode re-binding/deployment is a separate authorization. Do not modify `~/.zcode/skills/external-knowledge` from this repository remediation task.
+The next Human/Coordinator action is review/acceptance of TASK-019 only. Do not deploy/re-bind the ZCode Skill, merge a PR/main, or begin the deferred P1 findings merely because implementation is complete.
 
-A later evidence-complete behavioral pilot remains separately gated:
+If TASK-019 is accepted, deployment/re-binding of the updated repository source into `~/.zcode/skills/external-knowledge` is a separate explicit action. A later evidence-complete behavioral pilot also remains separately gated.
 
-```text
-predefine one neutral real task + observable evidence + PASS/FAIL/INCONCLUSIVE
--> run once in a fresh ZCode session
--> persist the compact durable receipt
--> stop
-```
-
-Future channel expansion remains separately gated and is not implied by either remediation or behavioral validation.
+Future channel expansion remains separately gated and is not implied by remediation, deployment, or behavioral validation.
