@@ -9,6 +9,7 @@
     "This adapter does not claim Firecrawl provider AVAILABLE from firecrawl.CMD presence.",
     "Beta provisioning recipes are intentionally absent until a provider has a reviewed target-runtime installation/configuration contract.",
     "wechat-article-search exposure was re-verified in a real ZCode case: the Skill directory is a carrier, while scripts/search_wechat.js is the independent local_script execution surface.",
+    "wechat-article-search local_script candidate paths cover the official ZCode user Skill root and the previously observed shared Codex Skill root; both are candidate carriers for the same independent local_script exposure class. Presence blocks missing confirmation but does not prove provider AVAILABLE.",
     "weixin.sogou.com, Node.js, and bundled node_modules are runtime dependencies/backend, not independent Agent exposure classes.",
     "Discoverability is modeled per Provider × Source Semantic and is not an Operational Status or Semantic Coverage value."
   ],
@@ -95,14 +96,21 @@
           "id": "wechat-article-search",
           "label": "WeChat article discovery local-script provider",
           "coverage_grade": "EQUIVALENT",
-          "binding_scope": "the local provider package at ~/.codex/skills/wechat-article-search",
+          "binding_scope": "candidate local provider packages under the official ZCode user Skill root or the previously observed shared Codex Skill root",
           "exposure_contract": {
             "legal_classes": [
               "local_script"
             ],
-            "scope": "direct Bash invocation of ~/.codex/skills/wechat-article-search/scripts/search_wechat.js"
+            "scope": "direct Bash invocation of scripts/search_wechat.js from either declared candidate Skill root"
           },
           "checks": [
+            {
+              "type": "path",
+              "value": "~/.zcode/skills/wechat-article-search/scripts/search_wechat.js",
+              "exposure_class": "local_script",
+              "carrier_class": "skill_registry",
+              "absence_authoritative": true
+            },
             {
               "type": "path",
               "value": "~/.codex/skills/wechat-article-search/scripts/search_wechat.js",
