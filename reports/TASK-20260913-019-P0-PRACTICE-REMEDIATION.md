@@ -3,6 +3,7 @@ task_id: TASK-20260913-019
 date: 2026-09-13
 baseline_sha: be597313bc35eedb6b0be37f5b5d11f0535586e1
 implementation_head_before_report: 39f674ce4502dd89dc943e9d69297a334cf04966
+terminal_project_control_head: 1cc595f31bbf464dd5015736ecf3978c46bc72b2
 terminal_state: READY_FOR_P0_REMEDIATION_ACCEPTANCE
 channel_roadmap_state: FROZEN_CURRENT_BASELINE
 zcode_runtime_rebound: false
@@ -21,6 +22,7 @@ task: tasks/TASK-20260913-019-P0-PRACTICE-REMEDIATION.md
 branch: task/20260913-019-p0-practice-remediation
 baseline: be597313bc35eedb6b0be37f5b5d11f0535586e1
 implementation head before this report: 39f674ce4502dd89dc943e9d69297a334cf04966
+terminal project-control head before this report amendment: 1cc595f31bbf464dd5015736ecf3978c46bc72b2
 issue: #6
 ```
 
@@ -166,3 +168,5 @@ READY_FOR_P0_REMEDIATION_ACCEPTANCE
 ```
 
 The next decision is repository acceptance. If accepted, deployment/re-binding of the updated repository source into the ZCode user Skill root requires a separate explicit authorization/action; TASK-019 itself does not modify the installed copy.
+
+The final task-branch head after this report amendment is recorded on Issue #6, which is the derived terminal status pointer; the report deliberately records the implementation and project-control heads that were actually reviewed rather than attempting a self-referential commit SHA.
