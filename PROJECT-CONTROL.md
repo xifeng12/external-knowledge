@@ -2,7 +2,7 @@
 
 ```yaml
 project_control_ref: PROJECT-CONTROL.md
-project_control_version: agent-runtime-pilot-acceptance-2026-09-13
+project_control_version: p0-practice-remediation-2026-09-13
 final_outcome: >-
   Evolve external-knowledge into a durable external-information capability layer
   that routes concrete information needs/source semantics to the best available
@@ -11,84 +11,67 @@ final_outcome: >-
 scope_baseline_version: tasks/TASK-20260912-001-SEARCH-CAPABILITY-EVOLUTION.md
 schedule_baseline_version: SCHEDULE_UNBASELINED
 channel_roadmap_state: FROZEN_CURRENT_BASELINE
-agent_operationalization_state: READY_FOR_PRACTICE_FINDINGS_DECISION
-current_outcome: zcode_binding_retained_task018_accepted_with_authority_deviation
-current_actual_state: READY_FOR_PRACTICE_FINDINGS_DECISION
-current_work_class: RUNTIME_INTEGRATION_PILOT
+agent_operationalization_state: P0_REMEDIATION_IN_PROGRESS
+current_outcome: remediate_three_confirmed_practice_findings_without_expanding_scope
+current_actual_state: P0_REMEDIATION_IN_PROGRESS
+current_work_class: RUNTIME_INTEGRATION_REMEDIATION
 current_blocker: none
 forecast_state: unbaselined
-next_authorized_action: Human decides whether to authorize one bounded remediation task for confirmed practice defects or to run one evidence-complete neutral behavior pilot; neither is authorized yet
-resume_point: ZCode binding retained at C:\Users\fengxi\.zcode\skills\external-knowledge\ from pinned baseline 450fc67; TASK-018 accepted with authority deviation at d8bebf5; formal BEHAVIOR_PASS not established because no durable independent behavior receipt/tool trace was returned to GitHub
+next_authorized_action: execute TASK-20260913-019 only; stop at READY_FOR_P0_REMEDIATION_ACCEPTANCE
+resume_point: ZCode binding remains at C:\Users\fengxi\.zcode\skills\external-knowledge\ from pinned baseline 450fc67; repository remediation proceeds on task/20260913-019-p0-practice-remediation and must not re-bind during implementation
 ```
 
-## Freeze decision — 2026-09-13
+## Channel freeze remains authoritative
 
-The Human explicitly stopped further channel expansion for the current roadmap slice.
+The Human stopped further channel expansion for the current roadmap slice. Preserve all accepted evidence and current capability decisions. Do not start Bilibili, V2EX, Weibo, Zhihu, Xiaohongshu, Xueqiu, Xiaoyuzhou, Douyin, RSS/Atom, Reddit, YouTube, LinkedIn, Facebook, Instagram, or another new vertical from this remediation.
 
-Freeze semantics:
+Future channels remain options, not a backlog. X search remains closed unless a future decision-critical Human need explicitly reopens it.
 
-- preserve all accepted evidence and decisions already recorded in this repository;
-- do not start Bilibili, V2EX, Weibo, Zhihu, Xiaohongshu, Xueqiu, Xiaoyuzhou, Douyin, RSS/Atom, or other new channel implementation merely because it appears in an assessment;
-- do not reopen X search work;
-- do not provision, bind, install, configure, promote, or merge merely to increase nominal channel coverage;
-- keep the remaining channel assessments as future expansion options, not an active backlog;
-- a future channel expansion begins only from a new explicit Human decision and one bounded source-semantic task.
+## Agent operationalization baseline
 
-This freeze changes channel-roadmap activity, not the validity of accepted evidence.
-
-## Agent operationalization — current state
-
-The Human separately authorized putting the **existing frozen capability baseline** into real ZCode Agent practice. This remains orthogonal to channel expansion.
-
-TASK-018 authority:
-
-```text
-tasks/TASK-20260913-018-AGENT-RUNTIME-PILOT.md
-branch: task/20260913-018-agent-runtime-pilot
-pinned frozen capability baseline: 450fc67351bad8d38e99234a1b3276b127d663c2
-accepted result head: d8bebf5a61f15991f0025382f408a3a0c3ed8207
-```
-
-TASK-018 was authored as read-only with respect to the Agent runtime and required STOP before binding. During execution, after ZCode was clarified as the intended target, the Human directly instructed the executor to bind the Skill. The pinned baseline was ultimately installed at the official ZCode user root:
+TASK-018 established the current ZCode binding:
 
 ```text
 C:\Users\fengxi\.zcode\skills\external-knowledge\
+source baseline: 450fc67351bad8d38e99234a1b3276b127d663c2
+TASK-018 accepted result: d8bebf5a61f15991f0025382f408a3a0c3ed8207
+acceptance: ACCEPTED_WITH_AUTHORITY_DEVIATION
+formal behavior status: BEHAVIOR_INCONCLUSIVE
 ```
 
-The first `.agents\skills` target was superseded after a fresh-session non-discovery observation. No Codex binding was retained.
+The binding is retained as intentional current runtime state. Do not repeat TASK-018 discovery/binding work for reassurance.
 
-Acceptance classification recorded on Issue #5:
+## Confirmed practice findings
+
+Repository review after the first real ZCode practice run confirmed:
+
+1. **ZCode adapter path coupling** — `wechat.discovery/wechat-article-search` uses only a Codex-root deterministic local-script path even though the current official ZCode user Skill root is `~/.zcode/skills`; the adapter must represent the actually evidenced candidate locations without turning static presence into `AVAILABLE`.
+2. **Agent runtime inventory documentation gap** — `references/machine-diagnostics.md` exposes `--agent-inventory` but the schema/status/absence-authority semantics live mainly in `scripts/doctor.py` and `tests/fixtures/agent-inventory.example.json`.
+3. **Inventory scaffold opportunity** — no deterministic read-only scaffold exists; operators currently construct provider-scoped runtime inventory JSON from fixtures/source.
+4. `web_reader` representation gap, Doctor adapter-id ergonomics, and Doctor UNKNOWN guidance are real but remain outside TASK-019.
+5. Expanding `source_semantic_profiles`, shortening `SKILL.md`, or installing/fixing missing providers is not justified by the current evidence and remains frozen.
+
+## Active remediation authority
+
+Human authorization on 2026-09-13 selected remediation path A.
 
 ```text
-TASK-018 outcome: ACCEPTED_WITH_AUTHORITY_DEVIATION
-binding result: retained as intentional current runtime state
-strict task-contract compliance: NOT PASSED
-channel roadmap: FROZEN_CURRENT_BASELINE
-formal behavioral acceptance: BEHAVIOR_INCONCLUSIVE
+task: tasks/TASK-20260913-019-P0-PRACTICE-REMEDIATION.md
+branch: task/20260913-019-p0-practice-remediation
+baseline: be597313bc35eedb6b0be37f5b5d11f0535586e1
+required report: reports/TASK-20260913-019-P0-PRACTICE-REMEDIATION.md
+terminal state: READY_FOR_P0_REMEDIATION_ACCEPTANCE
 ```
 
-Reason for the deviation classification: the Human's runtime instruction made the ZCode binding intentional, but the durable task authority was not updated before executing a mutation that the task explicitly prohibited. Future mid-run supersession should update durable authority before the newly authorized mutation when that path is available.
+TASK-019 is limited to:
 
-The Human subsequently reported a successful fresh-session Skill discovery, a neutral real information task, and additional Doctor work. These observations are useful practice evidence and exposed concrete usability/adapter issues. They are not promoted to formal `BEHAVIOR_PASS` because no independently reviewable durable behavior receipt/tool trace was committed or attached to the Issue.
+```text
+P0-1 ZCode WeChat local-script exposure/path modeling
+P0-2 normative references/agent-inventory.md
+P0-3 deterministic read-only scripts/inventory_scaffold.py + focused tests
+```
 
-## Confirmed practice findings — decision surface only
-
-Repository review after the practice run confirms:
-
-1. **ZCode adapter path coupling** — `wechat.discovery/wechat-article-search` uses a Codex-specific `~/.codex/skills/.../search_wechat.js` local-script check inside the ZCode adapter. Without explicit runtime inventory overriding the local check, an equivalent ZCode-root installation cannot be discovered by that deterministic check and may be misclassified.
-2. **Agent runtime inventory documentation gap** — `references/machine-diagnostics.md` shows `--agent-inventory` usage but does not document the inventory schema/status vocabulary/absence-authority fields. The actual semantics are distributed across `scripts/doctor.py` and `tests/fixtures/agent-inventory.example.json`.
-3. **Inventory scaffold opportunity** — no scaffold/generator exists; operators currently construct runtime inventory JSON from the fixture/source. This is a usability improvement justified by observed operator cost, not a correctness defect by itself.
-4. **`web_reader` representation gap** — `references/capability-map.md` records `web_reader` as a test-stage verified-URL fallback, while the ZCode adapter has no corresponding provider binding. Adding a binding requires provider/exposure evidence; the documentation/adapter mismatch is real, but promotion is not automatic.
-5. **Doctor CLI ergonomics** — `--adapter` accepts a file path only and generic file-not-found handling gives no adapter discovery hint; no `--list-adapters`/id resolver exists.
-6. **Doctor escalation hint** — the human-readable Doctor output does not suggest `--agent-inventory` when UNKNOWNs remain.
-
-Not promoted from this single practice observation:
-
-- expanding `source_semantic_profiles` merely because one general-web retrieval succeeded or one fallback was observed;
-- restructuring/shortening `SKILL.md` solely because of its size when no routing failure has been attributed to that density;
-- installing/fixing missing providers merely to improve diagnostic completeness.
-
-No remediation task is authorized by this record.
+No deployment/re-binding of the installed ZCode copy is authorized in TASK-019. Repository source first, acceptance second, deployment decision later.
 
 ## Accepted state to preserve
 
@@ -101,59 +84,30 @@ No remediation task is authorized by this record.
 - WeChat minimum vertical remains accepted at test stage under its recorded evidence boundary.
 - Mainland no-proxy remote retrieval remains demonstrated through the retained anonymous Exa hosted MCP evidence.
 
-## X workstream — closed for this roadmap slice
-
-Accepted terminal state:
+## X workstream — closed
 
 ```text
 TASK-016 -> X_PROVIDER_ALTERNATIVE_REQUIRED
 TASK-017 -> X_SEARCH_DEFERRED_BY_GOAL_INTEGRITY (0/2 Exa fixtures)
-```
 
-Preserve:
-
-```text
 x.account.timeline -> existing vpsmanage / XActions
 x.post.read        -> existing vpsmanage / XActions
 x.search           -> unresolved; deferred by Goal Integrity
 ```
 
-Do not reopen XActions search/session/query-ID work or begin another X provider comparison unless a future decision-critical Human need explicitly reopens X.
-
-## Frozen expansion surface
-
-Reference assessment: `reports/CHINA-DOMESTIC-CHANNELS-ASSESSMENT-20260913.md`.
-
-The previously evaluated candidates remain future expansion options only:
-
-```text
-Domestic: Bilibili, V2EX, Weibo, Zhihu, Xiaohongshu, Xueqiu, Xiaoyuzhou, Douyin
-Cross-cutting/later: RSS/Atom
-Deferred international: Reddit, YouTube, LinkedIn, Facebook, Instagram
-```
-
-These entries are not a backlog and create no obligation to implement every channel.
+Do not replay TASK-013 through TASK-017 or reopen XActions search/session/query-ID work without a future decision-critical Human need.
 
 ## Resume rule
 
-The channel roadmap remains frozen.
-
-For Agent operationalization, resume from the accepted ZCode binding and this practice-findings decision state. Do not re-run TASK-018 discovery/binding work for reassurance.
-
-The next Human decision may authorize **one** of these bounded paths:
+While TASK-019 is active:
 
 ```text
-A. remediate only confirmed practice defects that materially improve correctness/usability
-   -> create one bounded remediation task
-   -> update repository source
-   -> re-bind from the accepted source through the normal deployment path
-   -> validate affected behavior only
-
-B. continue behavioral validation without code changes
-   -> predefine one neutral real task + observable evidence + PASS/FAIL/INCONCLUSIVE
-   -> run once in a fresh ZCode session
-   -> persist the compact durable receipt
-   -> stop
+confirmed practice defect/usability evidence
+-> implement only the three authorized P0 items
+-> run the affected diagnostic/scaffold tests
+-> write durable implementation report
+-> synchronize project/Issue status
+-> STOP at READY_FOR_P0_REMEDIATION_ACCEPTANCE
 ```
 
-Do not do both merely for completeness. Choose based on which unresolved question matters next.
+After acceptance, any ZCode re-binding/deployment is a separate authorization. Do not modify `~/.zcode/skills/external-knowledge` from this repository remediation task.
