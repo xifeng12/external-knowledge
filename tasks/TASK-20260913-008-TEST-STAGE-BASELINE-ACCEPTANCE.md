@@ -115,6 +115,10 @@ A future production-grade claim should cite sufficient REAL_REPLAY / REAL_WORKLO
 
 TASK-006 correctly established that no suitable real ordinary-URL case existed in the retained workload at that time. That remains factual evidence, but it is not a prerequisite for continued benchmark/Arena work.
 
+## Current durable report state
+
+`reports/TASK-20260913-007-COMPLEX-WEB-BENCHMARK.md` has been reviewed and updated to reflect this Human decision. Raw contestant/adjudication receipts remain unchanged.
+
 ## Next state
 
 The Arena test track may continue immediately:
