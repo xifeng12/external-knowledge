@@ -1,6 +1,6 @@
 ---
 task_id: TASK-20260913-009
-status: ready_for_controlled_benchmark_execution
+status: ready_for_arena_review
 parent_task: TASK-20260912-001
 target_repo: xifeng12/external-knowledge
 implementation_branch: task/20260912-001-v04-capability-diagnostics
