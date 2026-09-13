@@ -18,7 +18,7 @@ current_work_class: RUNTIME_INTEGRATION_REMEDIATION
 current_blocker: none
 forecast_state: unbaselined
 next_authorized_action: Human/Coordinator reviews TASK-019 implementation/report; no ZCode re-bind, PR merge, or further remediation is authorized yet
-resume_point: TASK-019 implementation report pushed at 7321c5605886a8ff61e2f3ef2f169bffe445d5a9 on task/20260913-019-p0-practice-remediation; ZCode installed copy remains pinned to 450fc67 until a later deployment decision
+resume_point: TASK-019 latest implementation report amendment is 22a1c1a0b73475e262355a0c4d5b83722343b7a6 on task/20260913-019-p0-practice-remediation; this file is the current status authority and Issue #6 records the current branch head; ZCode installed copy remains pinned to 450fc67 until a later deployment decision
 ```
 
 ## Freeze decision — 2026-09-13
@@ -97,7 +97,7 @@ task: tasks/TASK-20260913-019-P0-PRACTICE-REMEDIATION.md
 branch: task/20260913-019-p0-practice-remediation
 baseline: be597313bc35eedb6b0be37f5b5d11f0535586e1
 implementation report: reports/TASK-20260913-019-P0-PRACTICE-REMEDIATION.md
-report commit: 7321c5605886a8ff61e2f3ef2f169bffe445d5a9
+latest report amendment: 22a1c1a0b73475e262355a0c4d5b83722343b7a6
 terminal state: READY_FOR_P0_REMEDIATION_ACCEPTANCE
 ```
 
