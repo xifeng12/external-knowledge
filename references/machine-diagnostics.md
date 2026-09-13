@@ -124,6 +124,8 @@ python scripts/doctor.py \
 
 The exact runtime inventory input remains runtime-specific; do not fabricate it when that execution surface is unavailable.
 
+For the provider-scoped inventory schema, status vocabulary, absence-authority rules, field semantics, and scaffold workflow, read `references/agent-inventory.md` before constructing or interpreting `--agent-inventory` input.
+
 ## Machine Capability Receipt
 
 After both reports exist, merge them without changing either source:
