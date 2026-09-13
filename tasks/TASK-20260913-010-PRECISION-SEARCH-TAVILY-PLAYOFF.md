@@ -1,6 +1,6 @@
 ---
 task_id: TASK-20260913-010
-status: ready_for_controlled_benchmark_execution
+status: ready_for_precision_playoff_redesign
 parent_task: TASK-20260912-001
 reviewed_predecessor: TASK-20260913-009
 target_repo: xifeng12/external-knowledge

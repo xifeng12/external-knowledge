@@ -1,0 +1,31 @@
+{
+  "receipt_type": "contestant/defender (precision-search candidate slot)",
+  "match_id": "TASK-20260913-010-precision-playoff-b001",
+  "provider": "exa (hosted MCP, anonymous)",
+  "execution_surface": "remote hosted MCP https://mcp.exa.ai/mcp, anonymous (no credentials), exa-search-server v3.2.1, tool web_search_exa numResults=5; transport-only client script in match cell (torn down; snapshot at driver-snapshot.py)",
+  "capability": "precision.search",
+  "evidence_class": "CONTROLLED_BENCHMARK",
+  "production_routing_authority": false,
+  "match_mode": "HEAD_TO_HEAD (controlled playoff, candidate slot only; native search does not participate)",
+  "attempt_accounting": "1 primary call per fixture; all 9 succeeded at tool and measurement level on attempt 1; no retries consumed",
+  "runs": {
+    "E1 \"X-Tavily-Access-Mode\"": {"latency_ms": 1373, "top5": ["https://docs.tavily.com/documentation/keyless", "https://api.tavily.com/search", "https://api.tavily.com/extract", "https://www.tavily.com", "https://mcp.tavily.com/mcp/"], "strict_target_hit": true, "strict_rank": 1, "note": "frozen strict targets for E1: (a) docs.tavily.com/documentation/keyless - preflighted to contain the exact header x12, (b) tavily-ai/tavily-mcp/src/index.ts. The challenger returned target (a) at rank 1 -> strict hit"},
+    "E2 \"BRAVE_API_KEY_FILE\" brave search mcp": {"latency_ms": 1394, "top5": ["https://github.com/brave/brave-search-mcp-server/blob/main/README.md", "https://docs.docker.com/compose/how-tos/use-secrets/", "https://github.com/brave/brave-search-mcp-server", "https://docs.docker.com/compose/how-tos/use-secrets/ (dup)", "https://www.npmjs.com/package/@brave/brave-search-mcp-server"], "strict_target_hit": true, "strict_rank": 1, "note": "frozen strict target README.md (contains identifier x5 per preflight) returned at rank 1"},
+    "E3 \"scan_full_page\" Crawl4AI": {"latency_ms": 972, "top5": ["https://docs.crawl4ai.com/api/parameters/", "https://docs.crawl4ai.com/advanced/lazy-loading/", "https://docs.crawl4ai.com/core/browser-crawler-config/", "https://docs.crawl4ai.com/blog/releases/0.4.1/", "https://example.com"], "strict_target_hit": true, "strict_rank": 1, "note": "frozen strict target docs.crawl4ai.com/api/parameters/ (contains identifier x4 per preflight) at rank 1"},
+    "S1 semantic paraphrase (Exa family)": {"latency_ms": 1481, "top5": ["https://docs.parallel.ai/integrations/mcp/search-mcp", "https://search.parallel.ai/mcp", "https://search.parallel.ai/mcp-oauth x2", "https://search.parallel.ai/mcp (dup)"], "family_hit": false, "note": "repeated TASK-009 S1/S2 failure mode: wrong vendor family (Parallel.ai)"},
+    "S2 semantic paraphrase (Tavily keyless family)": {"latency_ms": 1912, "top5": ["https://github.com/parallel-web/search-mcp", "https://docs.parallel.ai/integrations/mcp/search-mcp", "https://search.parallel.ai/mcp x3"], "family_hit": false, "note": "same wrong-vendor failure; Exa did not surface its own keyless docs or Tavily's"},
+    "S3 semantic paraphrase (Crawl4AI family)": {"latency_ms": 2180, "top5": ["https://github.com/unclecode/CRAWL4AI", "https://github.com/BogdanVasaiu/crawlDNA", "https://docs.crawl4ai.com/advanced/lazy-loading/", "https://pypi.org/project/lazy-crawler/", "https://dynamic-site.com"], "family_hit": true, "family_rank": 3, "note": "official repo at #1 (borderline family: repo root does not itself document the option) and official lazy-loading docs at #3 (describes progressive-load behavior)"},
+    "M1 Brave multi-constraint": {"latency_ms": 1131, "top5": ["https://github.com/brave/brave-search-mcp-server/", "https://api-dashboard.search.brave.com/app/keys x2", "https://docs.docker.com/compose/how-tos/use-secrets/", "https://www.npmjs.com/package/@brave/brave-search-mcp-server"], "family_hit": true, "family_rank": 1},
+    "M2 Exa multi-constraint": {"latency_ms": 1403, "top5": ["https://exa.ai/mcp", "https://mcp.exa.ai/mcp x3", "https://exa.ai/docs/reference/exa-mcp"], "family_hit": true, "family_rank": 1},
+    "M3 GitHub MCP multi-constraint": {"latency_ms": 2583, "top5": ["https://github.com/github/github-mcp-server/blob/main/docs/remote-server.md", "https://api.githubcopilot.com/mcp/", "https://insiders.vscode.dev/redirect/mcp/install (readonly endpoint x2)", "https://api.githubcopilot.com/mcp/readonly"], "family_hit": true, "family_rank": 1, "note": "remote-server.md + hosted endpoint + readonly toolset endpoints satisfy remote/read-only/toolset constraints"}
+  },
+  "class_scorecard": {
+    "E_exact": "strict hits: E1 rank1 (frozen keyless-docs target), E2 rank1 (frozen README target), E3 rank1 (frozen parameters-docs target) -> 3/3 strict hits, all at rank 1",
+    "S_semantic": "family hits: S3 rank3 only; S1/S2 wrong-vendor misses -> 1/3 weak",
+    "M_multi_constraint": "family hits: M1/M2/M3 all rank 1 with constraint-satisfying surfaces -> 3/3"
+  },
+  "errors_retries": "none; no rate-limit responses on the Exa surface",
+  "latency": "0.97-2.58s per call; handshake 2.75s",
+  "authorization_boundary": "anonymous hosted MCP only; search tool only; no fetch/extract; same raw queries as challenger; 2s pacing",
+  "environment_mutation_evidence": "none persistent; transport script torn down"
+}
