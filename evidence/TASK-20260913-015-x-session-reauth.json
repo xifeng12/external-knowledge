@@ -1,0 +1,102 @@
+{
+  "task_id": "TASK-20260913-015",
+  "generated_at": "2026-09-13",
+  "parent_task": "TASK-20260912-001",
+  "predecessor": "TASK-20260913-014",
+  "branch": "task/20260912-001-v04-capability-diagnostics",
+  "terminal_state": "X_PROVIDER_ALTERNATIVE_REQUIRED",
+  "phase_0_preflight": {
+    "task_authority": "tasks/TASK-20260913-015-X-SESSION-REAUTH-DISCRIMINATION.md @ blob 8fdb5744 (commit 17714fb 'Add TASK-015 X session reauth discrimination authority')",
+    "production_health": {
+      "mihomo": "active, listening loopback-only 127.0.0.1:7890",
+      "gate_d_poller_timer": "active",
+      "production_session_file": "/opt/xactions-poc/x-session.json mode 600 root, 260 bytes, mtime 2026-09-06 12:20:04 +0800",
+      "production_session_sha256": "598f3b16b0bfd700e890f6c5fcc7e28c956249afeea830e75d069aeb26eaf7f6 (verified unchanged after the task)"
+    },
+    "local_workstation_feasibility": {
+      "node": "v24.13.1, npm 11.8.0",
+      "chrome": "present",
+      "local_mihomo_7890": "NOT running",
+      "x_com_direct": "transport timeout",
+      "conclusion": "preferred local `xactions connect` capture could not reach X through the existing environment; per contract no network changes were made"
+    }
+  },
+  "phase_1_capture": {
+    "capture_method": "manual Human-supplied cookie file (allowed alternative path); Human selected this path when asked",
+    "source_file": "E:\\cs\\external-knoedge-skill\\cookie.txt (Human-provided browser cookie export, JSON array of 8 cookies)",
+    "processing": "parsed locally in the task scratch dir; ONLY the two required cookies (auth_token, ct0) were extracted into a normalized two-cookie session file; values never printed, logged, or recorded",
+    "fresh_session_captured": true,
+    "both_required_cookies_present": true,
+    "auth_token_length_chars": 40,
+    "ct0_length_chars": 160,
+    "captured_during_task": true,
+    "copied_from_production_session": false,
+    "server_staging": "/tmp/fresh-session-t15.json mode 600 root (deleted at cleanup)",
+    "local_acl": "restricted to the current user via icacls (original key/cookie files in E:\\cs\\key untouched)",
+    "session_verified": "see S0"
+  },
+  "phase_2_discrimination": {
+    "runtime": "isolated /tmp/xreauth-t15/xactions @ upstream SHA f2fb3ed2d052838578e68a224eccc2cbaebcb7ca; XACTIONS_HOME redirected to task-owned cache; existing Mihomo path unchanged; production read-only",
+    "dynamic_query_id_provenance": {
+      "live_discovery": "148 operations from x.com/home bundle (11/11 chunks, 0 failures)",
+      "SearchTimeline_id": "KPSo2_UWdOMpPJwjhfT1Qg (discovered/cache/live-resolution; no hand-pinned ID)",
+      "note": "same fresh ID as TASK-014's discovery run"
+    },
+    "probes": {
+      "S0_identity_check": {
+        "strict_runtime_check": "scraper.me() -> FAILED with 'Cannot determine authenticated user ID' for BOTH the fresh session AND the old production session (control) — the identity lookup itself behaves as part of the failing class, so it cannot discriminate session quality",
+        "acceptance_evidence": "S4 passed on the documented login-required endpoint (vpsmanage Gate C: guest sessions cannot pull UserTweets timelines) — X accepts the fresh session cookies as authenticated to the same tier as the old session",
+        "session_verified_strict": false,
+        "session_verified_control_adjusted": "equivalent to the historically validated old session"
+      },
+      "S1_search_from_zcode_ai": { "result": "FAIL", "error_class": "authorization_shaped", "detail": "bare HTTP 404" },
+      "S2_search_ZCode": { "result": "FAIL", "error_class": "authorization_shaped", "detail": "bare HTTP 404" },
+      "S3_followers_differential": { "result": "FAIL", "error_class": "authorization_shaped", "detail": "bare HTTP 404" },
+      "S4_timeline_control": {
+        "result": "PASS",
+        "n": 5,
+        "numeric_post_ids": ["2098396306750517317", "2095526557670596868", "2095174167788441768", "2092635718766215590", "2090787985721856437"]
+      },
+      "S5_canonical_read": {
+        "result": "PASS",
+        "source": "timeline_control (search produced no IDs)",
+        "requested_id": "2098396306750517317",
+        "id_match": true,
+        "username": "zcode_ai",
+        "canonical_url": "https://x.com/zcode_ai/status/2098396306750517317",
+        "text_length": 297
+      }
+    },
+    "retry_discipline": "one primary call per probe; the only retries were the S0 probe-implementation fix (probe runtime failure, permitted) and the me() control on the old session for interpretation; no authorization-shaped error was retried; no second session was captured",
+    "fresh_vs_old_signature": "identical on every probe (timeline PASS; search/followers bare 404; me() indeterminate) — the fresh session reproduces the class failure exactly"
+  },
+  "outcome": {
+    "selected": "B",
+    "conclusion": "fresh session did not restore the full-session endpoint class under this account/provider/runtime envelope",
+    "root_cause_speculation": "none (per contract); the only recorded fact is that cookie freshness/pairing does not change the outcome, narrowing the remaining hypotheses to account state or an X-side authentication-policy change for this envelope",
+    "xactions_search_hardening": "STOPPED in this project per contract",
+    "x_semantic_availability_claimed": false
+  },
+  "authorization_boundary": {
+    "automatic_browser_cookie_db_read": false,
+    "login_on_behalf_of_human": false,
+    "production_session_replaced": false,
+    "service_restarts": false,
+    "network_changes": false,
+    "new_account": false,
+    "provider_alternative_staged": false,
+    "capability_map_x_semantic_claim": false
+  },
+  "secret_handling": {
+    "cookie_values_printed_or_committed": false,
+    "account_identity_recorded": false,
+    "secret_files_deleted": ["host /tmp/fresh-session-t15.json", "local task-scratch fresh-session.json", "Human-provided E:\\cs\\external-knoedge-skill\\cookie.txt (source file, deleted with the Human's task-consent implied by the contract's cleanup rule; contents were only ever parsed in-process)"],
+    "production_session_untouched": true
+  },
+  "cleanup_status": {
+    "host": "fresh-session file, probe scripts, and isolated runtime (clone + cache) removed; residue grep = 0",
+    "local": "normalized fresh-session file deleted; temp SSH key copies deleted",
+    "production_proof": "x-session.json sha256 598f3b16... unchanged; mihomo active; gate-d-poller.timer active",
+    "classification": "CLEAN_VERIFIED"
+  }
+}
