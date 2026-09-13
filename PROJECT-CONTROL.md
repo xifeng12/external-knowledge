@@ -2,7 +2,7 @@
 
 ```yaml
 project_control_ref: PROJECT-CONTROL.md
-project_control_version: agent-runtime-pilot-2026-09-13
+project_control_version: agent-runtime-pilot-acceptance-2026-09-13
 final_outcome: >-
   Evolve external-knowledge into a durable external-information capability layer
   that routes concrete information needs/source semantics to the best available
@@ -11,14 +11,14 @@ final_outcome: >-
 scope_baseline_version: tasks/TASK-20260912-001-SEARCH-CAPABILITY-EVOLUTION.md
 schedule_baseline_version: SCHEDULE_UNBASELINED
 channel_roadmap_state: FROZEN_CURRENT_BASELINE
-agent_operationalization_state: READY_FOR_AGENT_BEHAVIOR_PILOT
-current_outcome: external_knowledge_bound_into_zcode_skill_surface_discovery_check_pending
-current_actual_state: READY_FOR_AGENT_BEHAVIOR_PILOT
+agent_operationalization_state: READY_FOR_PRACTICE_FINDINGS_DECISION
+current_outcome: zcode_binding_retained_task018_accepted_with_authority_deviation
+current_actual_state: READY_FOR_PRACTICE_FINDINGS_DECISION
 current_work_class: RUNTIME_INTEGRATION_PILOT
 current_blocker: none
 forecast_state: unbaselined
-next_authorized_action: confirm external-knowledge appears in the next ZCode session skill manifest; then one neutral real-task behavioral pilot (codex-control method), separately authorized
-resume_point: binding installed 2026-09-13 at the official ZCode user root C:\Users\fengxi\.zcode\skills\external-knowledge\ under direct Human instruction during TASK-018 (first-day .agents target superseded after non-discovery); see reports/TASK-20260913-018-AGENT-RUNTIME-PILOT.md
+next_authorized_action: Human decides whether to authorize one bounded remediation task for confirmed practice defects or to run one evidence-complete neutral behavior pilot; neither is authorized yet
+resume_point: ZCode binding retained at C:\Users\fengxi\.zcode\skills\external-knowledge\ from pinned baseline 450fc67; TASK-018 accepted with authority deviation at d8bebf5; formal BEHAVIOR_PASS not established because no durable independent behavior receipt/tool trace was returned to GitHub
 ```
 
 ## Freeze decision — 2026-09-13
@@ -36,36 +36,59 @@ Freeze semantics:
 
 This freeze changes channel-roadmap activity, not the validity of accepted evidence.
 
-## Agent operationalization — active pilot
+## Agent operationalization — current state
 
-The Human subsequently authorized a separate, orthogonal objective: put the **existing frozen capability baseline** into real Agent practice and use real work to validate it.
+The Human separately authorized putting the **existing frozen capability baseline** into real ZCode Agent practice. This remains orthogonal to channel expansion.
 
-This does **not** reopen the channel roadmap.
-
-Current task authority:
+TASK-018 authority:
 
 ```text
 tasks/TASK-20260913-018-AGENT-RUNTIME-PILOT.md
 branch: task/20260913-018-agent-runtime-pilot
 pinned frozen capability baseline: 450fc67351bad8d38e99234a1b3276b127d663c2
+accepted result head: d8bebf5a61f15991f0025382f408a3a0c3ed8207
 ```
 
-TASK-018 is intentionally read-only with respect to the Agent runtime. It may identify the actual supported Skill loading/binding surface and whether `external-knowledge` is already discoverable, but it may not perform the binding/configuration change.
-
-Binding execution — 2026-09-13, mid-run: after the inspection identified the supported surface and confirmed `external-knowledge` was NOT discoverable, the Human issued a direct instruction ("停止，我什么说要给codex安装，我要的是给zcode安装") authorizing the binding for the ZCode surface. One minimal mutation was executed: the pinned baseline `450fc67` was copied verbatim into `C:\Users\fengxi\.agents\skills\external-knowledge\` (101 files, archive sha256 `9ba78eac…`). No installer/lock/config edit, no Codex mutation, and no other runtime change occurred. Same-day correction: the first target did not surface in a fresh desktop session, so per ZCode's official skill guidance the `.agents` copy was removed and the identical baseline re-installed at the official user root `C:\Users\fengxi\.zcode\skills\external-knowledge\`. Full evidence: `reports/TASK-20260913-018-AGENT-RUNTIME-PILOT.md`. Next-session discovery confirmation (Settings → Skills or the `/` menu Skills group, not the `@` box) is required before the behavioral pilot.
-
-Allowed terminal states for TASK-018:
+TASK-018 was authored as read-only with respect to the Agent runtime and required STOP before binding. During execution, after ZCode was clarified as the intended target, the Human directly instructed the executor to bind the Skill. The pinned baseline was ultimately installed at the official ZCode user root:
 
 ```text
-READY_FOR_AGENT_BIND_APPROVAL
-READY_FOR_AGENT_BEHAVIOR_PILOT
-AGENT_BINDING_INCONCLUSIVE
-AGENT_BINDING_BLOCKED
+C:\Users\fengxi\.zcode\skills\external-knowledge\
 ```
 
-If binding is required, the exact minimal mutation must be presented for explicit Human approval before execution.
+The first `.agents\skills` target was superseded after a fresh-session non-discovery observation. No Codex binding was retained.
 
-If the Skill is already discoverable, the next step is a separate neutral real-task behavioral pilot. That later behavioral task must not tell the tested Agent to use `external-knowledge`; it must judge actual routing/tool evidence rather than Agent self-report.
+Acceptance classification recorded on Issue #5:
+
+```text
+TASK-018 outcome: ACCEPTED_WITH_AUTHORITY_DEVIATION
+binding result: retained as intentional current runtime state
+strict task-contract compliance: NOT PASSED
+channel roadmap: FROZEN_CURRENT_BASELINE
+formal behavioral acceptance: BEHAVIOR_INCONCLUSIVE
+```
+
+Reason for the deviation classification: the Human's runtime instruction made the ZCode binding intentional, but the durable task authority was not updated before executing a mutation that the task explicitly prohibited. Future mid-run supersession should update durable authority before the newly authorized mutation when that path is available.
+
+The Human subsequently reported a successful fresh-session Skill discovery, a neutral real information task, and additional Doctor work. These observations are useful practice evidence and exposed concrete usability/adapter issues. They are not promoted to formal `BEHAVIOR_PASS` because no independently reviewable durable behavior receipt/tool trace was committed or attached to the Issue.
+
+## Confirmed practice findings — decision surface only
+
+Repository review after the practice run confirms:
+
+1. **ZCode adapter path coupling** — `wechat.discovery/wechat-article-search` uses a Codex-specific `~/.codex/skills/.../search_wechat.js` local-script check inside the ZCode adapter. Without explicit runtime inventory overriding the local check, an equivalent ZCode-root installation cannot be discovered by that deterministic check and may be misclassified.
+2. **Agent runtime inventory documentation gap** — `references/machine-diagnostics.md` shows `--agent-inventory` usage but does not document the inventory schema/status vocabulary/absence-authority fields. The actual semantics are distributed across `scripts/doctor.py` and `tests/fixtures/agent-inventory.example.json`.
+3. **Inventory scaffold opportunity** — no scaffold/generator exists; operators currently construct runtime inventory JSON from the fixture/source. This is a usability improvement justified by observed operator cost, not a correctness defect by itself.
+4. **`web_reader` representation gap** — `references/capability-map.md` records `web_reader` as a test-stage verified-URL fallback, while the ZCode adapter has no corresponding provider binding. Adding a binding requires provider/exposure evidence; the documentation/adapter mismatch is real, but promotion is not automatic.
+5. **Doctor CLI ergonomics** — `--adapter` accepts a file path only and generic file-not-found handling gives no adapter discovery hint; no `--list-adapters`/id resolver exists.
+6. **Doctor escalation hint** — the human-readable Doctor output does not suggest `--agent-inventory` when UNKNOWNs remain.
+
+Not promoted from this single practice observation:
+
+- expanding `source_semantic_profiles` merely because one general-web retrieval succeeded or one fallback was observed;
+- restructuring/shortening `SKILL.md` solely because of its size when no routing failure has been attributed to that density;
+- installing/fixing missing providers merely to improve diagnostic completeness.
+
+No remediation task is authorized by this record.
 
 ## Accepted state to preserve
 
@@ -75,8 +98,8 @@ If the Skill is already discoverable, the next step is a separate neutral real-t
 - `github.semantic` remains accepted on `gh-cli` (`KEEP_INCUMBENT`).
 - `precision.search` keeps Exa as the qualified precision challenger; Native Search remains default.
 - `complex-web.read` retains the native-static / Crawl4AI dynamic test-stage split.
-- WeChat minimum vertical is available at test stage: `wechat.discovery` remains `LIMITED_OBSERVED`; verified canonical URLs can be read through the existing reader route.
-- Mainland no-proxy remote retrieval is demonstrated: anonymous Exa hosted MCP can discover and remotely read at least some foreign sources that are locally transport-blocked.
+- WeChat minimum vertical remains accepted at test stage under its recorded evidence boundary.
+- Mainland no-proxy remote retrieval remains demonstrated through the retained anonymous Exa hosted MCP evidence.
 
 ## X workstream — closed for this roadmap slice
 
@@ -101,73 +124,36 @@ Do not reopen XActions search/session/query-ID work or begin another X provider 
 
 Reference assessment: `reports/CHINA-DOMESTIC-CHANNELS-ASSESSMENT-20260913.md`.
 
-The previously evaluated candidates are retained only as future expansion options.
-
-### Domestic candidates
+The previously evaluated candidates remain future expansion options only:
 
 ```text
-Bilibili   -> search / metadata / comments-danmaku / subtitle-transcript semantics
-V2EX       -> topic / reply / user / node-community semantics
-Weibo      -> discovery / read / trends
-Zhihu      -> question / answer / article / comment semantics
-Xiaohongshu -> discovery / read / comments
-Xueqiu     -> market / community semantics
-Xiaoyuzhou -> discovery / podcast transcript semantics
-Douyin     -> future read-only discovery/read path only after such a path is directly verified
+Domestic: Bilibili, V2EX, Weibo, Zhihu, Xiaohongshu, Xueqiu, Xiaoyuzhou, Douyin
+Cross-cutting/later: RSS/Atom
+Deferred international: Reddit, YouTube, LinkedIn, Facebook, Instagram
 ```
 
-The assessment's former decision order is preserved as context, not active authorization:
-
-```text
-Bilibili
-V2EX
-Weibo
-Zhihu
-Xiaohongshu
-Xueqiu
-Xiaoyuzhou
-Douyin
-```
-
-### Cross-cutting / later candidates
-
-```text
-RSS / Atom
-Reddit
-YouTube
-LinkedIn
-Facebook
-Instagram
-selected additional video/social/domain specialists when justified by a real workload
-```
-
-These entries are not a backlog and create no obligation to implement every channel. A future specialist is justified only when its source semantics add decision-relevant information that general routes cannot represent equivalently.
+These entries are not a backlog and create no obligation to implement every channel.
 
 ## Resume rule
 
-The channel roadmap remains frozen. Do not start a new source vertical from this pilot.
+The channel roadmap remains frozen.
 
-For the active Agent operationalization path, resume only through TASK-018:
+For Agent operationalization, resume from the accepted ZCode binding and this practice-findings decision state. Do not re-run TASK-018 discovery/binding work for reassurance.
 
-```text
-FROZEN_CURRENT_BASELINE
-+
-READY_FOR_AGENT_RUNTIME_INSPECTION
--> inspect one real supported Agent runtime read-only
--> identify current Skill discoverability / exact minimal binding surface
--> STOP at the TASK-018 terminal state
-```
-
-After TASK-018, do not silently bind the Skill. A required binding mutation needs explicit Human approval.
-
-A later behavioral pilot, if authorized, should use ordinary real tasks and independently observable routing evidence. Only a concrete practice failure may justify modifying the frozen Skill/routing mechanism.
-
-Future channel expansion remains separately gated:
+The next Human decision may authorize **one** of these bounded paths:
 
 ```text
-Human identifies a real information/source-semantic need
--> select one candidate only if general routes are not equivalent
--> create/authorize one bounded minimum vertical task
--> validate end-to-end evidence
--> return to a controlled stop state
+A. remediate only confirmed practice defects that materially improve correctness/usability
+   -> create one bounded remediation task
+   -> update repository source
+   -> re-bind from the accepted source through the normal deployment path
+   -> validate affected behavior only
+
+B. continue behavioral validation without code changes
+   -> predefine one neutral real task + observable evidence + PASS/FAIL/INCONCLUSIVE
+   -> run once in a fresh ZCode session
+   -> persist the compact durable receipt
+   -> stop
 ```
+
+Do not do both merely for completeness. Choose based on which unresolved question matters next.
