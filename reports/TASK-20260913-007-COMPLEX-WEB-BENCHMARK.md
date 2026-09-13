@@ -2,74 +2,107 @@
 
 ## State
 
-`READY_FOR_REAL_WORLD_VALIDATION` — Arena cleanup status: **CLEAN_VERIFIED**
+`TEST_STAGE_BASELINE_ACCEPTED` — Arena cleanup status: **CLEAN_VERIFIED**
 
-- Contract: `tasks/TASK-20260913-007-COMPLEX-WEB-CONTROLLED-BENCHMARK.md` (Arena v0.4, evidence class CONTROLLED_BENCHMARK)
+> Human review (TASK-20260913-008): the original execution stop `READY_FOR_REAL_WORLD_VALIDATION` remains part of the historical run record, but immediate real-world validation is no longer a blocking next step. Arena v0.5 treats real-world confirmation as non-blocking validation debt during the current testing phase. The benchmark split is accepted as a provisional test-stage policy.
+
+- Contract: `tasks/TASK-20260913-007-COMPLEX-WEB-CONTROLLED-BENCHMARK.md` (executed under Arena v0.4, evidence class CONTROLLED_BENCHMARK)
+- Review authority: `tasks/TASK-20260913-008-TEST-STAGE-BASELINE-ACCEPTANCE.md` (Arena v0.5)
 - Match id: `TASK-20260913-007-complexweb-b001`
 - Receipts: `evidence/arena/TASK-20260913-007-complexweb-b001/{defender,challenger,adjudication}.json`
-- Executed at remote head `f3536c5`; `production_routing_authority: false`; `routing_impact: none` throughout.
+- Executed at remote head `f3536c5`; raw receipts remain unchanged.
 
-## 1. Preflight — PASSED (ground truth frozen before staging)
+## 1. Preflight — PASSED
 
-All three `web-scraping.dev` fixtures were preflighted immediately before staging and matched the contract's observable ground truth exactly:
+All three `web-scraping.dev` fixtures matched the frozen controlled ground truth:
 
-- **B0** `/product/1`: 200, 33.8 KB — title/price/brand/table anchors all present.
-- **B1** `/reviews`: 200, 14.7 KB — GraphQL-mock shell page ("graphql mock website" in title), Load More present, review records confirmed absent from raw HTML.
-- **B2** `/testimonials`: 200, 30.1 KB — heading, aggregate 60, initial batch of 10 testimonial texts in raw HTML.
+- **B0** `/product/1`: title/price/brand/table anchors present.
+- **B1** `/reviews`: dynamic review records absent from raw HTML; Load More shell present.
+- **B2** `/testimonials`: aggregate 60; initial batch 10.
 
-No fixture drift; no substitution needed.
-
-## 2. Defender (runtime-native.webfetch)
-
-P0 DEFAULT_READ via the observed native chain (WebFetch → host hook → context-mode fetcher):
+## 2. Defender — runtime-native.webfetch
 
 ```text
-B0: PASS  — title, $9.99, description, brand ChocoDelight, Features table,
-            Packs table preserved as GFM with ALL 5 rows
-B1: FAIL  — shell only (title/nav/Load More), 0 review records
-B2: FAIL  — heading + aggregate 60 + exactly the first 10 testimonial texts
-P1: UNSUPPORTED — the native path has no documented generic render/scroll capability
+B0 P0: PASS — static content and tables recovered
+B1 P0: FAIL — shell only, 0 review records
+B2 P0: FAIL — 10/60 testimonials
+P1: UNSUPPORTED — no documented generic render/scroll profile
 ```
 
-## 3. Challenger (crawl4ai 0.9.3, ephemeral cell)
+## 3. Challenger — Crawl4AI 0.9.3
 
-Staging: venv + `crawl4ai==0.9.3` + match-scoped chromium-1234, all in-cell (~1.59 GB). Notably, **all downloads completed DIRECT this run** — the TASK-004 CDN stall did not recur and no proxy override was used (TASK-007 does not implicitly authorize one).
+Ephemeral staging used a match-scoped venv + Chromium, ~1.59 GB total, with mandatory teardown. Downloads completed direct; no proxy override was used.
 
-Attempt accounting (disclosed): attempt 1 executed the full suite successfully at tool level, but the orchestrator's measurement layer was format-biased (table-regex and class-literal mismatches) and raw artifacts were not persisted. Attempt 2 — the recorded attempt for every fixture/profile — used identical contestant configs (no tuning from any result) with a corrected, format-neutral measurement layer and full artifact emission; within the 1+1 budget.
-
-Results (record counts from adjudicator-side counting of emitted artifacts):
+Recorded results:
 
 ```text
-fixture/profile      defender      challenger
-B0  P0 static        PASS          PASS (equal table fidelity, 5/5 pack rows)
-B1  P0 shell         FAIL (0)      FAIL (0 — default domcontentloaded returns early)
-B1  P1 dynamic       UNSUPPORTED   STRONG (20 date-led review records, network-idle)
-B2  P0 initial       FAIL (10/60)  FAIL (10/60)
-B2  P1 progressive   UNSUPPORTED   PARTIAL (30/60, generic scan_full_page)
+B0 P0: PASS — equivalent static/table fidelity
+B1 P0: FAIL — 0 records
+B1 P1: STRONG — 20 rendered review records
+B2 P0: FAIL — 10/60
+B2 P1: PARTIAL — 30/60 via generic full-page scan
 ```
 
-The P1-B2 result stands at 30/60: `scan_full_page` tripled recovery (10→30) but did not reach the full aggregate, and post-observation tuning (e.g., scroll delays) is forbidden by the contract.
+The first execution pass had a measurement-layer defect; the recorded second pass used identical contestant configuration with a corrected format-neutral measurement layer. This is disclosed in the contestant receipt.
 
-## 4. Adjudication — SPLIT_BY_SCENARIO (benchmark hypothesis)
+## 4. Adjudication — SPLIT_BY_SCENARIO
 
-- **B0 tie**: both contestants are baseline-suitable for ordinary static extraction with equal structure fidelity.
-- **B1 decisive challenger advantage**: rendered review records are reachable only through the challenger's documented generic dynamic-read profile (20 vs 0; defender P1 unsupported).
-- **B2 material challenger advantage**: progressive recovery tripled (30/60 vs 10/60) under generic scroll behavior, without reaching full aggregate.
-- Cost/burden remains real: ~1.59 GB ephemeral footprint and a venv/browser lifecycle vs zero staging for the defender. This is exactly a scenario split, not a replacement case.
+Controlled evidence supports:
 
-Per the evidence boundary: `evidence_class = CONTROLLED_BENCHMARK`, `production_routing_authority = false`, `routing_impact = none`. Because the split hypothesis is production-changing if adopted, the terminal state is `READY_FOR_REAL_WORLD_VALIDATION` — real-workload validation (e.g., a qualifying ordinary-URL case per the TASK-006 findings, or an equivalent retained need) must precede any routing decision. No inference to specialist sources (WeChat/GitHub/docs) is made from this benchmark.
+```text
+ordinary/static known URL
+  -> runtime-native.webfetch is sufficient and cheaper
 
-## 5. Teardown
+observed dynamic/rendered/progressive extraction need
+  -> Crawl4AI has a material capability advantage when its generic dynamic-read profile is available
+```
 
-All Arena-owned artifacts removed and verified: no Arena-owned chrome/python processes (command-line scan); 1.6 GB cell deleted and confirmed absent; crawl4ai not importable on host python; `PLAYWRIGHT_BROWSERS_PATH` was per-command only; no registrations; pre-existing ms-playwright user cache untouched (no chromium-1234 leaked — install logs prove all downloads landed in the cell); repository tree contains only intended durable outputs.
+Rationale:
+
+- B0 was a tie;
+- B1 showed a decisive dynamic-render advantage for Crawl4AI (20 vs 0);
+- B2 showed a material progressive-load advantage (30/60 vs 10/60), though not full recovery;
+- native WebFetch retains a decisive operational-cost advantage for ordinary/static reads;
+- Crawl4AI carries a substantial browser/runtime lifecycle cost.
+
+## 5. Evidence maturity after Human review
+
+The benchmark remains:
+
+```text
+evidence_class = CONTROLLED_BENCHMARK
+```
+
+Human review accepts the result as:
+
+```text
+policy_status = TEST_STAGE_BASELINE
+outcome = SPLIT_BY_SCENARIO
+validation_debt = OPEN_NONBLOCKING
+production_confidence = UNVALIDATED
+```
+
+This policy may guide continued testing and experimental use. It is not a claim of universal production superiority and does not authorize persistent provider installation or final source-owner changes.
+
+Real-world evidence should be collected opportunistically when normal use naturally encounters relevant dynamic/progressive pages. Such evidence may confirm, refine, or overturn this policy without blocking new Arena work.
+
+## 6. Teardown
+
+Arena-owned artifacts were removed and verified:
 
 ```text
 classification: CLEAN_VERIFIED
-residue: none Arena-owned (TASK-004-era caveat about the truncated user-cache baseline carries over)
+residue: none Arena-owned
 ```
 
-## 6. Notes
+No persistent Crawl4AI install, browser profile, PATH/MCP registration, environment mutation, or production routing change was left by the run.
 
-- The challenger's attempt-1 measurement defect is disclosed in its receipt; recorded results come from attempt 2 with identical configs.
-- Arena v0.4's three evidence classes worked as designed: this benchmark produces mechanism evidence only; the TASK-006 real-case negative result remains the factual barrier for any production claim.
-- Next action belongs to the Human: review the benchmark adjudication; if the split hypothesis is to be pursued, authorize a real-world validation task; a third match or production promotion is not authorized in this run.
+## 7. Current next state
+
+Per TASK-20260913-008 and Arena v0.5:
+
+```text
+READY_FOR_NEXT_ARENA_DECISION
+```
+
+Immediate REAL_REPLAY / REAL_WORKLOAD validation is optional and non-blocking during the current testing phase.
