@@ -1,6 +1,6 @@
 ---
 task_id: TASK-20260913-007
-status: ready_for_controlled_benchmark_execution
+status: ready_for_real_world_validation
 parent_task: TASK-20260912-001
 supersedes_test_gate: TASK-20260913-006
 target_repo: xifeng12/external-knowledge

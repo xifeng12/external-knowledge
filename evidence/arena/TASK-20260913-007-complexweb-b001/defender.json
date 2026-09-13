@@ -1,0 +1,26 @@
+{
+  "receipt_type": "contestant/defender",
+  "match_id": "TASK-20260913-007-complexweb-b001",
+  "provider": "runtime-native.webfetch",
+  "execution_surface": "native WebFetch tool of the current ZCode session; observed chain: native tool -> host hook redirect -> context-mode fetcher (ctx_fetch_and_index + ctx_search); this is the effective default read path in this runtime",
+  "capability": "complex-web.read",
+  "evidence_class": "CONTROLLED_BENCHMARK",
+  "production_routing_authority": false,
+  "preflight_ground_truth_frozen": {
+    "B0": "title 'Box of Chocolate Candy'; current price $9.99; main description; brand ChocoDelight; Features Vertical Table; Packs Horizontal Table with 5 pack rows (curl preflight 200/33.8KB, all anchors present)",
+    "B1": "title 'Latest Product Reviews' (graphql mock page); review records load dynamically via JS/GraphQL; Load More present; raw HTML 14.7KB = shell only",
+    "B2": "heading 'What do our users say?'; aggregate 60; initial ordinary read exposes first batch of 10 testimonial texts (12 testimonial-class divs in raw HTML); raw HTML 30.1KB"
+  },
+  "match_mode": "HEAD_TO_HEAD (controlled benchmark)",
+  "runs": [
+    {"fixture": "B0", "profile": "P0 DEFAULT_READ", "attempt": 1, "result": "PASS", "recovered": "correct title; $9.99 current price (plus 'from $12.99' list price); main description materially recovered; brand ChocoDelight recovered from Features table (preserved as HTML table in markdown); Packs Horizontal Table preserved as GFM table with header + ALL 5 pack rows (weights/dimensions/variants/shipping intact)", "retry": "none"},
+    {"fixture": "B1", "profile": "P0 DEFAULT_READ", "attempt": 1, "result": "FAIL", "recovered": "shell only: title, nav links, Load More control; 0.2KB indexed; 0 review records", "retry": "none (valid but incomplete content result - not a transient error)"},
+    {"fixture": "B2", "profile": "P0 DEFAULT_READ", "attempt": 1, "result": "FAIL", "recovered": "heading + aggregate '4.12 in 60 Reviews' + rating distribution + exactly the first batch of 10 testimonial texts; no progressive content", "retry": "none (valid but incomplete)"},
+    {"fixture": "B1/B2", "profile": "P1 GENERIC_DYNAMIC_READ", "attempt": null, "result": "UNSUPPORTED", "note": "the native WebFetch path exposes no documented generic render/full-page/scroll capability; none invented for fairness theater per contract"}
+  ],
+  "errors_retries": "none needed; no transient errors occurred",
+  "fetch_timing": "not precisely instrumented for the hook chain; each fixture returned within seconds (~1-3s observed); B0 ctx conversion preserved tables (12 sections indexed)",
+  "resource_staging_evidence": "none: pre-existing native tool, zero staging, zero footprint",
+  "authorization_boundary": "TASK-007 controlled benchmark; read-only; default read path only; no UA/proxy/selector tuning",
+  "environment_mutation_evidence": "none"
+}
