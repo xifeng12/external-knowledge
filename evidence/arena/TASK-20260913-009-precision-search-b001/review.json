@@ -1,0 +1,27 @@
+{
+  "review_type": "post_adjudication_policy_review",
+  "reviewed_match_id": "TASK-20260913-009-precision-search-b001",
+  "raw_adjudication": "SPLIT_BY_SCENARIO",
+  "raw_execution_evidence_status": "ACCEPTED",
+  "teardown_status": "CLEAN_VERIFIED",
+  "policy_promotion": "NOT_PROMOTED",
+  "reason": [
+    "TASK-009 requires material and repeated differences across relevant fixtures before changing test-stage policy",
+    "the decisive Exa advantage rested primarily on S1",
+    "S1 demonstrated strong official target-family recall but not a strict accepted-target hit because the identifier-bearing page was not returned and content fetch was excluded from scoring",
+    "S2 and S4 did not repeat an Exa exact/precision advantage; native was cleaner there",
+    "native materially won S3 semantic paraphrase"
+  ],
+  "exa_candidate_status": "QUALIFIED_CHALLENGER_CANDIDATE",
+  "current_default_policy": "runtime-native.web-search remains the unchanged general/default search owner; no automatic Exa escalation policy is frozen by TASK-009 review",
+  "next_match_decision": {
+    "capability": "precision.search",
+    "defender_role": "precision-search candidate slot",
+    "defender": "exa hosted MCP anonymous",
+    "challenger": "Tavily Remote MCP keyless",
+    "native_search_participates": false,
+    "rationale": "Exa-first evidence prerequisite is satisfied; compare specialist candidates directly before challenging or refining the native default policy"
+  },
+  "validation_debt": "OPEN_NONBLOCKING",
+  "production_routing_authority": false
+}

@@ -1,0 +1,397 @@
+{
+ "match_id": "TASK-20260913-010-precision-playoff-b001",
+ "providers": {
+  "exa": {
+   "session": {
+    "handshake_ms": 2752,
+    "server": {
+     "name": "exa-search-server",
+     "title": "Exa",
+     "version": "3.2.1",
+     "websiteUrl": "https://exa.ai",
+     "icons": [
+      {
+       "src": "https://exa.ai/images/favicon-32x32.png",
+       "mimeType": "image/png",
+       "sizes": [
+        "32x32"
+       ]
+      }
+     ]
+    },
+    "tools": [
+     "web_search_exa",
+     "web_fetch_exa"
+    ],
+    "headers": {
+     "Accept": "application/json, text/event-stream",
+     "Content-Type": "application/json",
+     "mcp-session-id": "70c0aefb-2622-42bc-b2d2-5e6f03466550"
+    },
+    "count_param": "numResults"
+   },
+   "runs": [
+    {
+     "latency_ms": 1373,
+     "http": 200,
+     "ok": true,
+     "error": null,
+     "results": [
+      {
+       "url": "https://docs.tavily.com/documentation/keyless"
+      },
+      {
+       "url": "https://api.tavily.com/search"
+      },
+      {
+       "url": "https://api.tavily.com/extract"
+      },
+      {
+       "url": "https://www.tavily.com"
+      },
+      {
+       "url": "https://mcp.tavily.com/mcp/"
+      }
+     ],
+     "results_note": "non-JSON text output",
+     "query_id": "E1",
+     "query": "\"X-Tavily-Access-Mode\""
+    },
+    {
+     "latency_ms": 1394,
+     "http": 200,
+     "ok": true,
+     "error": null,
+     "results": [
+      {
+       "url": "https://github.com/brave/brave-search-mcp-server/blob/main/README.md"
+      },
+      {
+       "url": "https://docs.docker.com/compose/how-tos/use-secrets/"
+      },
+      {
+       "url": "https://github.com/brave/brave-search-mcp-server"
+      },
+      {
+       "url": "https://docs.docker.com/compose/how-tos/use-secrets/"
+      },
+      {
+       "url": "https://www.npmjs.com/package/@brave/brave-search-mcp-server"
+      }
+     ],
+     "results_note": "non-JSON text output",
+     "query_id": "E2",
+     "query": "\"BRAVE_API_KEY_FILE\" brave search mcp"
+    },
+    {
+     "latency_ms": 972,
+     "http": 200,
+     "ok": true,
+     "error": null,
+     "results": [
+      {
+       "url": "https://docs.crawl4ai.com/api/parameters/"
+      },
+      {
+       "url": "https://docs.crawl4ai.com/advanced/lazy-loading/"
+      },
+      {
+       "url": "https://docs.crawl4ai.com/core/browser-crawler-config/"
+      },
+      {
+       "url": "https://docs.crawl4ai.com/blog/releases/0.4.1/"
+      },
+      {
+       "url": "https://example.com"
+      }
+     ],
+     "results_note": "non-JSON text output",
+     "query_id": "E3",
+     "query": "\"scan_full_page\" Crawl4AI"
+    },
+    {
+     "latency_ms": 1481,
+     "http": 200,
+     "ok": true,
+     "error": null,
+     "results": [
+      {
+       "url": "https://docs.parallel.ai/integrations/mcp/search-mcp"
+      },
+      {
+       "url": "https://search.parallel.ai/mcp`"
+      },
+      {
+       "url": "https://search.parallel.ai/mcp-oauth`"
+      },
+      {
+       "url": "https://search.parallel.ai/mcp-oauth`"
+      },
+      {
+       "url": "https://search.parallel.ai/mcp"
+      }
+     ],
+     "results_note": "non-JSON text output",
+     "query_id": "S1",
+     "query": "official MCP web search server whose hosted endpoint allows anonymous requests with rate limits"
+    },
+    {
+     "latency_ms": 1912,
+     "http": 200,
+     "ok": true,
+     "error": null,
+     "results": [
+      {
+       "url": "https://github.com/parallel-web/search-mcp"
+      },
+      {
+       "url": "https://docs.parallel.ai/integrations/mcp/search-mcp"
+      },
+      {
+       "url": "https://search.parallel.ai/mcp"
+      },
+      {
+       "url": "https://search.parallel.ai/mcp"
+      },
+      {
+       "url": "https://opencode.ai/config.json"
+      }
+     ],
+     "results_note": "non-JSON text output",
+     "query_id": "S2",
+     "query": "remote MCP search and extract with no account and no API key using a special request header"
+    },
+    {
+     "latency_ms": 2180,
+     "http": 200,
+     "ok": true,
+     "error": null,
+     "results": [
+      {
+       "url": "https://github.com/unclecode/CRAWL4AI"
+      },
+      {
+       "url": "https://github.com/BogdanVasaiu/crawlDNA"
+      },
+      {
+       "url": "https://docs.crawl4ai.com/advanced/lazy-loading/"
+      },
+      {
+       "url": "https://pypi.org/project/lazy-crawler/"
+      },
+      {
+       "url": "https://dynamic-site.com"
+      }
+     ],
+     "results_note": "non-JSON text output",
+     "query_id": "S3",
+     "query": "open source web crawler option that automatically scans a full page for progressively loaded lazy content"
+    },
+    {
+     "latency_ms": 1131,
+     "http": 200,
+     "ok": true,
+     "error": null,
+     "results": [
+      {
+       "url": "https://github.com/brave/brave-search-mcp-server/"
+      },
+      {
+       "url": "https://api-dashboard.search.brave.com/app/keys"
+      },
+      {
+       "url": "https://docs.docker.com/compose/how-tos/use-secrets/"
+      },
+      {
+       "url": "https://www.npmjs.com/package/@brave/brave-search-mcp-server"
+      },
+      {
+       "url": "https://api-dashboard.search.brave.com/app/keys"
+      }
+     ],
+     "results_note": "non-JSON text output",
+     "query_id": "M1",
+     "query": "Brave search MCP web local image video news summarizer API key file"
+    },
+    {
+     "latency_ms": 1403,
+     "http": 200,
+     "ok": true,
+     "error": null,
+     "results": [
+      {
+       "url": "https://exa.ai/mcp"
+      },
+      {
+       "url": "https://mcp.exa.ai/mcp"
+      },
+      {
+       "url": "https://mcp.exa.ai/mcp`"
+      },
+      {
+       "url": "https://exa.ai/docs/reference/exa-mcp"
+      },
+      {
+       "url": "https://mcp.exa.ai/mcp"
+      }
+     ],
+     "results_note": "non-JSON text output",
+     "query_id": "M2",
+     "query": "Exa hosted MCP anonymous web search rate limited no API key endpoint"
+    },
+    {
+     "latency_ms": 2583,
+     "http": 200,
+     "ok": true,
+     "error": null,
+     "results": [
+      {
+       "url": "https://github.com/github/github-mcp-server/blob/main/docs/remote-server.md"
+      },
+      {
+       "url": "https://api.githubcopilot.com/mcp/"
+      },
+      {
+       "url": "https://insiders.vscode.dev/redirect/mcp/install?name=github&config=%7B%22type%22%3A%20%22http%22%2C%22url%22%3A%20%22https%3A%2F%2Fapi.githubcopilot.com%2Fmcp%2F%22%7D"
+      },
+      {
+       "url": "https://api.githubcopilot.com/mcp/readonly"
+      },
+      {
+       "url": "https://insiders.vscode.dev/redirect/mcp/install?name=github&config=%7B%22type%22%3A%20%22http%22%2C%22url%22%3A%20%22https%3A%2F%2Fapi.githubcopilot.com%2Fmcp%2Freadonly%22%7D"
+      }
+     ],
+     "results_note": "non-JSON text output",
+     "query_id": "M3",
+     "query": "GitHub official MCP server remote hosted read-only toolsets dynamic discovery"
+    }
+   ]
+  },
+  "tavily": {
+   "session": {
+    "handshake_ms": 3348,
+    "server": {
+     "name": "tavily-mcp",
+     "version": "4.0.3"
+    },
+    "tools": [
+     "tavily_search",
+     "tavily_extract",
+     "tavily_crawl",
+     "tavily_map",
+     "tavily_research"
+    ],
+    "headers": {
+     "Accept": "application/json, text/event-stream",
+     "Content-Type": "application/json",
+     "X-Tavily-Access-Mode": "keyless"
+    },
+    "count_param": "max_results"
+   },
+   "runs": [
+    {
+     "latency_ms": 1332,
+     "http": 200,
+     "ok": true,
+     "error": null,
+     "results": [
+      {
+       "title": "tavily-python/tavily/tavily.py at master · tavily-ai/tavily-python",
+       "url": "https://github.com/tavily-ai/tavily-python/blob/master/tavily/tavily.py"
+      },
+      {
+       "title": "Try Tavily Without an API Key",
+       "url": "https://docs.tavily.com/documentation/keyless"
+      },
+      {
+       "title": "Agents - Tavily Docs",
+       "url": "https://docs.tavily.com/agents"
+      },
+      {
+       "title": "Tavily 101: AI-powered Search for Developers",
+       "url": "https://www.tavily.com/blog/tavily-101-ai-powered-search-for-developers"
+      },
+      {
+       "title": "Frequently Asked Questions - Tavily Docs",
+       "url": "https://docs.tavily.com/faq/faq"
+      }
+     ],
+     "query_id": "E1",
+     "query": "\"X-Tavily-Access-Mode\""
+    },
+    {
+     "latency_ms": 268,
+     "http": 200,
+     "ok": true,
+     "error": null,
+     "results": [],
+     "query_id": "E2",
+     "query": "\"BRAVE_API_KEY_FILE\" brave search mcp"
+    },
+    {
+     "latency_ms": 259,
+     "http": 200,
+     "ok": true,
+     "error": null,
+     "results": [],
+     "query_id": "E3",
+     "query": "\"scan_full_page\" Crawl4AI"
+    },
+    {
+     "latency_ms": 263,
+     "http": 200,
+     "ok": true,
+     "error": null,
+     "results": [],
+     "query_id": "S1",
+     "query": "official MCP web search server whose hosted endpoint allows anonymous requests with rate limits"
+    },
+    {
+     "latency_ms": 258,
+     "http": 200,
+     "ok": true,
+     "error": null,
+     "results": [],
+     "query_id": "S2",
+     "query": "remote MCP search and extract with no account and no API key using a special request header"
+    },
+    {
+     "latency_ms": 257,
+     "http": 200,
+     "ok": true,
+     "error": null,
+     "results": [],
+     "query_id": "S3",
+     "query": "open source web crawler option that automatically scans a full page for progressively loaded lazy content"
+    },
+    {
+     "latency_ms": 265,
+     "http": 200,
+     "ok": true,
+     "error": null,
+     "results": [],
+     "query_id": "M1",
+     "query": "Brave search MCP web local image video news summarizer API key file"
+    },
+    {
+     "latency_ms": 259,
+     "http": 200,
+     "ok": true,
+     "error": null,
+     "results": [],
+     "query_id": "M2",
+     "query": "Exa hosted MCP anonymous web search rate limited no API key endpoint"
+    },
+    {
+     "latency_ms": 264,
+     "http": 200,
+     "ok": true,
+     "error": null,
+     "results": [],
+     "query_id": "M3",
+     "query": "GitHub official MCP server remote hosted read-only toolsets dynamic discovery"
+    }
+   ]
+  }
+ }
+}

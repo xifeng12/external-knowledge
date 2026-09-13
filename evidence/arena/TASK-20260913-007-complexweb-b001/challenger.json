@@ -1,0 +1,28 @@
+{
+  "receipt_type": "contestant/challenger",
+  "match_id": "TASK-20260913-007-complexweb-b001",
+  "provider": "unclecode/crawl4ai",
+  "execution_surface": "ephemeral match cell: venv (crawl4ai 0.9.3, playwright 1.62.0) + match-scoped chromium-1234 (Chrome for Testing 151.0.7922.34) with cell-scoped PLAYWRIGHT_BROWSERS_PATH and cell-scoped browser profile; CDN download completed DIRECT (no proxy override used or needed this run, per TASK-007 boundary)",
+  "capability": "complex-web.read",
+  "evidence_class": "CONTROLLED_BENCHMARK",
+  "production_routing_authority": false,
+  "preflight_ground_truth_frozen": "identical to defender receipt",
+  "match_mode": "HEAD_TO_HEAD (controlled benchmark)",
+  "attempt_accounting": {
+    "attempt_1": "full suite executed successfully at tool level but orchestrator measurement was format-biased (GFM-table regex missed crawl4ai table syntax; card-class literal too narrow) and raw artifacts were not persisted - recorded as measurement-layer defect, disclosed",
+    "attempt_2": "recorded attempt for all fixture/profile cells; configs IDENTICAL to attempt 1 (no tuning from any result); measurement corrected + raw markdown/HTML emitted for adjudicator-side counting; within the 1 primary + 1 retry budget per fixture/profile"
+  },
+  "runs": [
+    {"fixture": "B0", "profile": "P0 DEFAULT_READ", "fetch_ms": 2485, "result": "PASS", "recovered": "correct title heading; $9.99 x3; brand ChocoDelight; all 5 Pack rows with weights/dimensions/variants/shipping as a proper GFM table (header + 5 rows, format verified against defender's table)", "pack_rows": "5/5"},
+    {"fixture": "B1", "profile": "P0 DEFAULT_READ", "fetch_ms": 448, "result": "FAIL", "recovered": "shell only (domcontentloaded default returns before GraphQL content): 0 review records, 1118-char markdown", "record_count": 0},
+    {"fixture": "B1", "profile": "P1 GENERIC_DYNAMIC_READ (wait_until=networkidle)", "fetch_ms": 1213, "result": "STRONG", "recovered": "20 date-led review records (YYYY-MM-DD + review text) via generic network-idle rendering only; no site-specific selectors, no GraphQL calls", "record_count": 20},
+    {"fixture": "B2", "profile": "P0 DEFAULT_READ", "fetch_ms": 1379, "result": "FAIL", "recovered": "heading + aggregate 60 + first batch of 10 testimonial texts (testimonial-class nodes x12, star mentions x10)", "record_count": 10},
+    {"fixture": "B2", "profile": "P1 GENERIC_DYNAMIC_READ (wait_until=networkidle, scan_full_page=True)", "fetch_ms": 3534, "result": "PARTIAL", "recovered": "30 of 60 testimonial texts in rendered DOM (testimonial nodes x30, star mentions x30, html 73KB vs 36KB) - scan_full_page tripled recovery but did not reach full aggregate; no further scroll tuning permitted after observing results", "record_count": 30}
+  ],
+  "record_counting_method": "adjudicator-side counting from raw artifacts emitted by the run: B1 records = date-led (YYYY-MM-DD) review blocks in markdown; B2 records = testimonial-node text blocks >25 chars in rendered HTML (stats block excluded); counters are measurement, not extraction logic",
+  "errors_retries": "no transport/runtime errors; the only defect was the orchestrator measurement layer (attempt 1), disclosed above",
+  "fetch_timing": "per-run fetch_ms recorded; staging/download time excluded from fetch latency",
+  "resource_staging_evidence": {"venv_mb": 697, "browser_mb": 703, "pip_cache_mb": 190, "total_staged_mb": 1590, "staging_friction": "none this run: all downloads (PyPI + playwright CDN) completed direct; the TASK-004 CDN stall did not recur"},
+  "authorization_boundary": "TASK-007 controlled benchmark; ephemeral staging only; no LLM/API keys; no site-specific selectors/JS/hidden-API calls; no proxy/TLS change; no production routing authority",
+  "environment_mutation_evidence": "Arena-owned staging only (provenance ledger in adjudication receipt); no persistent install/registration"
+}

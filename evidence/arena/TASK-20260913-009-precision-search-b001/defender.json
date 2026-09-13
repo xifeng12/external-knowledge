@@ -1,0 +1,61 @@
+{
+  "receipt_type": "contestant/defender",
+  "match_id": "TASK-20260913-009-precision-search-b001",
+  "provider": "runtime-native.web-search",
+  "execution_surface": "native WebSearch tool of the current ZCode session (backend: agentic web_search_prime); pre-existing, zero staging",
+  "capability": "precision.search",
+  "evidence_class": "CONTROLLED_BENCHMARK",
+  "production_routing_authority": false,
+  "preflight_ground_truth_frozen": "see adjudication receipt (S0-S5 canonical targets + anchors via gh api / direct fetch; no contestant output used)",
+  "match_mode": "HEAD_TO_HEAD (controlled benchmark)",
+  "runs": [
+    {"query_id": "S0", "query": "Exa MCP Server web search web crawling", "attempt": 1, "latency": "~seconds (not precisely instrumented)", "top5": [
+      {"url": "https://github.com/exa-labs/exa-mcp-server", "class": "target-hit"},
+      {"url": "https://www.nimbleway.com/blog/top-web-search-mcps", "class": "adjacent"},
+      {"url": "https://fastcrw.com/blog/best-mcp-servers-web-scraping", "class": "noise"},
+      {"url": "https://enterprisedna.co/directories/mcp/exa-labs-exa-mcp-server/", "class": "relevant"},
+      {"url": "https://mcpservers.org/category/web-scraping", "class": "noise"}],
+     "hit@1": true, "relevant_in_top5": 2, "noise_in_top5": 2},
+    {"query_id": "S1", "query": "\"X-Tavily-Access-Mode\"", "attempt": 1, "latency": "~seconds", "top5": [
+      {"url": "https://www.youtube.com/watch?v=-TY4Z_q_XZc (phonk music, tokenized X-TALI)", "class": "noise"},
+      {"url": "music/lyrics listings (X-TALI)", "class": "noise"},
+      {"url": "Tally Solutions remote-access page (fuzzy 'Tavily'->'Tally')", "class": "noise"},
+      {"url": "Tailscale access-control docs (fuzzy 'access mode')", "class": "noise"},
+      {"url": "XTLS/Project X config page (fuzzy 'X-')", "class": "noise"}],
+     "hit@1": false, "hit@3": false, "hit@5": false, "relevant_in_top5": 0, "noise_in_top5": 5,
+     "note": "complete miss: exact identifier tokenized into fragments; tool offered follow-up rewrites (declined per contract)"},
+    {"query_id": "S2", "query": "\"BRAVE_API_KEY_FILE\" brave search mcp", "attempt": 1, "top5": [
+      {"url": "https://github.com/brave/brave-search-mcp-server", "class": "target-hit"},
+      {"url": "https://aws.amazon.com/marketplace/pp/prodview-6yt3tbr7ucbjy", "class": "relevant"},
+      {"url": "https://www.scalekit.com/blog/brave-search-mcp-vs-api", "class": "relevant"},
+      {"url": "https://glama.ai/mcp/servers/oki602960/brave-search-mcp-server/schema", "class": "relevant"},
+      {"url": "https://github.com/brave/brave-search-mcp-server/blob/main/docker-compose.yml", "class": "target-hit"}],
+     "hit@1": true, "relevant_in_top5": 5, "noise_in_top5": 0},
+    {"query_id": "S3", "query": "official MCP web search server whose hosted endpoint allows anonymous requests with rate limits", "attempt": 1, "latency": "multi-round (4 internal search rounds observed in the tool trace)", "top5": [
+      {"url": "https://github.com/exa-labs/exa-mcp-server", "class": "target-hit"},
+      {"url": "https://mcpservers.org/servers/exa-labs/exa-mcp-server", "class": "relevant"},
+      {"url": "https://exa.ai/mcp", "class": "relevant"},
+      {"url": "https://agnt.gg/articles/agents/100-best-mcp-servers", "class": "adjacent"},
+      {"url": "https://exa.ai/docs/reference/rate-limits", "class": "relevant"}],
+     "hit@1": true, "relevant_in_top5": 4, "noise_in_top5": 0,
+     "call_count_note": "one contestant invocation; the native tool's default agentic behavior internally issued 4 search rounds (rewrites observed in trace, e.g. adding 'mcp.exa.ai') and synthesized the final answer. Hidden multi-call cost recorded; no orchestrator-added rewrites."},
+    {"query_id": "S4", "query": "Crawl4AI automatic full page scroll dynamic content scan option", "attempt": 1, "top5": [
+      {"url": "https://docs.crawl4ai.com/api/parameters/", "class": "target-hit"},
+      {"url": "https://github.com/unclecode/crawl4ai/issues/731", "class": "relevant"},
+      {"url": "https://docs.crawl4ai.com/advanced/lazy-loading/", "class": "relevant"},
+      {"url": "https://docs.crawl4ai.com/blog/releases/0.4.1/", "class": "relevant"},
+      {"url": "https://docs.crawl4ai.com/advanced/virtual-scroll/", "class": "relevant"}],
+     "hit@1": true, "relevant_in_top5": 5, "noise_in_top5": 0},
+    {"query_id": "S5", "query": "Tavily MCP no API key keyless mode search extract only", "attempt": 1, "top5": [
+      {"url": "https://docs.tavily.com/documentation/keyless", "class": "target-hit"},
+      {"url": "https://mcpservers.org/servers/mendableai/firecrawl-mcp-server", "class": "adjacent"},
+      {"url": "https://github.com/robbyczgw-claude/web-search-plus-mcp", "class": "noise"},
+      {"url": "https://docs.linkup.so/pages/integrations/mcp/mcp", "class": "noise"},
+      {"url": "https://www.stainless.com/mcp/mcp-server-api-key-management-best-practices/", "class": "noise"}],
+     "hit@1": true, "relevant_in_top5": 1, "noise_in_top5": 3}
+  ],
+  "aggregate": {"hit@1": "5/6 (S1 miss)", "exact-needle class (S1)": "0/5 relevant - complete noise", "semantic-paraphrase (S3)": "hit@1 via default agentic multi-round rewriting (4 internal rounds observed)"},
+  "errors_retries": "none",
+  "authorization_boundary": "TASK-007-style read-only benchmark; same raw queries as challenger; no orchestrator rewrites; evaluation window = first 5 returned results",
+  "environment_mutation_evidence": "none"
+}

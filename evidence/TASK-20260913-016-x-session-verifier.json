@@ -1,0 +1,105 @@
+{
+  "task_id": "TASK-20260913-016",
+  "generated_at": "2026-09-13",
+  "parent_task": "TASK-20260912-001",
+  "predecessor": "TASK-20260913-015 + TASK-20260913-015-REVIEW-CORRECTION",
+  "branch": "task/20260912-001-v04-capability-diagnostics",
+  "terminal_state": "X_PROVIDER_ALTERNATIVE_REQUIRED",
+  "phase_0_preflight": {
+    "task_authority": "tasks/TASK-20260913-016-X-SESSION-VERIFIER-DISCRIMINATION.md @ commit 6814369 ('Add TASK-016 X session verifier discrimination authority'); review correction a6de3c4 retained as predecessor authority",
+    "production_health": {
+      "mihomo": "active, loopback-only 127.0.0.1:7890",
+      "gate_d_poller_timer": "active",
+      "production_session_sha256": "598f3b16b0bfd700e890f6c5fcc7e28c956249afeea830e75d069aeb26eaf7f6 (unchanged before and after the task)"
+    },
+    "runtime": "isolated /tmp/xverifier-t16/xactions @ upstream SHA f2fb3ed2d052838578e68a224eccc2cbaebcb7ca (same pinned SHA as TASK-014/015; task-owned XACTIONS_HOME cache)"
+  },
+  "phase_1_capture": {
+    "capture_method": "manual Human-supplied browser cookie export (allowed path), captured during TASK-016",
+    "source_file": "E:\\cs\\external-knoedge-skill\\cookie.txt",
+    "source_file_read_only_baseline": {
+      "bytes": 3208,
+      "sha256": "97135a32e476e1d01361f28768859bd6249d1e94ff03f54fe4c914646e226152",
+      "mtime_epoch": 1789281499,
+      "verified_unchanged_after_task": true,
+      "note": "per TASK-016 strict source-file rule the Human source file was NOT deleted, truncated, overwritten, renamed, or moved; only the task-owned derived copy was deleted at cleanup"
+    },
+    "fresh_session_captured": true,
+    "both_required_cookies_present": true,
+    "processing": "only auth_token (40 chars) + ct0 (160 chars) extracted in-process into a task-owned normalized file; values never printed or recorded",
+    "copied_from_production_session": false
+  },
+  "phase_2_s0_verifier": {
+    "verifier": "HomeTimeline GraphQL (GET), built through the pinned runtime's own machinery: queryIds.js resolveOperation (live discovery cache) + client/api graphqlQueries.js buildGraphQLUrl + DEFAULT_FEATURES, issued via the Scraper's SimpleHttp (auth headers + cookies); minimal task-owned probe per contract, no browser automation",
+    "query_id_provenance": {
+      "resolved_queryId": "Dw2wl35E3OV4X6UlEAf0bg",
+      "source": "cache (live discovery: 148 operations from x.com/home bundle, 11/11 chunks, 0 failures)",
+      "classification": "discovered/cache/live-resolution; no hand-pinned ID"
+    },
+    "s0_guest": {
+      "result_class": "authorization_shaped REJECTION",
+      "detail": "HTTP 404 on /i/api/graphql/<HomeTimeline id>/HomeTimeline while unauthenticated; the pinned runtime's own failure description states X restricts this endpoint to logged-in sessions",
+      "cookies": "none"
+    },
+    "s0_fresh": {
+      "result_class": "ACCEPTED, structurally valid authenticated response",
+      "bounded_entry_count": 37,
+      "instruction_count": 1,
+      "content_recorded": false
+    },
+    "s0_pass": true,
+    "verifier_independence": "HomeTimeline is neither SearchTimeline nor Followers nor getTweets-of-a-target; it requires no twid and fails for guest sessions on the same runtime/envelope"
+  },
+  "phase_3_final_discrimination": {
+    "S1_search_from_zcode_ai": { "result": "FAIL", "error_class": "authorization_shaped", "detail": "bare HTTP 404" },
+    "S2_search_ZCode": { "result": "FAIL", "error_class": "authorization_shaped", "detail": "bare HTTP 404" },
+    "S3_followers_differential": { "result": "FAIL", "error_class": "authorization_shaped", "detail": "bare HTTP 404" },
+    "S4_timeline_control": {
+      "result": "PASS",
+      "n": 5,
+      "numeric_post_ids": ["2098396306750517317", "2095526557670596868", "2095174167788441768", "2092635718766215590", "2090787985721856437"]
+    },
+    "S5_canonical_read": {
+      "result": "PASS",
+      "source": "timeline_control (search produced no IDs)",
+      "requested_id": "2098396306750517317",
+      "id_match": true,
+      "username": "zcode_ai",
+      "canonical_url": "https://x.com/zcode_ai/status/2098396306750517317",
+      "text_length": 297
+    },
+    "retry_discipline": "one primary call per probe; no authorization-shaped error was retried; no second session was captured"
+  },
+  "outcome": {
+    "selected": "B",
+    "pattern": "S0 PASS + S4/S5 PASS + S1/S2/S3 authorization-shaped failures",
+    "conclusion": "A fresh session is independently accepted by X for a session-only endpoint (HomeTimeline differential), but the required X search/followers capability still fails under the same account/provider/runtime envelope.",
+    "goal_integrity_consequence": "STOP all further XActions search/session/query-ID hardening in this project",
+    "x_semantic_availability_claimed": false,
+    "capability_map_updated": false,
+    "root_cause_speculation": "none recorded"
+  },
+  "authorization_boundary": {
+    "automatic_browser_cookie_db_read": false,
+    "agent_login_or_2fa_bypass": false,
+    "production_session_replaced": false,
+    "service_restarts_or_network_changes": false,
+    "human_source_file_mutated_or_deleted": false,
+    "second_session_captured": false,
+    "provider_alternative_staged": false,
+    "query_id_code_repair": false
+  },
+  "secret_handling": {
+    "cookie_values_printed_or_committed": false,
+    "private_home_timeline_content_recorded": false,
+    "account_identity_recorded": false,
+    "secret_files_deleted": ["host /tmp/fresh-session-t16.json", "local task-derived fresh-session.json copy (the Human source file was explicitly preserved)"]
+  },
+  "cleanup_status": {
+    "host": "fresh-session file, probe script, and isolated runtime (clone + cache) removed; residue grep = 0",
+    "local": "task-derived session copy and temp SSH key copies deleted",
+    "human_source_file": "exists unchanged (bytes/sha256/mtime identical to the read-only baseline)",
+    "production": "x-session.json sha256 unchanged; mihomo active; gate-d-poller.timer active",
+    "classification": "CLEAN_VERIFIED"
+  }
+}

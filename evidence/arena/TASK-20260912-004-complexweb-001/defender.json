@@ -1,0 +1,26 @@
+{
+  "receipt_type": "contestant/defender",
+  "match_id": "TASK-20260912-004-complexweb-001",
+  "provider": "runtime-native.webfetch",
+  "execution_surface": "native WebFetch tool of the current ZCode session; observed behavior: the host control plane hook-redirects the native tool to the context-mode fetcher (ctx_fetch_and_index + ctx_search), which is the effective native read path in this runtime",
+  "capability": "complex-web.read",
+  "real_target_identity": {
+    "url": "https://mp.weixin.qq.com/s/RNKDCK2KoyeuMeEs6GUrow",
+    "title_recorded_in_evidence": "阿里又一个 20k+ stars 开源项目诞生，恭喜 fastjson！",
+    "author_recorded_in_evidence": "杨立滨",
+    "provenance": "TASK-20260912-002 P7 case; URL re-derived deterministically for this match from the recorded source chain (doocs/md USERS.md first mp.weixin.qq.com link) and identity confirmed (author match) at the admission gate"
+  },
+  "match_mode": "HEAD_TO_HEAD",
+  "attempts": [
+    {"n": 1, "kind": "primary", "observed": "HTTP fetch returned WeChat anti-bot verification page ('环境异常，完成验证后即可继续访问'); 0.2KB indexed; 0/4 objective fields (no title/author/body/metadata)", "ok": false},
+    {"n": 2, "kind": "retry (concrete transient fetch error: anti-bot block page)", "observed": "identical anti-bot verification page; 0.2KB; 0/4 objective fields", "ok": false}
+  ],
+  "result_summary": "FAILED for the content objective: both attempts served the anti-bot verification page; no article content, no metadata",
+  "content_evidence": {"indexed_bytes": "~200", "env_exception_page": true, "objective_fields_extracted": 0},
+  "errors_retries": "1 retry used of the allowed 1; both attempts fast-failed with the same block page",
+  "fetch_timing": "each attempt ~2-3s to receive the block page (fast fail; no content timeout occurred this run, unlike the 2026-08-22 historical timeout case)",
+  "resource_staging_evidence": "none: pre-existing native tool, zero staging",
+  "authorization_boundary": "TASK-004 read-only contestant actions; bounded 1+1 attempts; no proxy/TLS/UA tuning allowed for the defender's default read path",
+  "environment_mutation_evidence": "none",
+  "orchestrator_reference_baseline_not_a_contestant_op": "a pre-match admission check with curl + a plain browser UA on the same URL received the real article page (HTTP 200, 3.2MB, author 杨立滨 confirmed) - recorded by the adjudicator as baseline, proving the block is automation-fingerprint-based, not IP- or paywall-based"
+}

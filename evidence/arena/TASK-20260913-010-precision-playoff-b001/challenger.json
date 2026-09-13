@@ -1,0 +1,29 @@
+{
+  "receipt_type": "contestant/challenger",
+  "match_id": "TASK-20260913-010-precision-playoff-b001",
+  "provider": "tavily (Remote MCP, keyless)",
+  "execution_surface": "remote hosted MCP https://mcp.tavily.com/mcp/ with header X-Tavily-Access-Mode: keyless (no account/API key/OAuth), tavily-mcp v4.0.3, tool tavily_search with max_results=5 (documented count parameter auto-detected from tools/list schema); transport-only client script in match cell (torn down; snapshot at driver-snapshot.py)",
+  "capability": "precision.search",
+  "evidence_class": "CONTROLLED_BENCHMARK",
+  "production_routing_authority": false,
+  "match_mode": "HEAD_TO_HEAD (controlled playoff, candidate slot only)",
+  "attempt_accounting": {
+    "attempt_1": "E1 returned a full valid 5-result list; E2-M3 returned HTTP 200 with empty/no-URL payloads - initially indistinguishable between driver SSE parsing defect and provider rate limiting; all 9 cells' raw outputs preserved in playoff-run-attempt1.json",
+    "diagnostic": "a single out-of-band diagnostic call (fresh session, query E2) returned a FULL valid result list with the identical request shape - proving the empty attempt-1 cells were a driver SSE parsing defect (first-data-line selection) and/or intermittent keyless rate limiting, NOT absence of results; full diagnostic body preserved in the report",
+    "attempt_2 (recorded for E2-M3)": "driver SSE parser corrected (all data: lines scanned, response selected by request id); the re-run failed on ALL fixtures including initialize with 'no matching rpc response' at a constant ~260ms - consistent with the keyless rate-limit window being consumed by prior calls; a post-window single diagnostic succeeded, confirming intermittent rate limiting rather than a hard block",
+    "budget_state": "per-fixture 1+1 budget exhausted for Tavily (E1: 1 valid attempt; E2-M3: 1 parse-defective + 1 rate-limited); per contract no further calls were made"
+  },
+  "completed_fixtures": {
+    "E1 \"X-Tavily-Access-Mode\"": {"latency_ms": 1332, "top5": ["https://github.com/tavily-ai/tavily-python/blob/master/tavily/tavily.py", "https://docs.tavily.com/documentation/keyless", "https://docs.tavily.com/agents", "https://www.tavily.com/blog/tavily-101-ai-powered-search-for-developers", "https://docs.tavily.com/faq/faq"], "strict_target_hit": true, "strict_rank": 2, "note": "frozen strict target docs.tavily.com/documentation/keyless (header x12) returned at rank 2; rank-1 result is the tavily-python source (family, not the frozen E1 target)"}
+  },
+  "incomplete_fixtures": ["E2", "E3", "S1", "S2", "S3", "M1", "M2", "M3"],
+  "rate_limit_evidence": {
+    "pattern": "attempt-1 E2-M3: HTTP 200, ~260ms, empty payload (rate-limit/notify-form response mis-parsed by defective driver); attempt-2: HTTP 200, ~260ms, no id-matching rpc response on ALL calls including initialize; single post-window diagnostic: full valid response",
+    "interpretation": "intermittent keyless rate-limit window consistent with Tavily's documented keyless rate limits; >=8 of 9 fixtures affected -> quality matrix incomplete",
+    "raw_artifacts": ["playoff-run-attempt1.json", "playoff-run-tavily-attempt2.json"]
+  },
+  "errors_retries": "no transport/5xx errors; rate-limit responses consumed the retry budget contractually",
+  "latency": "E1 1.33s; rate-limited responses ~0.26s constant; handshake 3.35s",
+  "authorization_boundary": "keyless header only; search tool only (extract/crawl/map/research not called); no credentials/OAuth; same raw queries as defender; 2s pacing",
+  "environment_mutation_evidence": "none persistent; transport script torn down after evidence copy-out"
+}

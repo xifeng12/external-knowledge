@@ -1,0 +1,20 @@
+{
+  "receipt_type": "contestant/challenger",
+  "match_id": "TASK-20260912-004-complexweb-001",
+  "provider": "unclecode/crawl4ai",
+  "execution_surface": "ephemeral match cell: venv (crawl4ai 0.9.3, playwright 1.62.0) + match-scoped Playwright chromium-1234 (Chrome for Testing 151.0.7922.34) under %TEMP%/external-knowledge-arena/TASK-20260912-004-complexweb-001; browser profile forced into the cell via BrowserConfig(user_data_dir=...); PLAYWRIGHT_BROWSERS_PATH scoped to the cell; provider-default CrawlerRunConfig, no LLM/API extraction, no anti-detection options (magic/simulate) used",
+  "capability": "complex-web.read",
+  "real_target_identity": "identical to defender receipt",
+  "match_mode": "HEAD_TO_HEAD",
+  "attempts": [
+    {"n": 1, "kind": "primary", "observed": "crawler executed; output LOST before recording - the orchestrator's driver crashed serializing its result (crawl4ai.__version__ is a module, JSON-unserializable). No content evidence captured; no extraction tuning performed afterwards", "ok": false, "note": "recorded as an executed attempt whose evidence was lost to an orchestrator driver bug"},
+    {"n": 2, "kind": "retry (concrete orchestrator tool error, the only allowed retry)", "observed": "tool-level success=True, fetch_ms=4163; extracted content is the WeChat anti-bot verification page: heading '环境异常', env_exception_page=true, raw_html ~20KB, no js_content div, markdown_len=69, metadata title='微信公众平台' (block page title, not the article); 0/4 objective fields", "ok": false, "note": "tool-level OK, content-level FAILED"}
+  ],
+  "result_summary": "FAILED for the content objective: the headless chromium was served the same anti-bot verification page as the native fetcher; no article title/author/body/metadata extracted",
+  "content_evidence": {"raw_markdown_len": 69, "raw_html_len": 19990, "sha256_16_raw_markdown": "8bf447e51f6a7c75", "headings_found": ["环境异常"], "env_exception_page": true, "objective_fields_extracted": 0},
+  "errors_retries": "attempt 1 evidence lost to driver bug (orchestrator-side, disclosed); attempt 2 completed the bounded 1+1 budget",
+  "fetch_timing": "attempt 2 fetch_ms=4163 (tool-reported success); staging/download time recorded separately as operational burden, not inside fetch latency",
+  "resource_staging_evidence": {"venv_mb": 697, "browser_mb": 703, "pip_cache_mb": 190, "total_staged_mb": 1590, "staging_friction": "playwright CDN stalled at 0% for ~16 min on direct connection; retry with a per-command HTTPS_PROXY env var (scoped to the install process only, no persistent proxy change) completed all downloads from the official cdn.playwright.dev"},
+  "authorization_boundary": "TASK-004 ephemeral staging only; no LLM/API keys; no persistent install; no proxy/TLS mutation; read-only toward the target; bounded 1+1 attempts with provider-default configuration",
+  "environment_mutation_evidence": "Arena-owned staging only (see adjudication provenance ledger); no system/user Python, PATH, MCP, or persistent browser state touched"
+}

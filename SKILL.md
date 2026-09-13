@@ -29,13 +29,19 @@ Do not install or configure providers during runtime retrieval.
 
 ### Setup/diagnostic mode
 
-Enter only when the user explicitly asks to diagnose, set up, prepare, configure, or assess external-knowledge capabilities, or when a setup experiment explicitly requires capability inventory.
+Enter only when the user explicitly asks to diagnose, set up, prepare, configure, or assess external-knowledge capabilities, when the user asks what Skills/capabilities exist on a machine, or when a setup experiment explicitly requires capability inventory.
 
-v0.3-beta.1 setup flow:
+Use the smallest diagnostic surface that can answer the unresolved question. Do not scan Skill roots when provider/runtime evidence alone is sufficient.
+
+v0.4 diagnostic candidate flow:
 
 ```text
 Goal / need profile
     ↓
+Explicit Skill roots, only when machine Skill inventory matters
+    ↓
+Read-only Skill inventory
+    +
 Deterministic read-only Doctor
     +
 Agent runtime inventory
@@ -44,13 +50,17 @@ Provider-scoped evidence
     ↓
 Capability aggregation
     ↓
-Need-aware capability plan
+Capability map / need-aware capability plan
     ↓
 STOP
 ```
 
-v0.3-beta.1 may perform narrowly scoped installation/configuration only after an approval-bound provisioning plan is explicitly approved.
+Skill inventory is carrier-level evidence. A discovered Skill proves only that a Skill package exists under an inspected root. An explicit `external-knowledge.json` sidecar is a declared capability claim, not proof that the provider or capability is operational.
 
+The provisioning approval model remains unchanged: narrowly scoped installation/configuration may occur only after an approval-bound provisioning plan is explicitly approved.
+
+Read `references/capability-map.md` for the current human-facing capability/channel map.
+Read `references/machine-diagnostics.md` before scanning Skill roots or interpreting Skill capability claims.
 Read `references/capability-model.md` for status semantics.
 Read `references/setup-policy.md` before producing a provisioning plan.
 Read `references/runtime-adapter-contract.md` when using or extending a runtime adapter.
@@ -81,15 +91,18 @@ Keep these questions separate:
 2. **Semantic coverage** — is the available path equivalent for this information need, degraded, or specialized?
 3. **Source discoverability** — for this Provider × Source Semantic, how well does observed retrieval actually surface items from the target ecosystem?
 4. **Need** — does the user's intended workload require or merely benefit from this capability?
+5. **Skill/carrier inventory** — which Skill packages are visible under the roots actually inspected, and which capabilities do they explicitly claim?
 
 `UNKNOWN` is not `MISSING_CONFIRMED`.
 
 Keep capability and provider status separate. A provider can be missing while the capability remains available through another provider.
 
+Keep Skill/carrier presence separate from provider availability. A Skill directory, plugin registration, config file, or package can show that a carrier exists without proving an independent execution surface is callable.
+
 Count only independent execution surfaces as exposure classes. Plugin/Skill/config/package observations are carrier evidence unless they independently execute the provider.
 Absence observations only prove missing when authoritative absence covers every legal exposure class declared by that capability's runtime adapter contract.
 
-Do not infer `AVAILABLE` merely because a CLI, file, package, or config entry exists. Presence is component evidence; operational availability needs runtime exposure or a representative probe.
+Do not infer `AVAILABLE` merely because a CLI, file, package, Skill, sidecar, or config entry exists. Presence is component/carrier evidence; operational availability needs runtime exposure or a representative probe.
 
 ## Fallback
 
@@ -115,7 +128,7 @@ Therefore a zero-result query from either path does not prove non-existence. Do 
 
 Capability discovery and environment mutation are separate phases.
 
-During runtime mode, and during beta diagnosis/planning before explicit approval, do not:
+During runtime mode, and during diagnosis/planning before explicit approval, do not:
 
 - install a provider;
 - modify MCP configuration;
@@ -136,6 +149,28 @@ Before any mutation:
 5. execute only the approved actions;
 6. on any required change, STOP and create a new plan for new approval;
 7. verify with Doctor + runtime exposure/representative probe.
+
+## Skill inventory contract
+
+`scripts/scan_skills.py` is deterministic and read-only with respect to the target Skill roots.
+
+It may:
+
+- inspect only explicitly supplied Skill roots;
+- find directories containing `SKILL.md`;
+- read simple top-level inventory fields from `SKILL.md` frontmatter;
+- read an adjacent `external-knowledge.json` capability-declaration sidecar when present;
+- report discovered carriers, explicit claims, unclassified Skills, and unavailable roots.
+
+It must not:
+
+- execute Skill code;
+- infer capabilities from names/descriptions when no explicit declaration exists;
+- claim one inspected root is a machine-wide inventory;
+- mark a provider/capability `AVAILABLE` from Skill presence or a capability claim;
+- perform network access or environment mutation.
+
+A missing root proves only that the supplied root was unavailable. An unclassified Skill means capability attribution is unknown, not that the Skill has no external-knowledge capability.
 
 ## Doctor contract
 
@@ -174,14 +209,15 @@ When Top-N results strongly reflect the wrong sense of an ambiguous term:
 
 ### Setup Evidence STOP
 
-Stop beta diagnosis/planning when:
+Stop diagnosis/planning when:
 
+- explicitly authorized Skill roots, when relevant, have been inventoried without being treated as machine-wide unless that authority is real;
+- discovered carriers, explicit capability claims, and unclassified Skills remain separate from operational availability;
 - deterministic local evidence is collected;
 - agent runtime exposure is recorded where available;
 - `UNKNOWN` and `MISSING_CONFIRMED` are not conflated;
 - each relevant capability has a need-aware action;
 - no installation/configuration was executed.
-
 
 ## Beta provisioning boundary
 

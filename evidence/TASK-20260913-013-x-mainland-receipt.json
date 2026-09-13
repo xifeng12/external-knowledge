@@ -1,0 +1,185 @@
+{
+  "task_id": "TASK-20260913-013",
+  "generated_at": "2026-09-13",
+  "parent_task": "TASK-20260912-001",
+  "branch": "task/20260912-001-v04-capability-diagnostics",
+  "terminal_state": "READY_FOR_X_PROVIDER_REPAIR_DECISION",
+  "host_connection": {
+    "mainland_host": "139.196.229.56 (Aliyun ECS, Shanghai; per vpsmanage inventory/gate-b evidence and E:\\cs\\key known_hosts)",
+    "ssh_key_file_used": "E:\\cs\\key\\cloud_server (original untouched; a temporary 0600 ACL-restricted copy outside the repo was used because Windows ACLs on the original are open; copy deleted at stop)",
+    "secrets_printed_or_committed": false
+  },
+  "phase_a_x_reuse": {
+    "execution_envelope": "existing vpsmanage surface, unchanged: XActions fetch client -> Mihomo 127.0.0.1:7890 -> approved upstream -> X",
+    "preflight": {
+      "poc_dir": "/opt/xactions-poc present with gate-c/d scripts + node_modules",
+      "xactions_version": "3.5.0",
+      "session_file": "/opt/xactions-poc/x-session.json mode 0600 root, present",
+      "mihomo": "active, listening loopback-only on 127.0.0.1:7890",
+      "production_timer": "gate-d-poller.timer active (untouched, not restarted)"
+    },
+    "x1_account_scoped_search": {
+      "query": "from:zcode_ai",
+      "mode": "Latest",
+      "count": 5,
+      "result": "FAILED",
+      "error": "HTTP 404: Not Found"
+    },
+    "x2_global_keyword_search": {
+      "query": "ZCode",
+      "mode": "Latest",
+      "count": 5,
+      "result": "FAILED",
+      "error": "HTTP 404: Not Found"
+    },
+    "differential_verification": {
+      "purpose": "prove the 404 is search-endpoint-specific, not session/envelope degradation",
+      "getTweets_timeline": {
+        "path": "getTweets('zcode_ai', 5)",
+        "result": "PASS - 5 real posts with numeric IDs",
+        "timeline_ids": [
+          "2098396306750517317",
+          "2095526557670596868",
+          "2095174167788441768",
+          "2092635718766215590",
+          "2090787985721856437"
+        ]
+      },
+      "getTweet_canonical_read": {
+        "path": "getTweet(id)",
+        "requested_id": "2098396306750517317",
+        "result": "PASS",
+        "id_match": true,
+        "username": "zcode_ai",
+        "canonical_url": "https://x.com/zcode_ai/status/2098396306750517317",
+        "text_length": 297,
+        "text_head": "WEEKEND BUILD V is arriving ... 300M tokens per person, free."
+      },
+      "conclusion": "session, auth, Mihomo proxy path, and UserTweets/TweetDetail GraphQL queryIds are healthy; only SearchTimeline is broken"
+    },
+    "failure_evidence_non_secret": {
+      "endpoint": "SearchTimeline GraphQL",
+      "installed_queryId": "flaR-PUMshxFWZWPNpq4zA (xactions 3.5.0 src/scrapers/twitter/http/endpoints.js)",
+      "observed_error": "HTTP 404: Not Found on both search fixtures",
+      "interpretation": "X rotated the SearchTimeline queryId; installed 3.5.0 ships a dead queryId",
+      "no_cookies_or_tokens_recorded": true
+    },
+    "classification": {
+      "x.semantic": "NOT AVAILABLE_WITH_SCOPE this run - searchTweets() failed on endpoint change",
+      "contract_rule_applied": "task section 2.4: stop the X leg at READY_FOR_X_PROVIDER_REPAIR_DECISION; no Puppeteer/Chrome fallback"
+    },
+    "repair_scope_note": "the repair decision is narrowly scoped: only the SearchTimeline queryId needs updating in the existing vpsmanage/XActions surface (read+timeline paths still work); no new auth surface, no second runtime"
+  },
+  "phase_b_mainland_no_proxy": {
+    "no_proxy_rule": "proxy variables unset per-process for every probe; Mihomo untouched and still running; no routes/DNS/profile/system proxy changed",
+    "direct_reachability_controls": [
+      {
+        "control": "D1",
+        "target": "https://github.com",
+        "dns": ["20.205.243.166"],
+        "tcp_tls": "established (connect 0.091s, TLS 0.193s)",
+        "http_status": 200,
+        "elapsed_s": 0.733,
+        "failure_level": null,
+        "local_direct_read": "AVAILABLE"
+      },
+      {
+        "control": "D2",
+        "target": "https://x.com",
+        "dns": ["162.159.140.229"],
+        "tcp_tls": "TCP connect timed out after 15s (no SYN-ACK)",
+        "http_status": null,
+        "elapsed_s": 15.0,
+        "failure_level": "transport",
+        "local_direct_read": "BLOCKED_TRANSPORT"
+      },
+      {
+        "control": "D3",
+        "target": "https://www.bing.com",
+        "dns": ["202.89.233.100", "202.89.233.101"],
+        "tcp_tls": "established",
+        "http_status": 302,
+        "note": "redirects to cn.bing.com (mainland-flavored frontend); organic results served",
+        "failure_level": null,
+        "local_direct_read": "AVAILABLE"
+      },
+      {
+        "control": "D4",
+        "target": "https://mcp.exa.ai",
+        "dns": ["104.18.7.160", "104.18.6.160"],
+        "tcp_tls": "established",
+        "http_status": 405,
+        "note": "GET rejected by application; transport fully open; MCP POST used later succeeded",
+        "failure_level": null,
+        "local_direct_read": "AVAILABLE"
+      },
+      {
+        "control": "S1",
+        "target": "https://en.wikipedia.org/wiki/Geographic_information_system",
+        "dns": ["2001:df2:e500:ed1a::1", "103.102.166.224 (recorded by curl remote_ip)"],
+        "tcp_tls": "TCP connect timed out after 15s",
+        "http_status": null,
+        "failure_level": "transport",
+        "local_direct_read": "BLOCKED_TRANSPORT"
+      }
+    ],
+    "search_discovery_probe": {
+      "frontend": "www.bing.com (no proxy) -> effective https://cn.bing.com/search",
+      "queries": [
+        "Geographic information system site:en.wikipedia.org",
+        "Geographic information system Wikipedia"
+      ],
+      "result": "organic results served (10 blocks) but mainland-flavored (National Geographic, baike.baidu.com, Cambridge dictionary); ZERO en.wikipedia.org mentions across both bounded queries",
+      "discovery_status_for_S1_via_reachable_frontend": "NOT_DISCOVERED",
+      "key_finding": "a reachable search frontend does not imply foreign-content discoverability from the mainland host"
+    },
+    "exa_remote_provider_probe": {
+      "surface": "https://mcp.exa.ai/mcp anonymous hosted MCP (no key, no OAuth, no account)",
+      "initialize": "200, exa-search-server 3.2.1",
+      "tools_list": "200, [web_search_exa, web_fetch_exa]",
+      "web_search_exa": {
+        "query": "Geographic information system Wikipedia",
+        "result": "200, 27524 chars; FIRST result is exactly the locally blocked S1 URL (https://en.wikipedia.org/wiki/Geographic_information_system)",
+        "discovery_status_for_S1_via_provider": "DISCOVERED"
+      },
+      "web_fetch_exa": {
+        "first_attempt": "validation error - tool requires 'urls' (array); probe bug, not service failure",
+        "retry_with_urls_array": {
+          "result": "200, 3098 chars material Markdown for the locally blocked S1 URL",
+          "provider_remote_read": "AVAILABLE"
+        }
+      },
+      "no_proxy": true,
+      "no_api_key": true
+    },
+    "reachability_model": {
+      "github.com": { "discovery_status": "DISCOVERABLE", "local_direct_read": "AVAILABLE", "provider_remote_read": "NOT_TESTED", "derived": "DIRECT_AVAILABLE" },
+      "x.com": { "discovery_status": "DISCOVERABLE (URL known)", "local_direct_read": "BLOCKED_TRANSPORT", "provider_remote_read": "NOT_TESTED (X API surface broken this run)", "derived": "DISCOVERABLE_BUT_NOT_DIRECTLY_READABLE" },
+      "www.bing.com": { "discovery_status": "DISCOVERABLE", "local_direct_read": "AVAILABLE", "provider_remote_read": "NOT_TESTED", "derived": "DIRECT_AVAILABLE (as a frontend; foreign-content discovery weak)" },
+      "mcp.exa.ai": { "discovery_status": "DISCOVERABLE", "local_direct_read": "AVAILABLE", "provider_remote_read": "AVAILABLE", "derived": "DIRECT_AVAILABLE + REMOTE_READ_AVAILABLE" },
+      "en.wikipedia.org/wiki/Geographic_information_system": { "discovery_status": "DISCOVERED via Exa (NOT via cn.bing)", "local_direct_read": "BLOCKED_TRANSPORT", "provider_remote_read": "AVAILABLE", "derived": "DISCOVERABLE_AND_REMOTE_READABLE (through no-proxy-reachable provider)" }
+    },
+    "headline_finding": "From the mainland host without any proxy, an Agent can still discover and read foreign sources through the no-proxy-reachable Exa anonymous hosted MCP, even when the source is transport-blocked locally and not surfaced by the mainland search frontend."
+  },
+  "secret_handling_and_mutation_boundary": {
+    "private_key_contents_printed": false,
+    "x_auth_token_or_ct0_printed": false,
+    "key_files_copied_into_repo": false,
+    "E_cs_key_files_mutated": false,
+    "temporary_key_copy": "created outside repo with restricted ACL, deleted at stop",
+    "vpsmanage_changes": "none (read-only shallow clone in temp, deleted at stop)",
+    "mainland_host_changes": "none persisted; /tmp probe scripts and leftover artifacts removed at stop",
+    "services_touched": "none (mihomo active, gate-d-poller.timer active after probes)"
+  },
+  "cleanup_status": {
+    "host_tmp_files_removed": ["xprobe-t13.mjs", "xread-t13.mjs", "exa-t13.mjs", "exa-fetch-t13.mjs", "bing-t13.html", "bundle-t13.b64", "cat.b64", "reach-body/err artifacts"],
+    "verification": "grep for task-owned files in /tmp returned 0; mihomo active; gate-d-poller timer active",
+    "local_cleanup": ["temp SSH key copy deleted", "vpsmanage temp clone deleted", "probe b64 intermediates deleted"],
+    "classification": "CLEAN_VERIFIED"
+  },
+  "repository_changes": [
+    "reports/TASK-20260913-013-X-MAINLAND-REACHABILITY.md (new)",
+    "evidence/TASK-20260913-013-x-mainland-receipt.json (new)",
+    "references/capability-map.md (bounded test-stage reachability-profile note)"
+  ]
+}

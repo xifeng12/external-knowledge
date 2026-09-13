@@ -1,0 +1,84 @@
+{
+  "receipt_type": "adjudication",
+  "match_id": "TASK-20260913-007-complexweb-b001",
+  "capability": "complex-web.read",
+  "evidence_class": "CONTROLLED_BENCHMARK",
+  "production_routing_authority": false,
+  "defender": "runtime-native.webfetch (P0 only; P1 UNSUPPORTED)",
+  "challenger": "unclecode/crawl4ai 0.9.3 (+ playwright 1.62.0, chromium-1234)",
+  "match_mode": "HEAD_TO_HEAD (controlled benchmark, identical objectives and frozen ground truth; P0/P1 are declared benchmark profiles, not retries)",
+  "source_semantic_gate": "PASSED: fixtures used as controlled extraction/rendering ground truth, not to retrieve any specialist semantic (no GitHub/WeChat/versioned-doc content); no inference to specialist-source performance is made",
+
+  "staging_provenance_ledger": [
+    {"artifact": "venv with crawl4ai 0.9.3 + dependencies (697MB)", "preexisting": false, "introduced_by_match": "TASK-20260913-007-complexweb-b001", "installation_method": "python -m venv + venv pip install, pip cache in-cell", "scope": "cell/venv + cell/cache", "cleanup_policy": "delete with cell"},
+    {"artifact": "match-scoped Playwright browsers chromium-1234 / headless-shell / ffmpeg-1011 / winldd-1007 (703MB)", "preexisting": false, "introduced_by_match": "TASK-20260913-007-complexweb-b001", "installation_method": "playwright install chromium with cell-scoped PLAYWRIGHT_BROWSERS_PATH; downloads completed DIRECT (no proxy override used)", "scope": "cell/browser", "cleanup_policy": "delete with cell"},
+    {"artifact": "driver/config/evidence + cell-scoped browser profile", "preexisting": false, "introduced_by_match": "TASK-20260913-007-complexweb-b001", "installation_method": "written into cell", "scope": "cell/{config,profile,evidence}", "cleanup_policy": "delete with cell"},
+    {"artifact": "PATH / MCP registration / shell profile / system Python / pre-existing ms-playwright user cache", "preexisting": true, "introduced_by_match": false, "note": "never modified"}
+  ],
+  "four_plans": {
+    "provision": "cell venv + pinned crawl4ai==0.9.3 + cell-scoped chromium; no proxy override (direct downloads succeeded under current network state)",
+    "rollback": "delete cell; re-verify host cleanliness, registrations, user caches",
+    "promotion": "out of scope: CONTROLLED_BENCHMARK confers no production authority; Arena runtime deleted regardless of outcome",
+    "teardown": "verify no Arena-owned processes; delete cell; verify host import absence, no persistent env/registration, user caches untouched, repository tree clean"
+  },
+
+  "benchmark_matrix": {
+    "B0_static_structure": {
+      "defender_P0": "PASS (title, $9.99, description, brand, Features table, all 5 pack rows as GFM table)",
+      "challenger_P0": "PASS (title, $9.99 x3, brand, all 5 pack rows as GFM table with header)",
+      "verdict": "tie - both baseline-suitable"
+    },
+    "B1_rendered_dynamic": {
+      "defender_P0": "FAIL (shell only, 0 records)",
+      "challenger_P0": "FAIL (default domcontentloaded returns before GraphQL content, 0 records)",
+      "challenger_P1": "STRONG (20 date-led review records via generic network-idle rendering)",
+      "defender_P1": "UNSUPPORTED",
+      "verdict": "decisive challenger advantage: the native path cannot recover this content class at all"
+    },
+    "B2_progressive_scroll": {
+      "defender_P0": "FAIL (10/60)",
+      "challenger_P0": "FAIL (10/60)",
+      "challenger_P1": "PARTIAL (30/60 via generic scan_full_page; no tuning permitted after observing results)",
+      "defender_P1": "UNSUPPORTED",
+      "verdict": "material challenger advantage (3x recovery) though not full aggregate"
+    }
+  },
+
+  "dimension_comparison": {
+    "B0_baseline_correctness": "tie (both pass all minimum criteria)",
+    "B1_rendered_dynamic_recovery": "decisive challenger advantage (20 records vs 0; defender profile-unsupported)",
+    "B2_progressive_recovery": "material challenger advantage (30/60 vs 10/60; defender profile-unsupported)",
+    "precision_boilerplate": "comparable (both include site nav boilerplate in markdown; no meaningful noise difference)",
+    "structure_preservation": "tie on B0 (both preserve heading hierarchy and the full Packs table)",
+    "determinism": "both deterministic under fixed configs; challenger adds network-idle wait variance within documented behavior",
+    "fetch_runtime_cost": "comparable per fetch (0.4-4.2s challenger vs 1-3s defender); challenger requires a browser runtime",
+    "staging_footprint": "decisive edge defender (zero vs ~1.59GB ephemeral; this run had no CDN stall, unlike TASK-004)",
+    "operational_burden": "edge defender (zero staging/lifecycle vs venv+browser cell management)",
+    "agent_ergonomics": "challenger advantage for dynamic content: single structured call with rendered markdown; the native path has no equivalent capability (P1 UNSUPPORTED), so there is no ergonomic alternative to compare"
+  },
+
+  "verified_facts_vs_interpretation": {
+    "verified": "B0: both pass with equal structure fidelity; B1: only challenger P1 recovered records (20) - defender and challenger-default recovered 0; B2: challenger P1 recovered 30/60 vs 10 for both P0 paths; staging ~1.59GB, no proxy override used; attempt 1 measurement defect disclosed",
+    "interpretation": "the benchmark isolates the capability boundary exactly as designed: ordinary/static reads are equally served by the native path, while rendered and progressive content is reachable only through the challenger's documented generic dynamic-read profile; the 30/60 B2 result shows partial (not dominant) progressive capability under generic behavior",
+    "decision": "SPLIT_BY_SCENARIO"
+  },
+  "outcome": "SPLIT_BY_SCENARIO",
+  "outcome_rationale": "the controlled benchmark supports the declared split hypothesis: native read is sufficient for ordinary/static pages (B0 tie) while Crawl4AI materially improves dynamic (B1: 20 vs 0) and progressive (B2: 30/60 vs 10/60) extraction. This is a benchmark hypothesis, NOT production ownership: evidence_class CONTROLLED_BENCHMARK, production_routing_authority=false, routing_impact=none.",
+  "routing_impact": "none",
+  "production_change_implication": "the split hypothesis, if the Human adopts it, would change production escalation routing and therefore requires real-world validation first",
+  "invariant_tests_note": "no repository code introduced by TASK-007 (driver scripts were ephemeral match tooling, torn down); contract invariants enforced as process checks recorded in these receipts",
+  "teardown_status": {
+    "classification": "CLEAN_VERIFIED",
+    "verified": [
+      "no Arena-owned chrome/python processes (command-line scan for the cell path returned none)",
+      "1.6GB arena cell deleted and confirmed absent",
+      "crawl4ai not importable on host python (unchanged)",
+      "PLAYWRIGHT_BROWSERS_PATH was per-command only; nothing persistent",
+      "no crawl4ai registration in any inspected config domain",
+      "pre-existing ms-playwright user cache unchanged (chromium-1208 era entries; no chromium-1234 leaked - install logs prove all downloads landed in the cell)",
+      "repository tree contains only intended durable outputs"
+    ],
+    "residue": "none Arena-owned (carried-over caveat: ms-playwright user-cache pre-existence was never fully baselineable because of the truncated listing in TASK-004; same conservative treatment applied)"
+  },
+  "terminal_state": "READY_FOR_REAL_WORLD_VALIDATION"
+}

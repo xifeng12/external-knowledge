@@ -1,0 +1,868 @@
+{
+  "receipt_version": 1,
+  "generated_at": "2026-09-12T13:38:46.254197+00:00",
+  "runtime": "zcode-cli (Windows 10.0.26200 host, Git Bash, session-scoped diagnosis 2026-09-12)",
+  "inventory_scope": "current ZCode CLI session only: native tool manifest, session MCP tool manifest, and current-process Bash PATH command resolution. Other sessions, plugin MCP scopes, and non-ZCode runtimes were not inspected.",
+  "skill_roots": [
+    {
+      "path": "~\\.agents\\skills",
+      "exists": true,
+      "is_dir": true
+    },
+    {
+      "path": "~\\.zcode\\cli\\plugins\\cache",
+      "exists": true,
+      "is_dir": true
+    },
+    {
+      "path": "~\\.codex\\skills",
+      "exists": true,
+      "is_dir": true
+    },
+    {
+      "path": "~\\.claude\\skills",
+      "exists": true,
+      "is_dir": true
+    },
+    {
+      "path": "E:\\cs1\\.opencode\\skills",
+      "exists": true,
+      "is_dir": true
+    },
+    {
+      "path": "~\\.agent-reach",
+      "exists": true,
+      "is_dir": true
+    }
+  ],
+  "environment_mutation_attempted": false,
+  "capabilities": [
+    {
+      "id": "general-web.search",
+      "operational_status": "AVAILABLE",
+      "best_provider": "runtime-native.web-search",
+      "best_available_coverage": "EQUIVALENT",
+      "plan_action": null,
+      "skill_carriers": []
+    },
+    {
+      "id": "general-web.read",
+      "operational_status": "AVAILABLE",
+      "best_provider": "runtime-native.webfetch",
+      "best_available_coverage": "EQUIVALENT",
+      "plan_action": null,
+      "skill_carriers": []
+    },
+    {
+      "id": "docs.versioned",
+      "operational_status": "AVAILABLE",
+      "best_provider": "context7",
+      "best_available_coverage": "EQUIVALENT",
+      "plan_action": null,
+      "skill_carriers": []
+    },
+    {
+      "id": "github.semantic",
+      "operational_status": "AVAILABLE",
+      "best_provider": "gh-cli",
+      "best_available_coverage": "EQUIVALENT",
+      "plan_action": null,
+      "skill_carriers": []
+    },
+    {
+      "id": "wechat.discovery",
+      "operational_status": "MISSING_CONFIRMED",
+      "best_provider": null,
+      "best_available_coverage": "NOT_APPLICABLE",
+      "plan_action": null,
+      "skill_carriers": []
+    },
+    {
+      "id": "wechat.reader",
+      "operational_status": "UNKNOWN",
+      "best_provider": null,
+      "best_available_coverage": "UNKNOWN",
+      "plan_action": null,
+      "skill_carriers": []
+    },
+    {
+      "id": "precision.search",
+      "operational_status": "UNKNOWN",
+      "best_provider": null,
+      "best_available_coverage": "UNKNOWN",
+      "plan_action": null,
+      "skill_carriers": []
+    },
+    {
+      "id": "complex-web.read",
+      "operational_status": "AVAILABLE_WITH_SCOPE",
+      "best_provider": "runtime-native.webfetch",
+      "best_available_coverage": "DEGRADED",
+      "plan_action": null,
+      "skill_carriers": []
+    }
+  ],
+  "unclassified_skills": [
+    {
+      "name": "agent-fetch",
+      "path": "E:\\cs1\\.opencode\\skills\\installed\\agent-fetch"
+    },
+    {
+      "name": "agent-reach",
+      "path": "E:\\cs1\\.opencode\\skills\\system\\agent-reach"
+    },
+    {
+      "name": "agently-mail",
+      "path": "~\\.agents\\skills\\agently-mail"
+    },
+    {
+      "name": "android-dev",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\android-emulator\\0.1.0\\skills\\android-dev"
+    },
+    {
+      "name": "arcgis-pro-automation",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\local-plugins\\geoai-skills\\0.4.0\\skills\\arcgis-pro-automation"
+    },
+    {
+      "name": "browse",
+      "path": "~\\.claude\\skills\\browse"
+    },
+    {
+      "name": "browse",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-browse"
+    },
+    {
+      "name": "browse",
+      "path": "~\\.claude\\skills\\gstack\\browse"
+    },
+    {
+      "name": "careful",
+      "path": "~\\.claude\\skills\\careful"
+    },
+    {
+      "name": "careful",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-careful"
+    },
+    {
+      "name": "careful",
+      "path": "~\\.claude\\skills\\gstack\\careful"
+    },
+    {
+      "name": "cartography-geoviz",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\local-plugins\\geoai-skills\\0.4.0\\skills\\cartography-geoviz"
+    },
+    {
+      "name": "change-detection",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\local-plugins\\geoai-skills\\0.4.0\\skills\\change-detection"
+    },
+    {
+      "name": "chrome-cdp",
+      "path": "E:\\cs1\\.opencode\\skills\\archived\\chrome-cdp"
+    },
+    {
+      "name": "cli-anything",
+      "path": "E:\\cs1\\.opencode\\skills\\custom\\cli-anything"
+    },
+    {
+      "name": "codespace",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\github\\0.1.1\\skills\\codespace"
+    },
+    {
+      "name": "codex",
+      "path": "~\\.claude\\skills\\codex"
+    },
+    {
+      "name": "codex",
+      "path": "~\\.claude\\skills\\gstack\\codex"
+    },
+    {
+      "name": "cognee-assistant",
+      "path": "E:\\cs1\\.opencode\\skills\\custom\\cognee-assistant"
+    },
+    {
+      "name": "commit",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\github\\0.1.1\\skills\\commit"
+    },
+    {
+      "name": "computer-use",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\computer-use\\0.5.13\\skills\\computer-use"
+    },
+    {
+      "name": "computer-use",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\computer-use\\0.5.14\\skills\\computer-use"
+    },
+    {
+      "name": "context-mode",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\context-mode\\context-mode\\1.0.169\\configs\\antigravity-cli\\skills\\context-mode"
+    },
+    {
+      "name": "context-mode",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\context-mode\\context-mode\\1.0.169\\configs\\copilot-cli\\skills\\context-mode"
+    },
+    {
+      "name": "context-mode",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\context-mode\\context-mode\\1.0.169\\skills\\context-mode"
+    },
+    {
+      "name": "context-mode-ops",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\context-mode\\context-mode\\1.0.169\\.claude\\skills\\context-mode-ops"
+    },
+    {
+      "name": "control-browser",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\browser-use\\0.2.1\\skills\\control-browser"
+    },
+    {
+      "name": "control-browser",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\browser-use\\0.4.1\\skills\\control-browser"
+    },
+    {
+      "name": "control-browser",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\browser-use\\0.4.2\\skills\\control-browser"
+    },
+    {
+      "name": "convertx",
+      "path": "E:\\cs1\\.opencode\\skills\\custom\\convertx"
+    },
+    {
+      "name": "copywriting",
+      "path": "E:\\cs1\\.opencode\\skills\\installed\\copywriting"
+    },
+    {
+      "name": "ctx-doctor",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\context-mode\\context-mode\\1.0.169\\skills\\ctx-doctor"
+    },
+    {
+      "name": "ctx-index",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\context-mode\\context-mode\\1.0.169\\skills\\ctx-index"
+    },
+    {
+      "name": "ctx-insight",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\context-mode\\context-mode\\1.0.169\\skills\\ctx-insight"
+    },
+    {
+      "name": "ctx-purge",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\context-mode\\context-mode\\1.0.169\\skills\\ctx-purge"
+    },
+    {
+      "name": "ctx-search",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\context-mode\\context-mode\\1.0.169\\skills\\ctx-search"
+    },
+    {
+      "name": "ctx-stats",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\context-mode\\context-mode\\1.0.169\\skills\\ctx-stats"
+    },
+    {
+      "name": "ctx-upgrade",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\context-mode\\context-mode\\1.0.169\\skills\\ctx-upgrade"
+    },
+    {
+      "name": "darwin-skill",
+      "path": "E:\\cs1\\.opencode\\skills\\custom\\darwin-skill"
+    },
+    {
+      "name": "dbxd-writeoff",
+      "path": "E:\\cs1\\.opencode\\skills\\archived\\dbxd-writeoff"
+    },
+    {
+      "name": "design-consultation",
+      "path": "~\\.claude\\skills\\design-consultation"
+    },
+    {
+      "name": "design-consultation",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-design-consultation"
+    },
+    {
+      "name": "design-consultation",
+      "path": "~\\.claude\\skills\\gstack\\design-consultation"
+    },
+    {
+      "name": "design-review",
+      "path": "~\\.claude\\skills\\design-review"
+    },
+    {
+      "name": "design-review",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-design-review"
+    },
+    {
+      "name": "design-review",
+      "path": "~\\.claude\\skills\\gstack\\design-review"
+    },
+    {
+      "name": "diagnosing-commands",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\zcode-guide\\0.1.0\\skills\\diagnosing-commands"
+    },
+    {
+      "name": "diagnosing-hooks",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\zcode-guide\\0.1.0\\skills\\diagnosing-hooks"
+    },
+    {
+      "name": "diagnosing-mcp",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\zcode-guide\\0.1.0\\skills\\diagnosing-mcp"
+    },
+    {
+      "name": "diagnosing-plugins",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\zcode-guide\\0.1.0\\skills\\diagnosing-plugins"
+    },
+    {
+      "name": "diagnosing-skills",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\zcode-guide\\0.1.0\\skills\\diagnosing-skills"
+    },
+    {
+      "name": "diagram-design",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\diagram-design\\diagram-design\\2.4.0\\skills\\diagram-design"
+    },
+    {
+      "name": "document-release",
+      "path": "~\\.claude\\skills\\document-release"
+    },
+    {
+      "name": "document-release",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-document-release"
+    },
+    {
+      "name": "document-release",
+      "path": "~\\.claude\\skills\\gstack\\document-release"
+    },
+    {
+      "name": "docx",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\document-skills\\0.1.0\\skills\\docx"
+    },
+    {
+      "name": "docx",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\document-skills\\0.1.4\\skills\\docx"
+    },
+    {
+      "name": "drawio-diagram",
+      "path": "E:\\cs1\\.opencode\\skills\\custom\\drawio-diagram"
+    },
+    {
+      "name": "dynamic-workflow",
+      "path": "~\\.codex\\skills\\dynamic-workflow"
+    },
+    {
+      "name": "find-skills",
+      "path": "E:\\cs1\\.opencode\\skills\\system\\find-skills"
+    },
+    {
+      "name": "freeze",
+      "path": "~\\.claude\\skills\\freeze"
+    },
+    {
+      "name": "freeze",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-freeze"
+    },
+    {
+      "name": "freeze",
+      "path": "~\\.claude\\skills\\gstack\\freeze"
+    },
+    {
+      "name": "frontend-dev",
+      "path": "E:\\cs1\\.opencode\\skills\\installed\\frontend-dev"
+    },
+    {
+      "name": "fullstack-dev",
+      "path": "E:\\cs1\\.opencode\\skills\\installed\\fullstack-dev"
+    },
+    {
+      "name": "geo-data-engineering",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\local-plugins\\geoai-skills\\0.4.0\\skills\\geo-data-engineering"
+    },
+    {
+      "name": "geo-deep-learning",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\local-plugins\\geoai-skills\\0.4.0\\skills\\geo-deep-learning"
+    },
+    {
+      "name": "geoai-orchestrator",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\local-plugins\\geoai-skills\\0.4.0\\skills\\geoai-orchestrator"
+    },
+    {
+      "name": "geostatistics-interpolation",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\local-plugins\\geoai-skills\\0.4.0\\skills\\geostatistics-interpolation"
+    },
+    {
+      "name": "gist",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\github\\0.1.1\\skills\\gist"
+    },
+    {
+      "name": "google-earth-engine",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\local-plugins\\geoai-skills\\0.4.0\\skills\\google-earth-engine"
+    },
+    {
+      "name": "gstack",
+      "path": "~\\.claude\\skills\\gstack"
+    },
+    {
+      "name": "gstack",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack"
+    },
+    {
+      "name": "gstack-upgrade",
+      "path": "~\\.claude\\skills\\gstack-upgrade"
+    },
+    {
+      "name": "gstack-upgrade",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-upgrade"
+    },
+    {
+      "name": "gstack-upgrade",
+      "path": "~\\.claude\\skills\\gstack\\gstack-upgrade"
+    },
+    {
+      "name": "guard",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-guard"
+    },
+    {
+      "name": "guard",
+      "path": "~\\.claude\\skills\\gstack\\guard"
+    },
+    {
+      "name": "guard",
+      "path": "~\\.claude\\skills\\guard"
+    },
+    {
+      "name": "harness-creator",
+      "path": "E:\\cs1\\.opencode\\skills\\harness-creator"
+    },
+    {
+      "name": "hex2077-intelligence-bridge",
+      "path": "E:\\cs1\\.opencode\\skills\\installed\\hex2077-intelligence-bridge"
+    },
+    {
+      "name": "holo-card-studio",
+      "path": "~\\.codex\\skills\\holo-card-studio"
+    },
+    {
+      "name": "idcard-verify",
+      "path": "E:\\cs1\\.opencode\\skills\\custom\\idcard-verify"
+    },
+    {
+      "name": "ima-skill",
+      "path": "E:\\cs1\\.opencode\\skills\\installed\\ima-skill"
+    },
+    {
+      "name": "imagegen",
+      "path": "~\\.codex\\skills\\.system\\imagegen"
+    },
+    {
+      "name": "investigate",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-investigate"
+    },
+    {
+      "name": "investigate",
+      "path": "~\\.claude\\skills\\gstack\\investigate"
+    },
+    {
+      "name": "investigate",
+      "path": "~\\.claude\\skills\\investigate"
+    },
+    {
+      "name": "ios-dev",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\ios-simulator\\0.1.0\\skills\\ios-dev"
+    },
+    {
+      "name": "issue",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\github\\0.1.1\\skills\\issue"
+    },
+    {
+      "name": "knowledge-base",
+      "path": "E:\\cs1\\.opencode\\skills\\installed\\ima-skill\\knowledge-base"
+    },
+    {
+      "name": "markdown-proxy",
+      "path": "E:\\cs1\\.opencode\\skills\\archived\\markdown-proxy"
+    },
+    {
+      "name": "mcda-suitability-analysis",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\local-plugins\\geoai-skills\\0.4.0\\skills\\mcda-suitability-analysis"
+    },
+    {
+      "name": "mcp-builder",
+      "path": "E:\\cs1\\.opencode\\skills\\system\\mcp-builder"
+    },
+    {
+      "name": "mimosa-security-scan",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\mimosa\\1.0.3\\payload\\skills\\mimosa-security-scan"
+    },
+    {
+      "name": "minimax-pdf",
+      "path": "E:\\cs1\\.opencode\\skills\\installed\\minimax-pdf"
+    },
+    {
+      "name": "minimax-xlsx",
+      "path": "E:\\cs1\\.opencode\\skills\\installed\\minimax-xlsx"
+    },
+    {
+      "name": "ml-experiment-standards",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\local-plugins\\geoai-skills\\0.4.0\\skills\\ml-experiment-standards"
+    },
+    {
+      "name": "movement-trajectory",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\local-plugins\\geoai-skills\\0.4.0\\skills\\movement-trajectory"
+    },
+    {
+      "name": "music-downloader",
+      "path": "E:\\cs1\\.opencode\\skills\\archived\\music-downloader"
+    },
+    {
+      "name": "music-downloader",
+      "path": "E:\\cs1\\.opencode\\skills\\custom\\music-downloader-v2"
+    },
+    {
+      "name": "netease-cloud-upload",
+      "path": "E:\\cs1\\.opencode\\skills\\custom\\netease-cloud-upload"
+    },
+    {
+      "name": "network-accessibility-analysis",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\local-plugins\\geoai-skills\\0.4.0\\skills\\network-accessibility-analysis"
+    },
+    {
+      "name": "note-organizer",
+      "path": "E:\\cs1\\.opencode\\skills\\custom\\note-organizer"
+    },
+    {
+      "name": "notebooklm-py",
+      "path": "E:\\cs1\\.opencode\\skills\\custom\\notebooklm-py"
+    },
+    {
+      "name": "notes",
+      "path": "E:\\cs1\\.opencode\\skills\\installed\\ima-skill\\notes"
+    },
+    {
+      "name": "office-hours",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-office-hours"
+    },
+    {
+      "name": "office-hours",
+      "path": "~\\.claude\\skills\\gstack\\office-hours"
+    },
+    {
+      "name": "office-hours",
+      "path": "~\\.claude\\skills\\office-hours"
+    },
+    {
+      "name": "openai-docs",
+      "path": "~\\.codex\\skills\\.system\\openai-docs"
+    },
+    {
+      "name": "opencode-hud",
+      "path": "E:\\cs1\\.opencode\\skills\\custom\\opencode-hud"
+    },
+    {
+      "name": "paddleocr-doc-parsing",
+      "path": "E:\\cs1\\.opencode\\skills\\installed\\paddleocr-doc-parsing"
+    },
+    {
+      "name": "paddleocr-text-recognition",
+      "path": "E:\\cs1\\.opencode\\skills\\installed\\paddleocr-text-recognition"
+    },
+    {
+      "name": "pdf",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\document-skills\\0.1.0\\skills\\pdf"
+    },
+    {
+      "name": "pdf",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\document-skills\\0.1.4\\skills\\pdf"
+    },
+    {
+      "name": "plan-ceo-review",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-plan-ceo-review"
+    },
+    {
+      "name": "plan-ceo-review",
+      "path": "~\\.claude\\skills\\gstack\\plan-ceo-review"
+    },
+    {
+      "name": "plan-ceo-review",
+      "path": "~\\.claude\\skills\\plan-ceo-review"
+    },
+    {
+      "name": "plan-design-review",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-plan-design-review"
+    },
+    {
+      "name": "plan-design-review",
+      "path": "~\\.claude\\skills\\gstack\\plan-design-review"
+    },
+    {
+      "name": "plan-design-review",
+      "path": "~\\.claude\\skills\\plan-design-review"
+    },
+    {
+      "name": "plan-eng-review",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-plan-eng-review"
+    },
+    {
+      "name": "plan-eng-review",
+      "path": "~\\.claude\\skills\\gstack\\plan-eng-review"
+    },
+    {
+      "name": "plan-eng-review",
+      "path": "~\\.claude\\skills\\plan-eng-review"
+    },
+    {
+      "name": "plugin-creator",
+      "path": "~\\.codex\\skills\\.system\\plugin-creator"
+    },
+    {
+      "name": "point-cloud-lidar",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\local-plugins\\geoai-skills\\0.4.0\\skills\\point-cloud-lidar"
+    },
+    {
+      "name": "postgis-spatial-sql",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\local-plugins\\geoai-skills\\0.4.0\\skills\\postgis-spatial-sql"
+    },
+    {
+      "name": "pptx",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\document-skills\\0.1.0\\skills\\pptx"
+    },
+    {
+      "name": "pptx",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\document-skills\\0.1.4\\skills\\pptx"
+    },
+    {
+      "name": "pptx-generator",
+      "path": "E:\\cs1\\.opencode\\skills\\installed\\pptx-generator"
+    },
+    {
+      "name": "pptx-hybrid",
+      "path": "E:\\cs1\\.opencode\\skills\\pptx-hybrid"
+    },
+    {
+      "name": "pr",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\github\\0.1.1\\skills\\pr"
+    },
+    {
+      "name": "production-tool-design",
+      "path": "~\\.codex\\skills\\production-tool-design"
+    },
+    {
+      "name": "pua-debugging",
+      "path": "E:\\cs1\\.opencode\\skills\\pua-debugging"
+    },
+    {
+      "name": "qa",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-qa"
+    },
+    {
+      "name": "qa",
+      "path": "~\\.claude\\skills\\gstack\\qa"
+    },
+    {
+      "name": "qa",
+      "path": "~\\.claude\\skills\\qa"
+    },
+    {
+      "name": "qa-only",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-qa-only"
+    },
+    {
+      "name": "qa-only",
+      "path": "~\\.claude\\skills\\gstack\\qa-only"
+    },
+    {
+      "name": "qa-only",
+      "path": "~\\.claude\\skills\\qa-only"
+    },
+    {
+      "name": "release",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\github\\0.1.1\\skills\\release"
+    },
+    {
+      "name": "remote-sensing-analysis",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\local-plugins\\geoai-skills\\0.4.0\\skills\\remote-sensing-analysis"
+    },
+    {
+      "name": "repo",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\github\\0.1.1\\skills\\repo"
+    },
+    {
+      "name": "restore-legacy-sessions",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\restore-legacy-sessions\\0.1.0\\skills\\restore-legacy-sessions"
+    },
+    {
+      "name": "retro",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-retro"
+    },
+    {
+      "name": "retro",
+      "path": "~\\.claude\\skills\\gstack\\retro"
+    },
+    {
+      "name": "retro",
+      "path": "~\\.claude\\skills\\retro"
+    },
+    {
+      "name": "review",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-review"
+    },
+    {
+      "name": "review",
+      "path": "~\\.claude\\skills\\gstack\\review"
+    },
+    {
+      "name": "review",
+      "path": "~\\.claude\\skills\\review"
+    },
+    {
+      "name": "review-agent",
+      "path": "~\\.codex\\skills\\.system\\review-agent"
+    },
+    {
+      "name": "safe-change-discipline",
+      "path": "~\\.codex\\skills\\safe-change-discipline"
+    },
+    {
+      "name": "secret",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\github\\0.1.1\\skills\\secret"
+    },
+    {
+      "name": "self-improving-agent",
+      "path": "E:\\cs1\\.opencode\\skills\\installed\\self-improving-agent-ecc"
+    },
+    {
+      "name": "setup",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\github\\0.1.1\\skills\\setup"
+    },
+    {
+      "name": "setup-browser-cookies",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-setup-browser-cookies"
+    },
+    {
+      "name": "setup-browser-cookies",
+      "path": "~\\.claude\\skills\\gstack\\setup-browser-cookies"
+    },
+    {
+      "name": "setup-browser-cookies",
+      "path": "~\\.claude\\skills\\setup-browser-cookies"
+    },
+    {
+      "name": "ship",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-ship"
+    },
+    {
+      "name": "ship",
+      "path": "~\\.claude\\skills\\gstack\\ship"
+    },
+    {
+      "name": "ship",
+      "path": "~\\.claude\\skills\\ship"
+    },
+    {
+      "name": "skill-architect",
+      "path": "E:\\cs1\\.opencode\\skills\\installed\\skill-architect"
+    },
+    {
+      "name": "skill-architect",
+      "path": "~\\.codex\\skills\\skill-architect"
+    },
+    {
+      "name": "skill-creator",
+      "path": "E:\\cs1\\.opencode\\skills\\system\\skill-creator"
+    },
+    {
+      "name": "skill-creator",
+      "path": "~\\.codex\\skills\\.system\\skill-creator"
+    },
+    {
+      "name": "skill-creator",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\skill-creator\\0.1.0\\skills\\skill-creator"
+    },
+    {
+      "name": "skill-forge",
+      "path": "E:\\cs1\\.opencode\\skills\\custom\\skill-forge"
+    },
+    {
+      "name": "skill-forge",
+      "path": "~\\.codex\\skills\\skill-forge"
+    },
+    {
+      "name": "skill-installer",
+      "path": "~\\.codex\\skills\\.system\\skill-installer"
+    },
+    {
+      "name": "spatial-statistics",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\local-plugins\\geoai-skills\\0.4.0\\skills\\spatial-statistics"
+    },
+    {
+      "name": "summarize",
+      "path": "E:\\cs1\\.opencode\\skills\\installed\\summarize"
+    },
+    {
+      "name": "swe-devops-standards",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\local-plugins\\geoai-skills\\0.4.0\\skills\\swe-devops-standards"
+    },
+    {
+      "name": "terrain-hydrology",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\local-plugins\\geoai-skills\\0.4.0\\skills\\terrain-hydrology"
+    },
+    {
+      "name": "unfreeze",
+      "path": "~\\.claude\\skills\\gstack\\.agents\\skills\\gstack-unfreeze"
+    },
+    {
+      "name": "unfreeze",
+      "path": "~\\.claude\\skills\\gstack\\unfreeze"
+    },
+    {
+      "name": "unfreeze",
+      "path": "~\\.claude\\skills\\unfreeze"
+    },
+    {
+      "name": "web-access",
+      "path": "E:\\cs1\\.opencode\\skills\\installed\\web-access"
+    },
+    {
+      "name": "web-automation-loop",
+      "path": "E:\\cs1\\.opencode\\skills\\archived\\web-automation-loop"
+    },
+    {
+      "name": "web-gui-tester",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\browser-use\\0.2.1\\skills\\web-gui-tester"
+    },
+    {
+      "name": "web-gui-tester",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\browser-use\\0.4.1\\skills\\web-gui-tester"
+    },
+    {
+      "name": "web-gui-tester",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\browser-use\\0.4.2\\skills\\web-gui-tester"
+    },
+    {
+      "name": "wechat-to-md",
+      "path": "~\\.agent-reach\\tools\\wechat-article-for-ai"
+    },
+    {
+      "name": "workflow-run",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\github\\0.1.1\\skills\\workflow-run"
+    },
+    {
+      "name": "xlsx",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\document-skills\\0.1.4\\skills\\xlsx"
+    },
+    {
+      "name": "yt-dlp-downloader",
+      "path": "E:\\cs1\\.opencode\\skills\\installed\\yt-dlp-downloader"
+    },
+    {
+      "name": "zcode-configuration-guide",
+      "path": "~\\.zcode\\cli\\plugins\\cache\\zcode-plugins-official\\zcode-guide\\0.1.0\\skills\\zcode-configuration-guide"
+    },
+    {
+      "name": "微信读书",
+      "path": "E:\\cs1\\.opencode\\skills\\installed\\weread"
+    }
+  ],
+  "unmatched_capability_claims": [],
+  "interpretation": {
+    "operational_status_source": "Doctor report only",
+    "skill_carriers_are": "carrier/declared-attribution evidence only",
+    "unmatched_claim_means": "declared claim exists but no matching capability was evaluated by the supplied Doctor report"
+  },
+  "summary": {
+    "skill_count": 187,
+    "doctor_capability_count": 8,
+    "capabilities_with_skill_carriers": 0,
+    "unclassified_skill_count": 187,
+    "unmatched_claim_count": 0
+  }
+}

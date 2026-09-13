@@ -1,84 +1,95 @@
-# external-knowledge v0.3-beta.1
+# external-knowledge v0.4-alpha.1 candidate
 
-Real-case refinement after WeChat discovery testing.
+Capability-map, machine-diagnostics, and Capability Arena evolution on top of the verified v0.3-beta.1 retrieval model.
 
-## What changed
+## Goal
 
-A real task searched for the known-existing WeChat article:
+`external-knowledge` coordinates external-information capabilities by information need and source semantics. It does not replace specialist tools/providers. The v0.4 direction adds:
 
-```text
-《ArcPy使用之一：SDE数据定时备份》
-公众号：图说新语
-```
+1. a durable capability/channel map;
+2. read-only machine diagnostics;
+3. evidence-driven Challenger–Defender evaluation with lifecycle/teardown control;
+4. explicit separation between controlled test evidence, opportunistic real-world validation, and final production ownership.
 
-The case produced two independent findings:
+## Current Arena testing baseline
 
-1. **Exposure finding** — `wechat-article-search` was actually present and callable as a local Node script even though its Skill directory was outside ZCode's Skill discovery surface.
-2. **Retrieval-quality finding** — the specialist itself returned zero results for an exact-title-like query, while General Web repeatedly showed very low discoverability for WeChat content.
-
-Therefore the failure cannot be attributed only to routing/exposure. Operational availability and item discoverability must remain separate.
-
-## Model
+Accepted test-stage findings currently include:
 
 ```text
-Information Need / Source Semantic
-        ↓
-Capability
-        ↓
-Provider
-        ├─ Operational Status
-        ├─ Semantic Coverage
-        ├─ Source Discoverability
-        └─ Independent Exposure
+github.semantic
+  -> gh-cli remains incumbent after GitHub MCP challenge
+
+complex-web.read (CONTROLLED_BENCHMARK)
+  ordinary/static -> runtime-native.webfetch preferred
+  dynamic/rendered/progressive -> Crawl4AI is the current challenger/escalation candidate
+  validation_debt -> OPEN_NONBLOCKING
 ```
 
-## WeChat provider normalization
+The complex-web split is a provisional test-stage policy, not a universal production claim. Relevant REAL_REPLAY / REAL_WORKLOAD evidence should be collected opportunistically during normal use and may confirm, refine, or overturn it without blocking continued Arena testing.
+
+See:
+
+- `references/capability-map.md`
+- `references/capability-arena.md`
+- `tasks/TASK-20260913-008-TEST-STAGE-BASELINE-ACCEPTANCE.md`
+
+## Machine diagnostics
+
+The diagnostic path remains:
 
 ```text
-~/.codex/skills/wechat-article-search/
-├─ SKILL.md                 = carrier
-├─ scripts/search_wechat.js = local_script exposure
-└─ node_modules/cheerio     = runtime dependency
-
-Node runtime                = runtime dependency
-weixin.sogou.com            = network backend
+Explicit Skill roots, when relevant
+    ↓
+Read-only Skill inventory
+    +
+Doctor local/runtime evidence
+    ↓
+Provider status
+    ↓
+Capability aggregation
+    ↓
+Machine Capability Receipt
+    ↓
+Capability map / need-aware next action
+    ↓
+STOP
 ```
 
-The network backend and dependencies are not Agent exposure classes.
+`scripts/scan_skills.py` scans only explicitly supplied roots. `scripts/machine_report.py` combines carrier observations with Doctor operational evidence.
 
-## Routing quality additions
+Important interpretation:
 
-- `Provider × Source Semantic` discoverability axis;
-- `LOW_QUERY_DISCRIMINATION` STOP signal;
-- high semantic mismatch → one contextual rewrite if context already disambiguates, otherwise ask;
-- repeated WeChat-specific General Web limitations remain scoped evidence, not a global search-engine judgment.
+```text
+Skill discovered != provider AVAILABLE
+capability claim != provider AVAILABLE
+one root absent != no Skills exist on the machine
+UNCLASSIFIED != no external-knowledge capability
+Machine Capability Receipt operational status = Doctor status only
+```
+
+## Arena evidence maturity
+
+Arena v0.5 distinguishes:
+
+```text
+CONTROLLED_BENCHMARK
+REAL_REPLAY
+REAL_WORKLOAD
+```
+
+Controlled benchmarks are valid for capability profiling and may establish a provisional test-stage policy. Real-world evidence is strongest for final production claims but is non-blocking during current capability exploration.
+
+```text
+CONTROLLED_BENCHMARK
+  -> TEST_STAGE_BASELINE
+  -> continue testing / experimental use
+  -> opportunistic real-world receipts
+  -> refine / confirm / overturn
+  -> final production ownership when evidence is sufficient
+```
 
 ## Provisioning model unchanged
 
-The beta approval model is unchanged:
+Capability discovery/evaluation and environment mutation remain separate phases. Arena-owned staging must carry provenance and mandatory teardown. A benchmark win does not mean keeping the Arena install.
 
-```text
-Doctor -> Plan -> exact plan_id -> explicit approval -> exact execution -> Verify
-```
-
-This real case creates **no provisioning candidate** because the WeChat discovery provider is already callable.
-
-## Files
-
-```text
-external-knowledge-v0.3-beta.1/
-├── SKILL.md
-├── adapters/zcode-v0.3-beta.1.json
-├── references/
-│   ├── capability-model.md
-│   ├── retrieval-quality.md
-│   ├── runtime-adapter-contract.md
-│   ├── runtime-notes-zcode.md
-│   ├── source-ownership.md
-│   ├── setup-policy.md
-│   └── provisioning-contract.md
-├── scripts/
-│   ├── doctor.py
-│   └── plan.py
-└── tests/
-```
+No current test-stage finding implicitly authorizes persistent provider installation, credential changes, browser-profile imports, production routing changes, or PR/main merge.

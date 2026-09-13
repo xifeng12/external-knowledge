@@ -1,0 +1,79 @@
+{
+  "receipt_type": "adjudication",
+  "match_id": "TASK-20260913-009-precision-search-b001",
+  "capability": "precision.search",
+  "evidence_class": "CONTROLLED_BENCHMARK",
+  "production_routing_authority": false,
+  "defender": "runtime-native.web-search (agentic native search tool; zero staging)",
+  "challenger": "exa hosted MCP, anonymous (exa-search-server v3.2.1; transport-only client, zero local footprint)",
+  "match_mode": "HEAD_TO_HEAD (controlled benchmark; identical raw queries; evaluation normalized to first 5 results; content fetch excluded from scoring)",
+
+  "preflight_ground_truth": {
+    "S0": {"family": "official Exa MCP repository / documentation", "canonical": "github.com/exa-labs/exa-mcp-server (4996 stars, verified)", "anchor": "README documents hosted endpoint https://mcp.exa.ai/mcp", "frozen_by": "gh api repo + readme (2026-09-13)"},
+    "S1": {"family": "official tavily-ai/tavily-mcp source or official Tavily MCP documentation containing X-Tavily-Access-Mode", "canonical": "tavily-ai/tavily-mcp src/index.ts (verified via gh code search)", "anchor": "identifier present in src/index.ts", "frozen_by": "gh api search/code (2026-09-13)"},
+    "S2": {"family": "official brave/brave-search-mcp-server README/docs containing BRAVE_API_KEY_FILE", "canonical": "brave/brave-search-mcp-server README.md + src/config.ts + docker-compose.yml (verified)", "anchor": "identifier present in all three files", "frozen_by": "gh api search/code (2026-09-13)"},
+    "S3": {"family": "official Exa MCP repository / documentation describing anonymous rate-limited hosted access", "canonical": "exa-labs/exa-mcp-server (same as S0)", "anchor": "README 'The hosted MCP server works anonymously with rate limits' (confirmed via defender-surfaced quote + repo readme)", "frozen_by": "gh api (2026-09-13)"},
+    "S4": {"family": "official Crawl4AI documentation containing scan_full_page", "canonical": "docs.crawl4ai.com (source: unclecode/Crawl4AI docs/md_v2/api/arun.md, lazy-loading.md, virtual-scroll.md, cli.md - all verified)", "anchor": "scan_full_page present in four authoritative doc files", "frozen_by": "gh api search/code (2026-09-13)"},
+    "S5": {"family": "official Tavily MCP source/README documenting keyless mode and search/extract availability", "canonical": "tavily-ai/tavily-mcp README (verified)", "anchor": "'Add the server without an API key in the URL' + 'search, extract, map, crawl tools'", "frozen_by": "gh api readme (2026-09-13)"}
+  },
+
+  "staging_provenance_ledger": [
+    {"artifact": "transport-only MCP client script (host httpx, no packages installed)", "preexisting": false, "introduced_by_match": "TASK-20260913-009-precision-search-b001", "installation_method": "written into cell config/", "scope": "cell", "cleanup_policy": "delete with cell"},
+    {"artifact": "session-scoped anonymous Exa MCP session (server-side)", "preexisting": false, "introduced_by_match": "TASK-20260913-009-precision-search-b001", "installation_method": "initialize handshake, no credentials", "scope": "remote session lifetime only", "cleanup_policy": "abandoned with client process"},
+    {"artifact": "MCP registration / credential state / persistent config", "preexisting": false, "introduced_by_match": false, "note": "never created"}
+  ],
+  "four_plans": {
+    "provision": "remote anonymous hosted MCP + transport-only client script in cell; no packages, no credentials",
+    "rollback": "delete cell; verify no registration/credential/PATH state",
+    "promotion": "out of scope: CONTROLLED_BENCHMARK confers no production authority",
+    "teardown": "delete cell; verify no registration, no credential state, no background processes, user caches untouched, repository clean"
+  },
+
+  "benchmark_matrix": {
+    "S0_baseline_canonical": {"defender": "hit@1 (2 relevant / 2 noise / 1 adjacent)", "challenger": "hit@1 (4 relevant / 0 noise)", "verdict": "both pass; challenger cleaner result list"},
+    "S1_exact_rare_identifier": {"defender": "MISS - 0/5 relevant (tokenized music/fuzzy noise)", "challenger": "family-hit@1 - 5/5 official Tavily surfaces (page-level identifier presence unverified without fetch; strict bullseye src/index.ts not returned)", "verdict": "material challenger advantage on the DECLARED precision-search class"},
+    "S2_exact_config_symbol": {"defender": "hit@1 (5/5 relevant incl. identifier-bearing files)", "challenger": "hit@1 (3 relevant incl. README with identifier; 2 adjacent docker-secrets pages)", "verdict": "tie at hit@1; defender slightly fuller top-5"},
+    "S3_semantic_paraphrase": {"defender": "hit@1 via default agentic rewriting (4 internal search rounds observed)", "challenger": "MISS - 0/5, wrong vendor family (parallel.ai)", "verdict": "defender advantage: its hidden multi-round agentic behavior solved what single-shot semantic search missed"},
+    "S4_capability_parameter": {"defender": "hit@1 (5/5 relevant, official docs)", "challenger": "hit@1 (3 relevant, 2 example.com noise)", "verdict": "tie at hit@1; defender cleaner top-5"},
+    "S5_multi_constraint": {"defender": "hit@1 (1 clearly relevant; 3 noise)", "challenger": "hit@1 (5/5 official Tavily surfaces, 0 noise)", "verdict": "tie at hit@1; challenger materially cleaner result list"}
+  },
+
+  "dimension_comparison": {
+    "exact_needle_recall": "material challenger advantage on the declared class: S1 defender 0/5 pure noise vs challenger 5/5 official-target-family surfaces (with the page-level verification limit recorded); S2 tie at hit@1",
+    "semantic_paraphrase_recall": "defender advantage: S3 hit@1 (via 4 internal agentic rewrites) vs challenger 0/5 wrong vendor",
+    "rank_precision": "6/6 hit@1 for defender vs 5/6 strict for challenger (S3), with S1 as family-hit; near-parity on rank",
+    "multi_constraint_fidelity": "tie (S5 both hit@1 with the exact keyless doc)",
+    "noise": "symmetric single-fixture failures: defender S1 all-noise, challenger S3 all-wrong-family; challenger cleaner lists on S0/S5",
+    "freshness_version": "no stale/wrong-version results observed on either side (S2/S4/S5 version-sensitive fixtures returned current docs)",
+    "determinism_reproducibility": "single-shot design; no rerun evidence; limited claim",
+    "latency_call_cost": "challenger uniform 1.2-1.9s per call (+2.8s handshake), exactly 1 call per query; defender single-digit seconds but S3 consumed 4 internal search rounds - hidden multi-call cost on exactly the class where it won",
+    "operational_burden": "near-tie and both trivial this run: challenger = remote anonymous service + transport-only script (zero local footprint); defender = pre-existing native tool",
+    "agent_ergonomics": "challenger returns structured URL lists directly; defender returns synthesized answers with variable source presentation; slight challenger edge for programmatic scoring",
+    "failure_domain_independence": "REAL material independence: different search indices/backends over the same live web; no shared rate-limit/index/anti-bot dependency demonstrated (unlike TASK-004's correlated anti-bot block)"
+  },
+
+  "verified_facts_vs_interpretation": {
+    "verified": "defender 5/6 hit@1 with a complete miss (pure noise) on the exact-identifier fixture S1, solved S3 only through 4 observed internal rewrites; challenger 5/6 hit@1 (S3 wrong-family miss), recalled the official Tavily family on S1, uniform single-call cost; no rate-limit or credential issues on the anonymous surface",
+    "interpretation": "each provider failed a different single fixture: the native agentic path wins semantic paraphrase via hidden multi-round cost, Exa wins exact rare identifiers where the native tokenizer fails. The declared architecture (general search -> observed exact-token gap -> precision.search/Exa) is directionally supported on its declared class, but the advantage rests on ONE fixture (S1) plus a cleaner-list pattern on S0/S5 - within this benchmark's single-shot design that is not a repeated, material dominance",
+    "decision": "SPLIT_BY_SCENARIO"
+  },
+  "outcome": "SPLIT_BY_SCENARIO",
+  "outcome_rationale": "the benchmark supports a bounded scenario split: native search remains the default general/semantic owner (S3), while Exa demonstrates the advantage its declared role predicts on exact rare identifiers (S1) with cleaner result lists on S0/S5 and real failure-domain independence. The split is scoped: single-shot benchmark, one fixture per class, S1 page-level verification excluded by contract, and no production authority.",
+  "provisional_test_policy_implication": "keep the declared architecture: general-web.search first; on an observed exact-obscure-token precision/recall gap, escalate to precision.search/Exa (anonymous hosted surface for test-stage use). Do not extend Exa's role to general semantic paraphrase search on this evidence.",
+  "routing_impact": "none",
+  "invariant_tests_note": "no repository code introduced by TASK-009 (transport client script was ephemeral match tooling, torn down); invariants enforced as process checks recorded in these receipts",
+  "teardown_status": {
+    "classification": "CLEAN_VERIFIED",
+    "verified": [
+      "match cell (transport script + evidence) deleted and confirmed absent",
+      "no client packages were staged (host httpx only); nothing to uninstall",
+      "no exa registration in any inspected MCP config domain",
+      "no token/OAuth/API-key state created (anonymous session abandoned with the client process)",
+      "no background client processes; PATH/shell/profile unchanged",
+      "pre-existing user caches untouched; repository tree contains only intended durable outputs"
+    ],
+    "residue": "none",
+    "evidence_handling_note": "challenger raw stdout was transcribed into challenger.json before the cell was removed; the raw JSON file itself was not copied out (orchestrator slip, disclosed; all scored values are as observed at run time)"
+  },
+  "terminal_state": "READY_FOR_ARENA_REVIEW"
+}

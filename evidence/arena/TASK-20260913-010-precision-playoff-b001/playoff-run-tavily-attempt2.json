@@ -1,0 +1,103 @@
+{
+ "match_id": "TASK-20260913-010-precision-playoff-b001",
+ "providers": {
+  "tavily": {
+   "session": {
+    "handshake_ms": 3646,
+    "server": {},
+    "tools": [],
+    "headers": {
+     "Accept": "application/json, text/event-stream",
+     "Content-Type": "application/json",
+     "X-Tavily-Access-Mode": "keyless"
+    },
+    "count_param": null,
+    "schema_props": []
+   },
+   "runs": [
+    {
+     "latency_ms": 276,
+     "http": 200,
+     "ok": false,
+     "error": "{\"code\": -32700, \"message\": \"no matching rpc response\"}",
+     "results": [],
+     "query_id": "E1",
+     "query": "\"X-Tavily-Access-Mode\""
+    },
+    {
+     "latency_ms": 261,
+     "http": 200,
+     "ok": false,
+     "error": "{\"code\": -32700, \"message\": \"no matching rpc response\"}",
+     "results": [],
+     "query_id": "E2",
+     "query": "\"BRAVE_API_KEY_FILE\" brave search mcp"
+    },
+    {
+     "latency_ms": 271,
+     "http": 200,
+     "ok": false,
+     "error": "{\"code\": -32700, \"message\": \"no matching rpc response\"}",
+     "results": [],
+     "query_id": "E3",
+     "query": "\"scan_full_page\" Crawl4AI"
+    },
+    {
+     "latency_ms": 275,
+     "http": 200,
+     "ok": false,
+     "error": "{\"code\": -32700, \"message\": \"no matching rpc response\"}",
+     "results": [],
+     "query_id": "S1",
+     "query": "official MCP web search server whose hosted endpoint allows anonymous requests with rate limits"
+    },
+    {
+     "latency_ms": 267,
+     "http": 200,
+     "ok": false,
+     "error": "{\"code\": -32700, \"message\": \"no matching rpc response\"}",
+     "results": [],
+     "query_id": "S2",
+     "query": "remote MCP search and extract with no account and no API key using a special request header"
+    },
+    {
+     "latency_ms": 263,
+     "http": 200,
+     "ok": false,
+     "error": "{\"code\": -32700, \"message\": \"no matching rpc response\"}",
+     "results": [],
+     "query_id": "S3",
+     "query": "open source web crawler option that automatically scans a full page for progressively loaded lazy content"
+    },
+    {
+     "latency_ms": 276,
+     "http": 200,
+     "ok": false,
+     "error": "{\"code\": -32700, \"message\": \"no matching rpc response\"}",
+     "results": [],
+     "query_id": "M1",
+     "query": "Brave search MCP web local image video news summarizer API key file"
+    },
+    {
+     "latency_ms": 260,
+     "http": 200,
+     "ok": false,
+     "error": "{\"code\": -32700, \"message\": \"no matching rpc response\"}",
+     "results": [],
+     "query_id": "M2",
+     "query": "Exa hosted MCP anonymous web search rate limited no API key endpoint"
+    },
+    {
+     "latency_ms": 260,
+     "http": 200,
+     "ok": false,
+     "error": "{\"code\": -32700, \"message\": \"no matching rpc response\"}",
+     "results": [],
+     "query_id": "M3",
+     "query": "GitHub official MCP server remote hosted read-only toolsets dynamic discovery"
+    }
+   ]
+  }
+ },
+ "provider_filter": "tavily"
+}
