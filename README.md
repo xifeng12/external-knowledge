@@ -1,32 +1,41 @@
 # external-knowledge v0.4-alpha.1 candidate
 
-Capability-map and machine-diagnostics increment on top of the verified v0.3-beta.1 retrieval model.
+Capability-map, machine-diagnostics, and Capability Arena evolution on top of the verified v0.3-beta.1 retrieval model.
 
 ## Goal
 
-`external-knowledge` coordinates external-information capabilities by information need and source semantics. It does not replace specialist tools/providers. The v0.4 direction adds two missing pieces without weakening the existing evidence model:
+`external-knowledge` coordinates external-information capabilities by information need and source semantics. It does not replace specialist tools/providers. The v0.4 direction adds:
 
 1. a durable capability/channel map;
-2. a read-only diagnostic stage that can inventory Skill carriers on a target machine and combine those carrier observations with Doctor runtime evidence.
+2. read-only machine diagnostics;
+3. evidence-driven Challenger–Defender evaluation with lifecycle/teardown control;
+4. explicit separation between controlled test evidence, opportunistic real-world validation, and final production ownership.
 
-## Capability map
+## Current Arena testing baseline
 
-Current repository authority models these capabilities:
+Accepted test-stage findings currently include:
 
-- `general-web.search`
-- `general-web.read`
-- `docs.versioned`
-- `github.semantic`
-- `wechat.discovery`
-- `wechat.reader`
-- `precision.search`
-- `complex-web.read`
+```text
+github.semantic
+  -> gh-cli remains incumbent after GitHub MCP challenge
 
-See `references/capability-map.md` for the human-facing map. The runtime adapter remains the machine-readable provider/exposure authority.
+complex-web.read (CONTROLLED_BENCHMARK)
+  ordinary/static -> runtime-native.webfetch preferred
+  dynamic/rendered/progressive -> Crawl4AI is the current challenger/escalation candidate
+  validation_debt -> OPEN_NONBLOCKING
+```
+
+The complex-web split is a provisional test-stage policy, not a universal production claim. Relevant REAL_REPLAY / REAL_WORKLOAD evidence should be collected opportunistically during normal use and may confirm, refine, or overturn it without blocking continued Arena testing.
+
+See:
+
+- `references/capability-map.md`
+- `references/capability-arena.md`
+- `tasks/TASK-20260913-008-TEST-STAGE-BASELINE-ACCEPTANCE.md`
 
 ## Machine diagnostics
 
-The diagnostic path is now:
+The diagnostic path remains:
 
 ```text
 Explicit Skill roots, when relevant
@@ -46,26 +55,7 @@ Capability map / need-aware next action
 STOP
 ```
 
-`scripts/scan_skills.py` scans only explicitly supplied roots. It records discovered `SKILL.md` carriers and optional explicit capability claims from an adjacent `external-knowledge.json` sidecar.
-
-Example:
-
-```bash
-python scripts/scan_skills.py \
-  --root ~/.codex/skills \
-  --pretty \
-  --output skill-inventory.json
-```
-
-After a normal Doctor report is available, `scripts/machine_report.py` combines the two reports:
-
-```bash
-python scripts/machine_report.py \
-  --skill-inventory skill-inventory.json \
-  --doctor-report doctor-report.json \
-  --pretty \
-  --output machine-capability-receipt.json
-```
+`scripts/scan_skills.py` scans only explicitly supplied roots. `scripts/machine_report.py` combines carrier observations with Doctor operational evidence.
 
 Important interpretation:
 
@@ -77,59 +67,29 @@ UNCLASSIFIED != no external-knowledge capability
 Machine Capability Receipt operational status = Doctor status only
 ```
 
-Operational availability still requires runtime exposure or a representative probe and is merged by Doctor under the existing provider/exposure contract.
+## Arena evidence maturity
 
-See `references/machine-diagnostics.md` for the diagnostic contract.
-
-## Existing v0.3-beta.1 evidence retained
-
-The WeChat real case remains authoritative evidence for the separation of operational status from source discoverability:
+Arena v0.5 distinguishes:
 
 ```text
-wechat-article-search
-  Operational (observed ZCode case) = AVAILABLE
-  Discoverability = LIMITED_OBSERVED
-
-general web for WeChat discovery
-  Semantic Coverage = DEGRADED
-  Discoverability = VERY_LOW_OBSERVED
+CONTROLLED_BENCHMARK
+REAL_REPLAY
+REAL_WORKLOAD
 ```
 
-The finding remains scoped to the recorded cases; it is not a global search-engine ranking.
+Controlled benchmarks are valid for capability profiling and may establish a provisional test-stage policy. Real-world evidence is strongest for final production claims but is non-blocking during current capability exploration.
+
+```text
+CONTROLLED_BENCHMARK
+  -> TEST_STAGE_BASELINE
+  -> continue testing / experimental use
+  -> opportunistic real-world receipts
+  -> refine / confirm / overturn
+  -> final production ownership when evidence is sufficient
+```
 
 ## Provisioning model unchanged
 
-Capability discovery and environment mutation remain separate phases:
+Capability discovery/evaluation and environment mutation remain separate phases. Arena-owned staging must carry provenance and mandatory teardown. A benchmark win does not mean keeping the Arena install.
 
-```text
-Doctor -> Plan -> exact plan_id -> explicit approval -> exact execution -> Verify
-```
-
-Skill inventory does not authorize installation, MCP edits, PATH changes, login, proxy/TLS repair, or other environment mutation.
-
-## Files
-
-```text
-external-knowledge/
-├── SKILL.md
-├── adapters/
-├── references/
-│   ├── capability-map.md
-│   ├── machine-diagnostics.md
-│   ├── capability-model.md
-│   ├── retrieval-quality.md
-│   ├── runtime-adapter-contract.md
-│   ├── runtime-notes-zcode.md
-│   ├── source-ownership.md
-│   ├── setup-policy.md
-│   └── provisioning-contract.md
-├── scripts/
-│   ├── scan_skills.py
-│   ├── machine_report.py
-│   ├── doctor.py
-│   └── plan.py
-├── evidence/
-└── tests/
-```
-
-The existing `BUILD-RECEIPT.json` remains the receipt for the verified v0.3-beta.1 baseline until this candidate completes review/validation.
+No current test-stage finding implicitly authorizes persistent provider installation, credential changes, browser-profile imports, production routing changes, or PR/main merge.
