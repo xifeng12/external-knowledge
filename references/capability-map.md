@@ -99,6 +99,30 @@ wechat.reader (test-stage route)
 
 Observed boundary within the same run: the Sogou route succeeded for one fixture and failed at discovery for another (exact-title article absent from public indexes), reconfirming `LIMITED_OBSERVED` discoverability for WeChat article discovery as a class.
 
+## Test-stage reachability profile (TASK-20260913-013)
+
+Evidence-first profile from the mainland host, run entirely without proxy. Three axes stay separate (`discovery_status` / `local_direct_read` / `provider_remote_read`); they are never collapsed into one availability flag.
+
+```text
+github.com (control)        DIRECT_AVAILABLE
+x.com (control)             DISCOVERABLE_BUT_NOT_DIRECTLY_READABLE (TCP timeout; DNS resolves)
+cn.bing.com                 reachable frontend, foreign-content discovery weak
+                            (zero en.wikipedia mentions in bounded queries; mainland-flavored results)
+en.wikipedia.org (S1)       locally BLOCKED_TRANSPORT; NOT surfaced by cn.bing;
+                            DISCOVERED and remotely read via Exa below
+mcp.exa.ai (anonymous MCP)  DIRECT_AVAILABLE + REMOTE_READ_AVAILABLE (no key, no account)
+```
+
+Test-stage route (no-proxy mainland remote read):
+
+```text
+foreign source locally unreadable
+  -> Exa anonymous hosted MCP (no-proxy reachable): web_search_exa surfaces the exact URL
+  -> web_fetch_exa returns material Markdown for that URL
+```
+
+Observed boundary in the same run: `x.semantic` reuse via the existing vpsmanage/XActions surface is broken only at the SearchTimeline GraphQL queryId (HTTP 404; timeline read `getTweets` and canonical single-post read `getTweet` remain healthy through the unchanged envelope) — pending the Human's provider-repair decision, no `x.semantic` availability is claimed here.
+
 ## Machine map versus repository map
 
 Keep two artifacts conceptually separate:
