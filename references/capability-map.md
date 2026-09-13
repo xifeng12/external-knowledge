@@ -123,6 +123,10 @@ foreign source locally unreadable
 
 Observed boundary in the same run: `x.semantic` reuse via the existing vpsmanage/XActions surface is broken only at the SearchTimeline GraphQL queryId (HTTP 404; timeline read `getTweets` and canonical single-post read `getTweet` remain healthy through the unchanged envelope) — pending the Human's provider-repair decision, no `x.semantic` availability is claimed here.
 
+## X provider repair validation (TASK-20260913-014)
+
+Gate A validated the current upstream XActions (`nirholas/xactions` @ `f2fb3ed`) in an isolated runtime: the dynamic query-ID discovery machinery is real and operational (148 operations discovered live from x.com's own bundle, SearchTimeline ID refreshed, provenance recorded — not a hand-pinned ID). Search still fails with a bare 404 under fresh IDs, and a differential (timeline PASS vs followers/search bare-404 on BOTH the upstream clone and the production install) matches the upstream project's own documented session-tier signature: the stored ct0 is no longer honoured server-side for the full-session endpoint class. Outcome: repair is **not** a queryId fix; the decision surface is an Owner-side session refresh, after which the same fixtures can re-run and the dynamic machinery becomes the natural repair candidate. No vpsmanage branch/PR was created (Gate B gated on a Gate A pass). `x.semantic` availability remains unclaimed; production untouched.
+
 ## Machine map versus repository map
 
 Keep two artifacts conceptually separate:

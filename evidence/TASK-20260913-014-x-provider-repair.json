@@ -1,0 +1,96 @@
+{
+  "task_id": "TASK-20260913-014",
+  "generated_at": "2026-09-13",
+  "parent_task": "TASK-20260912-001",
+  "predecessor": "TASK-20260913-013",
+  "branch": "task/20260912-001-v04-capability-diagnostics",
+  "terminal_state": "READY_FOR_X_PROVIDER_ALTERNATIVE_DECISION",
+  "gate_a": {
+    "verdict": "FAIL - upstream dynamic query-ID machinery works, but it does NOT restore search",
+    "isolated_runtime": "/tmp/xrepair-t14/xactions = upstream github.com/nirholas/xactions @ SHA f2fb3ed2d052838578e68a224eccc2cbaebcb7ca (committed 2026-09-06; version string 3.5.0 but content differs from the installed 3.5.0 - installed copy lacks the dynamic machinery)",
+    "production_state_recorded_readonly": {
+      "install": "/opt/xactions-poc/node_modules/xactions 3.5.0 (static SearchTimeline queryId flaR-PUMshxFWZWPNpq4zA, no queryIds.js dynamic module)",
+      "session_file": "/opt/xactions-poc/x-session.json 0600 root (untouched, values never read/printed)",
+      "mihomo": "127.0.0.1:7890 loopback-only (untouched)",
+      "production_timer": "gate-d-poller.timer active (never restarted)"
+    },
+    "dynamic_machinery_verified": {
+      "module": "src/scrapers/twitter/http/queryIds.js (discoverQueryIds / refreshQueryIds, wired in client.js:429)",
+      "generated_table": "src/scrapers/twitter/http/x-endpoints.generated.js (source: fa0311/TwitterInternalAPIDocument, synced 2026-08-27)",
+      "live_discovery_run": {
+        "operations_discovered": 148,
+        "SearchTimeline_discovered_queryId": "KPSo2_UWdOMpPJwjhfT1Qg (fresh, from x.com's own live bundle)",
+        "static_generated_table_queryId": "hyPfJYJ_XAtDYoslQc-Rgg (2026-08-27 sync - already stale)",
+        "source": {
+          "entryUrl": "https://x.com/home",
+          "mainBundle": "https://abs.twimg.com/responsive-web/client-web/main.59435dbf6f40166da.js",
+          "scope": "core",
+          "chunksFetched": 11,
+          "chunksFailed": 0,
+          "bytes": 2089648
+        },
+        "cache_persisted": "/tmp/xrepair-t14/home/query-ids.json (task-owned XACTIONS_HOME; removed at stop)",
+        "provenance_classification": "discovered/cache/live-resolution (NOT a hand-pinned ID)"
+      }
+    },
+    "fixtures": {
+      "X1_searchTweets_from_zcode_ai": "FAIL - bare HTTP 404 (one same-process observation of HTTP 403 mid-flow; reproducible terminal state is bare 404)",
+      "X2_searchTweets_ZCode": "FAIL - bare HTTP 404",
+      "X3_getTweets_zcode_ai": "PASS - 5 real posts, numeric IDs, canonical URLs (same IDs as TASK-013 run)",
+      "X4_getTweet": "not reached via search result; the underlying getTweet path was separately proven healthy on a timeline ID in TASK-013 and re-proven via X3 in this run"
+    },
+    "decisive_differential": {
+      "purpose": "isolate why search 404s even with a live-discovered fresh queryId",
+      "finding": "upstream doctor.js:148 documents the exact signature: 'X treats a session without ct0 as logged out, so search, followers and DMs all fail with a bare 404' while timeline reads still work",
+      "observed_on_upstream_runtime": {
+        "session_flags": { "isLoggedIn": true, "http_authenticated": true, "note": "flags only prove a ct0-looking cookie is PRESENT, not that X still honours it" },
+        "getFollowers_zcode_ai": "bare HTTP 404 (full-session-tier endpoint)",
+        "getTweets_zcode_ai": "PASS (auth_token-tier endpoint)",
+        "searchTweets": "bare HTTP 404 (full-session-tier endpoint)"
+      },
+      "cross_check_on_production_runtime": {
+        "runtime": "installed 3.5.0, same session file",
+        "getFollowers": "bare HTTP 404",
+        "getTweets": "OK (id 2098396306750517317)",
+        "conclusion": "signature is runtime-independent; identical on production install and upstream clone"
+      },
+      "conclusion": "the remaining search blocker is the SERVER-SIDE SESSION TIER (stored ct0 no longer honoured by X for the full-session endpoint class), not the query-ID mechanism. A live-discovered same-day queryId still 404s on search while the same session reads the timeline."
+    },
+    "failure_evidence_non_secret": {
+      "static_queryIds": "installed 3.5.0 flaR-PUMshxFWZWPNpq4zA (dead); upstream generated hyPfJYJ_XAtDYoslQc-Rgg (stale); live-discovered KPSo2_UWdOMpPJwjhfT1Qg (fresh)",
+      "search_with_fresh_discovered_id": "404 (reproducible); one 403 observation recorded honestly",
+      "no_cookies_tokens_or_session_values_recorded": true
+    }
+  },
+  "gate_b": {
+    "entered": false,
+    "reason": "contract: enter Gate B only after Gate A passes; Gate A failed, so no vpsmanage repair branch/PR was created",
+    "vpsmanage_mutations": "none (read-only usage only)"
+  },
+  "alternative_decision_surface": {
+    "primary": "the stored server-side X session needs Owner-side refresh/re-verification (upstream's documented fix is its interactive `xactions connect` capture, i.e. a credential action that is NOT authorized for the Agent in this task); after a fresh session, the same X1-X4 fixtures can be re-run - the dynamic query-ID machinery is already proven operational and would be the Gate B absorption candidate",
+    "secondary": "if the refreshed session still bare-404s on search, the account itself may be search-restricted; treat that as a provider-level alternative decision (different account/provider), not a code repair",
+    "explicitly_not_chosen": "browser automation fallback, second provider, cookie copying/rotation by the Agent - all forbidden by the contract"
+  },
+  "authorization_boundary": {
+    "production_deployment": false,
+    "credential_change": false,
+    "network_change": false,
+    "vpsmanage_merge_or_branch": false,
+    "service_restarts": false,
+    "cookie_rotation_or_copy": false
+  },
+  "secret_handling_and_mutation_boundary": {
+    "private_key_or_session_values_printed": false,
+    "key_files_copied_into_repo": false,
+    "E_cs_key_files_mutated": false,
+    "temporary_key_copy": "ACL-restricted copy outside repo, deleted after each SSH batch",
+    "production_mutations": "none: /opt/xactions-poc untouched, no hot-patching, no service restarts"
+  },
+  "cleanup_status": {
+    "host": "/tmp/xrepair-t14 (clone + cache home) and all task probe scripts removed; verified gone; mihomo active; gate-d-poller.timer active; no stray ~/.xactions (XACTIONS_HOME was redirected to the task-owned dir)",
+    "note": "two pre-existing files matching the pattern (/tmp/act14.json, /tmp/act14b.json) are not task-owned and were left untouched",
+    "local": "temp SSH key copies deleted; probe scripts retained only under the local task scratch dir (outside any repo)",
+    "classification": "CLEAN_VERIFIED"
+  }
+}
