@@ -1,28 +1,68 @@
-# Capability Arena — v0.3
+# Capability Arena — v0.4
 
-Domain-specific Challenger–Defender match contract for `external-knowledge`. Deliberately minimal: overlap detection, source-semantic rules, evidence adjudication, ownership decisions, and Arena lifecycle boundaries stay here; generic isolated-execution/rollback mechanics remain out of scope (skill-forge boundary).
+Domain-specific Challenger–Defender contract for `external-knowledge`. It owns overlap detection, source-semantic routing, evidence class, adjudication, ownership decisions, and Arena lifecycle boundaries; generic isolated-execution/rollback mechanics remain outside this repository (skill-forge boundary).
 
-v0.3 adds the Source-Semantic Ownership Gate after Human review of TASK-20260912-004. The second match used a canonical WeChat article to adjudicate generic `complex-web.read`; that scenario was misrouted because canonical WeChat reading already has a first-class specialist semantic (`wechat.reader`). The execution evidence remains valid as an observation, but the ownership adjudication is non-binding for `complex-web.read`.
-
-## When a match is legal
-
-A match requires all of:
+v0.4 corrects an over-constraint exposed during TASK-006: **test-stage Arena work does not require a real production workload when a controlled benchmark provides stronger, known-ground-truth evidence.** The prior rule conflated two different questions:
 
 ```text
-real capability overlap
-real routing/ownership decision
-operational Defender
-operational Challenger
-reachable decision-relevant real scenario
-independent execution receipts
-result capable of changing routing or ownership
+What can this provider do under controlled conditions?
+vs
+Should production routing/ownership change for real user work?
 ```
 
-Otherwise return `NO_BATTLE` with evidence. Presence alone never wins a match.
+The first may be answered by a controlled benchmark. The second requires real/replay evidence before promotion.
+
+v0.3's Source-Semantic Ownership Gate remains binding: a specialist-owned production source (WeChat, GitHub-native objects, versioned docs, etc.) must not be misused as a generic-capability exam.
+
+## Evidence classes — declare BEFORE admission
+
+Every Arena task must declare exactly one primary evidence class:
+
+```text
+CONTROLLED_BENCHMARK
+REAL_REPLAY
+REAL_WORKLOAD
+```
+
+### CONTROLLED_BENCHMARK
+
+Purpose: capability profiling, boundary discovery, Challenger screening, regression testing, and controlled comparison.
+
+A controlled benchmark may be purpose-built or use a public test fixture. It is valid when it has known/inspectable ground truth and isolates decision-relevant variables better than an incidental real page.
+
+Synthetic/test pages are therefore **allowed and often preferred during capability testing**.
+
+A controlled benchmark may support:
+
+```text
+benchmark advantage / disadvantage
+capability boundary findings
+candidate rejection for the tested contract
+candidate advancement to real-world validation
+scenario hypotheses for future routing
+```
+
+It does **not by itself** authorize a production source-owner/routing change. A benchmark winner that would change production routing stops at:
+
+```text
+READY_FOR_REAL_WORLD_VALIDATION
+```
+
+### REAL_REPLAY
+
+Purpose: replay a preserved real task/failure with enough retained ground truth to compare providers fairly.
+
+A representative replay may support production-routing evidence when provenance and scope remain valid, but must not be generalized beyond the replayed source/task family.
+
+### REAL_WORKLOAD
+
+Purpose: live decision on an actual user/project information need.
+
+This is the strongest evidence class for production routing/ownership decisions.
 
 ## Source-Semantic Ownership Gate — BEFORE capability admission
 
-Resolve the target's source semantic before selecting the Arena capability.
+For REAL_REPLAY and REAL_WORKLOAD, resolve the target's source semantic before selecting the Arena capability.
 
 If repository authority already assigns the target to a first-class specialist semantic, that target MUST NOT be used as the representative exam case for a broader/general capability.
 
@@ -36,43 +76,83 @@ versioned library/framework/API docs -> docs.versioned Arena
 ordinary known URL with no specialist owner -> general-web.read / complex-web.read Arena
 ```
 
-A general/fallback provider may still compete on a specialist source, but only inside that specialist Arena and only for an explicit fallback/escalation ownership question.
+A general/fallback provider may still compete on a specialist source, but only inside that specialist Arena and only for an explicit fallback/escalation question.
 
-Therefore:
+For CONTROLLED_BENCHMARK, the fixture must instead declare the capability dimension it is designed to exercise. A benchmark hosted on a platform associated with another semantic is not automatically owned by that semantic when the task is explicitly extraction/rendering ground-truth validation rather than retrieval of that platform's domain information. Avoid fixtures whose platform-specific behavior dominates the capability being tested unless that behavior is itself the declared test dimension.
 
-```text
-specialist source semantic
-!= generic complex-web exam case
-```
-
-A provider failure on a specialist-owned source cannot by itself promote, reject, or otherwise adjudicate that provider for the broader generic capability.
-
-If a selected scenario is discovered to violate this gate after execution, preserve raw receipts and teardown evidence, but review the ownership result as:
+If a real/replay scenario violates the ownership gate after execution, preserve raw receipts and teardown evidence but review the ownership result as:
 
 ```text
 NO_BATTLE / INVALID_SCENARIO
 ```
 
-and reselect a correctly routed real case before any new staging.
+## When a match is legal
+
+All matches require:
+
+```text
+real provider overlap for the capability under test
+operational or validly stageable contestants
+independent execution receipts
+bounded and fair execution conditions
+result capable of changing a test, candidate, validation, or routing decision
+```
+
+Additionally:
+
+```text
+CONTROLLED_BENCHMARK -> known/inspectable ground truth + discriminating test design
+REAL_REPLAY          -> preserved real provenance + replay validity
+REAL_WORKLOAD        -> reachable decision-relevant live task
+```
+
+Otherwise return `NO_BATTLE` with evidence. Presence alone never wins a match.
+
+## Controlled benchmark design gate
+
+A CONTROLLED_BENCHMARK must record before execution:
+
+```text
+what capability dimension each fixture tests
+ground truth / expected observable outcome
+why the fixture discriminates between contestant mechanisms
+what would count as pass / partial / fail
+whether interaction/rendering is part of the tested capability
+bounded call/time/resource budget
+which conclusions the benchmark is NOT allowed to make
+```
+
+Good controlled tests isolate variables. Examples for `complex-web.read`:
+
+```text
+static baseline -> ordinary HTML + tables/structure
+dynamic render -> meaningful content absent until JavaScript executes
+progressive load -> additional content requires generic scroll/load behavior
+```
+
+Do not tailor selectors/content rules after seeing one contestant's result. Do not hide provider-specific setup cost.
 
 ## Match modes
 
 ```text
-SHADOW       challenger mirrors the defender's live answer; defender output remains authoritative
-HEAD_TO_HEAD both contestants independently execute the identical scenario; allowed when the match is safe and fair
+SHADOW       challenger mirrors the defender's answer; defender remains authoritative
+HEAD_TO_HEAD both independently execute the identical objective under the declared evidence class
 ```
 
-Fairness rules: identical scenario, target/source scope, authorization, evidence requirement, and bounded time/call/resource budget; contestants must not consume each other's output.
+Fairness means identical objective, target/fixture scope, evidence requirement, authorization, and bounded time/call/resource budget. Internal mechanisms need not be identical; differences in rendering, browser use, interaction, or extraction are often exactly what the Arena is measuring. Contestants must not consume each other's output.
 
 ## Admission gate
 
-- Source-Semantic Ownership Gate must pass first.
-- Defender: verified operational for the selected scenario (retained runtime evidence or one bounded representative probe).
-- Challenger: operational execution surface; if absent, ephemeral staging only under an explicitly authorized lifecycle contract, with all four plans (Provision / Rollback / Promotion / Teardown) recorded before `STAGED`.
-- A real scenario must already exist or be directly reachable from accepted project evidence/workload. Do not invent a synthetic failure merely to exercise the Arena.
-- Credential rule: existing authentication may be reused only through a safe ephemeral channel with secret values never printed, logged, or persisted. New/interactive credential work stops the match unless explicitly authorized.
+- Evidence class declared first.
+- Applicable Source-Semantic / benchmark-design gate passes.
+- Defender operational for the selected task/fixture.
+- Challenger has an operational execution surface or is ephemerally stageable under explicit authorization.
+- Before `STAGED`, record Provision / Rollback / Promotion / Teardown plans.
+- Existing authentication may be reused only through a safe ephemeral channel with secret values never printed, logged, or persisted. New/interactive credential work stops unless explicitly authorized.
 
-## Staging provenance ledger (per staged artifact)
+## Staging provenance ledger
+
+For every staged artifact record:
 
 ```text
 artifact / registration
@@ -83,59 +163,43 @@ scope/location
 cleanup_policy
 ```
 
-Arena may remove only artifacts it introduced. Baseline facts must be captured before staging so Arena-created deltas are distinguishable from pre-existing state.
-
-## Scenario contract
-
-A scenario must be a real `external-knowledge` retrieval/read/search/source-semantic case, not a fabricated benchmark. The task-specific contract defines the target and success evidence.
-
-Examples of decision-relevant scenario evidence may include:
-
-```text
-exact source/object identity
-content or result completeness
-metadata fidelity
-structure preservation
-source references / links
-required dynamic or rendered content
-observed failure/degradation
-latency / call count / resource cost
-```
-
-Do not add dimensions that cannot change the routing, risk, or next action.
+Arena may remove only artifacts it introduced. Baseline facts must be captured before staging.
 
 ## Independent receipts
 
-Each contestant receipt records the minimum evidence required to reproduce and adjudicate that match, including:
+Each contestant receipt records the minimum evidence needed to reproduce and adjudicate the match:
 
 ```text
 provider
-execution surface
+execution surface/version
 capability
-scenario / target identity
+evidence_class
+scenario / fixture identity
+objective + ground truth when benchmarked
 match mode
-operations or calls used
+operations/calls used
 result summary
 source/evidence references or hashes where appropriate
 errors / retries
-elapsed time and bounded resource evidence
+elapsed time + bounded resource evidence
 authorization boundary
 staging / environment-mutation evidence
 ```
 
-The adjudication receipt additionally records staging provenance, shared failure domains, decision, routing impact, and final teardown status. Never store secrets, cookies, raw credentials, or unnecessary sensitive content.
+The adjudication receipt additionally records staging provenance, shared failure domains, decision, evidence-class scope, production-routing authority (`true|false`), and teardown status. Never store secrets, cookies, raw credentials, or unnecessary copyrighted/sensitive content.
 
 ## Adjudication dimensions
 
-Use only dimensions relevant to the capability under test. The standard pool is:
+Select only decision-relevant dimensions from:
 
 ```text
-semantic correctness
+semantic/content correctness
 content/result completeness
 evidence fidelity / traceability
 coverage / recall
 precision / irrelevant output
 structure / metadata preservation
+dynamic/rendered-content recovery
 determinism / reproducibility
 execution latency and resource cost
 operational burden
@@ -144,11 +208,13 @@ agent ergonomics
 scenario fit
 ```
 
-A task may select a strict subset and may add a capability-specific dimension when it is decision-relevant. Do not reduce the result to an arbitrary aggregate score.
+A task may add a capability-specific dimension. Do not reduce the decision to an arbitrary aggregate score.
 
-Keep verified fact, execution receipt, interpretation, and decision separate. Shared backend, auth, proxy, browser, or control-plane dependencies are recorded and never presented as independent resilience.
+Keep verified fact, execution receipt, interpretation, benchmark conclusion, and production decision separate.
 
-## Allowed outcomes
+## Outcomes and promotion authority
+
+Existing outcomes remain available:
 
 ```text
 REPLACE
@@ -159,13 +225,30 @@ REJECT_CHALLENGER
 NO_BATTLE
 ```
 
-`REJECT_CHALLENGER` means evidence shows the candidate should not remain an active challenger for the tested ownership question. A capable loser may remain eligible for future scenario-specific re-challenge without being installed or routed in production.
+But every outcome must be qualified by `evidence_class`.
 
-`NO_BATTLE / INVALID_SCENARIO` means the match cannot support an ownership decision because the scenario was not legally routed to the capability under test. It does not count as a loss for either contestant.
+For `CONTROLLED_BENCHMARK`:
+
+```text
+routing_impact = none
+production_routing_authority = false
+```
+
+`REPLACE`, `KEEP_INCUMBENT`, or `SPLIT_BY_SCENARIO` are benchmark hypotheses only until confirmed by REAL_REPLAY or REAL_WORKLOAD evidence. A benchmark may reject a candidate from the current test track when it fails the declared capability contract, but the rejection remains scoped to that tested contract and may be re-challenged under a materially different configuration.
+
+For REAL_REPLAY / REAL_WORKLOAD, a routing-changing result may advance to `READY_FOR_ROUTING_CHANGE_DECISION` when the evidence is representative enough for the stated scope.
+
+## Retry rule
+
+A content-level failure is not automatically transient.
+
+Retry only for a concrete transport/tool/runtime failure that plausibly prevented the intended attempt from completing. A valid returned-but-wrong/incomplete page counts as an observed result, not free retry credit, unless the task explicitly defines repeated sampling as part of the benchmark.
 
 ## Teardown
 
-Uninstall/stop/delete success alone is insufficient: verify the Arena-owned delta is gone (package/runtime, registration, process, temp cache/browser artifacts, persistent user state, repository state). Terminal classification:
+Uninstall/stop/delete success alone is insufficient. Verify the Arena-owned delta is gone: package/runtime, registration, process, temporary cache/browser/profile, environment state, and repository state.
+
+Terminal classification:
 
 ```text
 CLEAN_VERIFIED
@@ -176,10 +259,6 @@ CLEAN_WITH_RESIDUE
 
 Promotion is never "keep the Arena install": the temporary copy is torn down even when the Challenger wins; production deployment/re-bind is a separate controlled action.
 
-## Routing impact
-
-An adjudication outcome alone changes no routing. If a routing/ownership change is supported, the task stops at `READY_FOR_ROUTING_CHANGE_DECISION`; only a later explicit authorization may promote it.
-
 ## Arena evolution rule
 
-A completed real match may amend this contract only when it exposes a reusable invariant that applies beyond that one provider/source. Provider-specific quirks belong in the match report or provider evidence, not in the generic Arena contract.
+A completed match may amend this contract only when it exposes a reusable invariant that applies beyond one provider/source/fixture. Provider- or fixture-specific quirks belong in the match task/report/receipt, not in the generic Arena contract.
