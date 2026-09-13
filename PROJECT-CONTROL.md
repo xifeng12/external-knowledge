@@ -11,14 +11,14 @@ final_outcome: >-
 scope_baseline_version: tasks/TASK-20260912-001-SEARCH-CAPABILITY-EVOLUTION.md
 schedule_baseline_version: SCHEDULE_UNBASELINED
 channel_roadmap_state: FROZEN_CURRENT_BASELINE
-agent_operationalization_state: READY_FOR_AGENT_RUNTIME_INSPECTION
-current_outcome: validate_the_frozen_capability_baseline_on_one_real_agent_runtime
-current_actual_state: READY_FOR_AGENT_RUNTIME_INSPECTION
+agent_operationalization_state: READY_FOR_AGENT_BEHAVIOR_PILOT
+current_outcome: external_knowledge_bound_into_zcode_skill_surface_discovery_check_pending
+current_actual_state: READY_FOR_AGENT_BEHAVIOR_PILOT
 current_work_class: RUNTIME_INTEGRATION_PILOT
 current_blocker: none
 forecast_state: unbaselined
-next_authorized_action: execute TASK-20260913-018 read-only Agent runtime/binding-surface inspection and stop before mutation
-resume_point: frozen capability baseline preserved; before any Agent Skill binding mutation or behavioral routing pilot
+next_authorized_action: confirm external-knowledge appears in the next ZCode session skill manifest; then one neutral real-task behavioral pilot (codex-control method), separately authorized
+resume_point: binding executed 2026-09-13 into C:\Users\fengxi\.agents\skills\external-knowledge\ under direct Human mid-run instruction during TASK-018; see reports/TASK-20260913-018-AGENT-RUNTIME-PILOT.md
 ```
 
 ## Freeze decision — 2026-09-13
@@ -51,6 +51,8 @@ pinned frozen capability baseline: 450fc67351bad8d38e99234a1b3276b127d663c2
 ```
 
 TASK-018 is intentionally read-only with respect to the Agent runtime. It may identify the actual supported Skill loading/binding surface and whether `external-knowledge` is already discoverable, but it may not perform the binding/configuration change.
+
+Binding execution — 2026-09-13, mid-run: after the inspection identified the supported surface and confirmed `external-knowledge` was NOT discoverable, the Human issued a direct instruction ("停止，我什么说要给codex安装，我要的是给zcode安装") authorizing the binding for the ZCode surface. One minimal mutation was executed: the pinned baseline `450fc67` was copied verbatim into `C:\Users\fengxi\.agents\skills\external-knowledge\` (101 files, archive sha256 `9ba78eac…`). No installer/lock/config edit, no Codex mutation, and no other runtime change occurred. Full evidence: `reports/TASK-20260913-018-AGENT-RUNTIME-PILOT.md`. Next-session discovery confirmation is required before the behavioral pilot.
 
 Allowed terminal states for TASK-018:
 
